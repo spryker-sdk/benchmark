@@ -1,0 +1,11 @@
+{
+  "bootstrap": "bootstrap.php",
+  "extensions": [
+    "Spryker\\Zed\\PerformanceAudit\\Business\\PhpBench\\Extension\\TtfbExtension"
+  ],
+  "executors": {
+    "microtime": {
+      "executor": "ttfb"
+    }
+  }
+}

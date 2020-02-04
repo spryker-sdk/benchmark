@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace Spryker\Zed\PerformanceAudit\Communication\Console;
+
+use Spryker\Zed\Kernel\Communication\Console\Console;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+
+/**
+ * @method \Spryker\Zed\PerformanceAudit\Business\PerformanceAuditFacadeInterface getFacade()
+ */
+class PerformanceAuditRunConsole extends Console
+{
+    public const COMMAND_NAME = 'performance-audit:run';
+    public const COMMAND_DESCRIPTION = 'Will run test using phpbench framework';
+
+    /**
+     * @return void
+     */
+    protected function configure(): void
+    {
+        parent::configure();
+
+        $this
+            ->setName(static::COMMAND_NAME)
+            ->setDescription(static::COMMAND_DESCRIPTION)
+            ->addOption('config', null, InputOption::VALUE_OPTIONAL, 'phpbench config file (json) - optional');
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return int
+     */
+    public function execute(InputInterface $input, OutputInterface $output): int
+    {
+        return $this->getFacade()->runPhpBench($this->input, $this->output);
+    }
+}
