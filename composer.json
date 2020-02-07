@@ -1,24 +1,38 @@
 {
-  "name": "spryker-sdk/benchmark",
+  "name": "spryker/performance-audit",
   "type": "library",
-  "description": "Benchmark module",
+  "description": "PerformanceAudit module",
   "license": "proprietary",
   "require": {
-    "php": ">=7.2"
+    "ext-curl": "*",
+    "ext-json": "*",
+    "spryker/config": "^3.0.0",
+    "spryker/guzzle": "^2.1.0",
+    "spryker/application": "*",
+    "spryker/kernel": "^3.30.0",
+    "spryker/symfony": "^3.1.0",
+    "phpbench/phpbench": "^1.0@dev"
   },
   "require-dev": {
-    "spryker/code-sniffer": "*"
+    "phpbench/phpbench": "^1.0@dev",
+    "spryker/code-sniffer": "*",
+    "spryker/testify": "*"
   },
   "autoload": {
     "psr-4": {
-      "SprykerSdk\\": "src/SprykerSdk/"
+      "Spryker\\": "src/Spryker/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SprykerTest\\": "tests/SprykerTest/"
     }
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
-    "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/SprykerStrict/ruleset.xml src/ tests/",
-    "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/SprykerStrict/ruleset.xml src/ tests/"
+    "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/",
+    "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/"
   },
   "extra": {
     "branch-alias": {

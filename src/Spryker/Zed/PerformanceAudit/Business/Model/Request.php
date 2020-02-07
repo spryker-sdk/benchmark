@@ -7,6 +7,11 @@
 
 namespace Spryker\Zed\PerformanceAudit\Business\Model;
 
+use RuntimeException;
+use GuzzleHttp\Client;
+use Spryker\Shared\Application\ApplicationConstants;
+use Spryker\Shared\Config\Config;
+
 /**
  * Class Request
  *
@@ -17,41 +22,28 @@ class Request
     /**
      * @param string $url
      * @param array $headers
-     * @param array $body
+     * @param array $requestBody
      * @param int $expectedStatusCode
      *
      * @throws \RuntimeException
      *
-     * @return float
+     * @return int
      */
-    public static function post(string $url, array $headers, array $body, int $expectedStatusCode): float
+    public static function sendPost(string $url, array $headers, array $requestBody, int $expectedStatusCode)
     {
-        $ch = curl_init();
+        $url = Config::get(ApplicationConstants::HOST_YVES) . $url;
 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        $preparedHeaders = [];
-        foreach ($headers as $name => $value) {
-            $preparedHeaders[] = "$name: $value";
+        $response = self::getClient()->post(Config::get(ApplicationConstants::HOST_YVES) . $url, [
+            'headers' => $headers,
+            'body' => $requestBody,
+        ]);
+
+        if ($response->getStatusCode() != $expectedStatusCode) {
+            $msg = sprintf('Unexpected status code %s, %s was expected', $response->getStatusCode(), $expectedStatusCode);
+            throw new RuntimeException($msg);
         }
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $preparedHeaders);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        if ($body) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
-        }
-
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_exec($ch);
-        $info = curl_getinfo($ch);
-        curl_close($ch);
-
-        if ($info['http_code'] != $expectedStatusCode) {
-            $msg = sprintf('Unexpected status code %s, %s was expected', $info['http_code'], $expectedStatusCode);
-            throw new \RuntimeException($msg);
-        }
-
-        return $info['starttransfer_time'];
+        return $response->getStatusCode();
     }
 
     /**
@@ -60,83 +52,29 @@ class Request
      * @param int $expectedStatusCode
      *
      * @throws \RuntimeException
-     *
-     * @return float
+     * @return int
      */
-    public static function get(string $url, array $headers, int $expectedStatusCode): float
+    public static function sendGet(string $url, array $headers, int $expectedStatusCode)
     {
-        $ch = curl_init();
+        $url = Config::get(ApplicationConstants::HOST_YVES) . $url;
 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        $preparedHeaders = [];
-        foreach ($headers as $name => $value) {
-            $preparedHeaders[] = "$name: $value";
+        $response = self::getClient()->get(Config::get(ApplicationConstants::HOST_YVES) . $url, [
+            'headers' => $headers,
+        ]);
+
+        if ($response->getStatusCode() != $expectedStatusCode) {
+            $msg = sprintf('Unexpected status code %s, %s was expected', $response->getStatusCode(), $expectedStatusCode);
+            throw new RuntimeException($msg);
         }
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $preparedHeaders);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_exec($ch);
-        $info = curl_getinfo($ch);
-        curl_close($ch);
-
-        if ($info['http_code'] != $expectedStatusCode) {
-            $msg = sprintf('Unexpected status code %s, %s was expected', $info['http_code'], $expectedStatusCode);
-            throw new \RuntimeException($msg);
-        }
-
-        return $info['starttransfer_time'];
+        return $response->getStatusCode();
     }
 
     /**
-     * @param string $url
-     * @param array $headers
-     * @param string $body
-     * @param int $expectedStatusCode
-     *
-     * @throws \RuntimeException
-     *
-     * @return mixed
+     * @return \GuzzleHttp\Client
      */
-    public static function login(string $url, array $headers, string $body, int $expectedStatusCode)
+    private static function getClient()
     {
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $url);
-
-        $preparedHeaders = [];
-        foreach ($headers as $name => $value) {
-            $preparedHeaders[] = "$name: $value";
-        }
-
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        if ($body) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
-        }
-
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-
-        $response = curl_exec($ch);
-        $info = curl_getinfo($ch);
-
-        curl_close($ch);
-
-        if ($info['http_code'] != $expectedStatusCode) {
-            $msg = sprintf('Unexpected status code %s, %s was expected', $info['http_code'], $expectedStatusCode);
-            throw new \RuntimeException($msg);
-        }
-
-        $header = substr($response, 0, $info['header_size']);
-        preg_match_all('/^Set-Cookie:\s*([^;]*)/mi', $header, $matches);
-        $cookies = [];
-
-        foreach ($matches[1] as $item) {
-            parse_str($item, $cookie);
-            $cookies = array_merge($cookies, $cookie);
-        }
-
-        return array_values($cookies)[0];
+        return new Client();
     }
 }
