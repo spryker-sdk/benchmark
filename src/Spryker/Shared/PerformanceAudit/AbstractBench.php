@@ -51,7 +51,7 @@ class AbstractBench
     }
 
     /**
-     * @return Request
+     * @return \Spryker\Zed\PerformanceAudit\Business\Model\Request
      */
     protected function getRequest(): Request
     {

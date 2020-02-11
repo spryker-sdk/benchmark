@@ -7,8 +7,8 @@
 
 namespace Spryker\Zed\PerformanceAudit\Business\Model;
 
-use RuntimeException;
 use GuzzleHttp\Client;
+use RuntimeException;
 use Spryker\Shared\Application\ApplicationConstants;
 use Spryker\Shared\Config\Config;
 
@@ -29,7 +29,7 @@ class Request
      *
      * @return int
      */
-    public function sendPost(string $url, array $headers, array $requestBody, int $expectedStatusCode)
+    public function sendPost(string $url, array $headers, array $requestBody, int $expectedStatusCode): int
     {
         $response = $this->getClient()->post(Config::get(ApplicationConstants::HOST_YVES) . $url, [
             'headers' => $headers,
@@ -50,9 +50,10 @@ class Request
      * @param int $expectedStatusCode
      *
      * @throws \RuntimeException
+     *
      * @return int
      */
-    public function sendGet(string $url, array $headers, int $expectedStatusCode)
+    public function sendGet(string $url, array $headers, int $expectedStatusCode): int
     {
         $response = $this->getClient()->get(Config::get(ApplicationConstants::HOST_YVES) . $url, [
             'headers' => $headers,
