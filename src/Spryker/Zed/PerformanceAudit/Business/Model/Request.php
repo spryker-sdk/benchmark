@@ -29,11 +29,9 @@ class Request
      *
      * @return int
      */
-    public static function sendPost(string $url, array $headers, array $requestBody, int $expectedStatusCode)
+    public function sendPost(string $url, array $headers, array $requestBody, int $expectedStatusCode)
     {
-        $url = Config::get(ApplicationConstants::HOST_YVES) . $url;
-
-        $response = self::getClient()->post(Config::get(ApplicationConstants::HOST_YVES) . $url, [
+        $response = $this->getClient()->post(Config::get(ApplicationConstants::HOST_YVES) . $url, [
             'headers' => $headers,
             'body' => $requestBody,
         ]);
@@ -54,11 +52,9 @@ class Request
      * @throws \RuntimeException
      * @return int
      */
-    public static function sendGet(string $url, array $headers, int $expectedStatusCode)
+    public function sendGet(string $url, array $headers, int $expectedStatusCode)
     {
-        $url = Config::get(ApplicationConstants::HOST_YVES) . $url;
-
-        $response = self::getClient()->get(Config::get(ApplicationConstants::HOST_YVES) . $url, [
+        $response = $this->getClient()->get(Config::get(ApplicationConstants::HOST_YVES) . $url, [
             'headers' => $headers,
         ]);
 
@@ -73,7 +69,7 @@ class Request
     /**
      * @return \GuzzleHttp\Client
      */
-    private static function getClient()
+    private function getClient()
     {
         return new Client();
     }

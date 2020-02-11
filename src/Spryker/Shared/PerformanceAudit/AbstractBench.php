@@ -7,6 +7,8 @@
 
 namespace Spryker\Shared\PerformanceAudit;
 
+use Spryker\Zed\PerformanceAudit\Business\Model\Request;
+
 /**
  * Class AbstractBench
  */
@@ -46,5 +48,13 @@ class AbstractBench
     protected function getHeaders(): array
     {
         return $this->headers;
+    }
+
+    /**
+     * @return Request
+     */
+    protected function getRequest(): Request
+    {
+        return new Request();
     }
 }

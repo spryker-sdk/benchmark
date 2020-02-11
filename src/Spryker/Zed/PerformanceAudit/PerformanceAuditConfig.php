@@ -35,4 +35,12 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     {
         return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . 'tests/PhpBenchTest';
     }
+
+    /**
+     * @return string
+     */
+    public function getPathToDefaultConfig()
+    {
+        return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Zed/PerformanceAudit/phpbench.json';
+    }
 }

@@ -58,9 +58,18 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
      */
     protected function runCommand($path, InputInterface $input, OutputInterface $output)
     {
-        $command = 'php vendor/bin/phpbench run %s';
+        $config = $this->config->getPathToDefaultConfig();
 
-        $command = sprintf($command, $path);
+        $command = 'php vendor/bin/phpbench run %s --config=%s --report=aggregate asda 123123';
+        $command = sprintf($command, $path, $config);
+
+        if ($iterations = $input->getOption('iterations')) {
+            $command .= ' --iterations=' . $iterations;
+        }
+
+        if ($revs = $input->getOption('revs')) {
+            $command .= ' --revs=' . $revs;
+        }
 
         $process = $this->getProcess($command);
         $process->run();
