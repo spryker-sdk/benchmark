@@ -55,9 +55,15 @@ class Request
      */
     public function sendGet(string $url, array $headers, int $expectedStatusCode): int
     {
-        $response = $this->getClient()->get(Config::get(ApplicationConstants::HOST_YVES) . $url, [
+//        $response = $this->getClient()->get(Config::get(ApplicationConstants::HOST_YVES) . $url, [
+//            'headers' => $headers,
+//        ]);
+
+        $response = $this->getClient()->get('www.de.suite-nonsplit.local' . $url, [
             'headers' => $headers,
         ]);
+
+
 
         if ($response->getStatusCode() != $expectedStatusCode) {
             $msg = sprintf('Unexpected status code %s, %s was expected', $response->getStatusCode(), $expectedStatusCode);

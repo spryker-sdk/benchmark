@@ -60,7 +60,7 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
     {
         $config = $this->config->getPathToDefaultConfig();
 
-        $command = 'php vendor/bin/phpbench run %s --config=%s --report=aggregate asda 123123';
+        $command = 'php vendor/bin/phpbench run %s --config=%s --report=aggregate';
         $command = sprintf($command, $path, $config);
 
         if ($iterations = $input->getOption('iterations')) {
