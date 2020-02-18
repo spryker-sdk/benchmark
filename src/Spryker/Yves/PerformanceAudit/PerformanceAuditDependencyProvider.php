@@ -8,6 +8,7 @@
 namespace Spryker\Yves\PerformanceAudit;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
 use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;
 use Spryker\Yves\Kernel\Plugin\Pimple;
@@ -71,7 +72,7 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
     protected function addCookieJar(Container $container)
     {
         $container[static::COOKIE_JAR] = function (Container $container) {
-            return new \GuzzleHttp\Cookie\CookieJar();
+            return new CookieJar();
         };
 
         return $container;

@@ -7,6 +7,7 @@
 
 namespace Spryker\Zed\PerformanceAudit;
 
+use InvalidArgumentException;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
 
 /**
@@ -37,7 +38,9 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     }
 
     /**
-     * Gets path to project level test directory.
+     * @param string $application
+     *
+     * @throws \InvalidArgumentException
      *
      * @return string
      */
@@ -46,20 +49,19 @@ class PerformanceAuditConfig extends AbstractBundleConfig
         switch ($application) {
             case self::APPLICATION_YVES:
                 return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . 'tests/PerformanceAudit/Yves';
-                break;
             case self::APPLICATION_ZED:
                 return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . 'tests/PerformanceAudit/Zed';
-                break;
             case self::APPLICATION_GLUE:
                 return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . 'tests/PerformanceAudit/Glue';
-                break;
         }
 
-        throw new \InvalidArgumentException();
+        throw new InvalidArgumentException();
     }
 
     /**
      * @param string $application
+     *
+     * @throws \InvalidArgumentException
      *
      * @return string
      */
@@ -68,15 +70,12 @@ class PerformanceAuditConfig extends AbstractBundleConfig
         switch ($application) {
             case self::APPLICATION_YVES:
                 return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Yves/PerformanceAudit/bootstrap.php';
-                break;
             case self::APPLICATION_ZED:
                 return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Zed/PerformanceAudit/bootstrap.php';
-                break;
             case self::APPLICATION_GLUE:
                 return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Glue/PerformanceAudit/bootstrap.php';
-                break;
         }
 
-        throw new \InvalidArgumentException();
+        throw new InvalidArgumentException();
     }
 }

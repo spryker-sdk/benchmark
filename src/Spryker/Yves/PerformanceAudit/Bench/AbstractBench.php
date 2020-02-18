@@ -56,8 +56,6 @@ class AbstractBench
      * @param string $password
      * @param int $expectedStatusCode
      *
-     * @throws \Spryker\Yves\Kernel\Exception\Container\ContainerKeyNotFoundException
-     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function login(string $url, string $email, string $password, int $expectedStatusCode): ResponseInterface
@@ -67,29 +65,21 @@ class AbstractBench
             'headers' => $this->headers,
             'form_params' => [
                 'email' => $email,
-                'password' => $password
+                'password' => $password,
             ],
             'cookies' => $cookieJar,
         ];
 
         $response = $this->getRequest()->sendRequest(Request::METHOD_POST, $url, $options, 200);
 
-        if ($response->getStatusCode() != $expectedStatusCode) {
-            $msg = sprintf('Unexpected status code %s, %s was expected', $response->getStatusCode(), $expectedStatusCode);
-            throw new \RuntimeException($msg);
-        }
-
         $cookie = $cookieJar->toArray()[1];
-
-        $this->addHeader('Cookie', $cookie['Domain'] . '=' . $cookie['Value']);
+        $this->addHeader('Cookie', $cookie['Name'] . '=' . $cookie['Value']);
 
         return $response;
     }
 
     /**
-     * @param $tokenId
-     * @return mixed
-     * @throws \Spryker\Yves\Kernel\Exception\Container\ContainerKeyNotFoundException
+     * @param string $tokenId
      *
      * @return string
      */
@@ -102,10 +92,6 @@ class AbstractBench
 
     /**
      * @return \Spryker\Yves\PerformanceAudit\Request\Request
-     *
-     * @throws \Exception
-     *
-     * @return \Spryker\Yves\PerformanceAudit\Request\Request
      */
     public function getRequest(): Request
     {
@@ -113,10 +99,6 @@ class AbstractBench
     }
 
     /**
-     * @return \GuzzleHttp\Cookie\CookieJar
-     *
-     * @throws \Spryker\Yves\Kernel\Exception\Container\ContainerKeyNotFoundException
-     *
      * @return \GuzzleHttp\Cookie\CookieJar
      */
     public function getCookieJar(): CookieJar

@@ -9,6 +9,7 @@ namespace Spryker\Yves\PerformanceAudit\Request;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 use Spryker\Yves\PerformanceAudit\PerformanceAuditConfig;
 
 /**
@@ -49,19 +50,19 @@ class Request
      *
      * @throws \RuntimeException
      *
-     * @return ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function sendRequest(string $method, string $url, array $options, int $expectedStatusCode): ResponseInterface
     {
         if ($method == self::METHOD_GET) {
             $response = $this->client->get($this->config->getRequestBaseUrl() . $url, $options);
-        } else  {
+        } else {
             $response = $this->client->post($this->config->getRequestBaseUrl() . $url, $options);
         }
 
         if ($response->getStatusCode() != $expectedStatusCode) {
             $msg = sprintf('Unexpected status code %s, %s was expected', $response->getStatusCode(), $expectedStatusCode);
-            throw new \RuntimeException($msg);
+            throw new RuntimeException($msg);
         }
 
         return $response;

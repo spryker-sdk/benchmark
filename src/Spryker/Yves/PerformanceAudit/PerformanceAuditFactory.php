@@ -9,7 +9,6 @@ namespace Spryker\Yves\PerformanceAudit;
 
 use Spryker\Yves\Kernel\AbstractFactory;
 use Spryker\Yves\PerformanceAudit\Request\Request;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 /**
  * @method \Spryker\Yves\PerformanceAudit\PerformanceAuditConfig getConfig()
@@ -18,8 +17,6 @@ class PerformanceAuditFactory extends AbstractFactory
 {
     /**
      * @return \Spryker\Yves\PerformanceAudit\Request\Request
-     *
-     * @throws \Exception
      */
     public function createRequest()
     {
@@ -28,8 +25,6 @@ class PerformanceAuditFactory extends AbstractFactory
 
     /**
      * @return mixed
-     *
-     * @throws \Spryker\Yves\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getGuzzleClient()
     {
@@ -38,8 +33,6 @@ class PerformanceAuditFactory extends AbstractFactory
 
     /**
      * @return \Symfony\Component\Security\Csrf\CsrfTokenManager
-     *
-     * @throws \Spryker\Yves\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getFormCsrfProvider()
     {
@@ -48,8 +41,6 @@ class PerformanceAuditFactory extends AbstractFactory
 
     /**
      * @return mixed
-     *
-     * @throws \Spryker\Yves\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getCookieJar()
     {
