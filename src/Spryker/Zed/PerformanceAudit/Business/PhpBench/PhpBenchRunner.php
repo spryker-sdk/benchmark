@@ -40,15 +40,17 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
 
         $output->writeln($message);
 
-        $path = $this->config->getPathToProjectLevelTestDirectory();
+        $resultCode = 0;
 
-        $resultCode = $this->runCommand($path, $input, $output);
+        foreach ($this->config::APPLICATIONS as $application) {
+            $resultCode |= $this->runCommand($application, $input, $output);
+        }
 
         return $resultCode;
     }
 
     /**
-     * @param string $path
+     * @param string $application
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
@@ -56,12 +58,13 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
      *
      * @return int Exit code
      */
-    protected function runCommand($path, InputInterface $input, OutputInterface $output)
+    protected function runCommand(string $application, InputInterface $input, OutputInterface $output)
     {
-        $config = $this->config->getPathToDefaultConfig();
+        $path = $this->config->getPathToProjectLevelTestDirectory($application);
+        $bootstrap = $this->config->getPathToBootstrap($application);
 
-        $command = 'php vendor/bin/phpbench run %s --config=%s --report=aggregate';
-        $command = sprintf($command, $path, $config);
+        $command = 'php vendor/bin/phpbench run %s --bootstrap=%s --report=aggregate';
+        $command = sprintf($command, $path, $bootstrap);
 
         if ($iterations = $input->getOption('iterations')) {
             $command .= ' --iterations=' . $iterations;

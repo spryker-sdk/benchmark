@@ -16,12 +16,22 @@ use Spryker\Zed\Kernel\AbstractBundleConfig;
  */
 class PerformanceAuditConfig extends AbstractBundleConfig
 {
+    public const APPLICATION_YVES = 'yves';
+    public const APPLICATION_ZED = 'zed';
+    public const APPLICATION_GLUE = 'glue';
+
+    public const APPLICATIONS = [
+        self::APPLICATION_YVES,
+//        self::APPLICATION_ZED,
+//        self::APPLICATION_GLUE
+    ];
+
     /**
      * Gets path to application root directory.
      *
      * @return string
      */
-    public function getPathToRoot()
+    public function getPathToRoot(): string
     {
         return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR;
     }
@@ -31,16 +41,42 @@ class PerformanceAuditConfig extends AbstractBundleConfig
      *
      * @return string
      */
-    public function getPathToProjectLevelTestDirectory()
+    public function getPathToProjectLevelTestDirectory($application): string
     {
-        return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . 'tests/PhpBenchTest';
+        switch ($application) {
+            case self::APPLICATION_YVES:
+                return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . 'tests/PerformanceAudit/Yves';
+                break;
+            case self::APPLICATION_ZED:
+                return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . 'tests/PerformanceAudit/Zed';
+                break;
+            case self::APPLICATION_GLUE:
+                return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . 'tests/PerformanceAudit/Glue';
+                break;
+        }
+
+        throw new \InvalidArgumentException();
     }
 
     /**
+     * @param string $application
+     *
      * @return string
      */
-    public function getPathToDefaultConfig()
+    public function getPathToBootstrap(string $application): string
     {
-        return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Zed/PerformanceAudit/phpbench.json';
+        switch ($application) {
+            case self::APPLICATION_YVES:
+                return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Yves/PerformanceAudit/bootstrap.php';
+                break;
+            case self::APPLICATION_ZED:
+                return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Zed/PerformanceAudit/bootstrap.php';
+                break;
+            case self::APPLICATION_GLUE:
+                return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Glue/PerformanceAudit/bootstrap.php';
+                break;
+        }
+
+        throw new \InvalidArgumentException();
     }
 }
