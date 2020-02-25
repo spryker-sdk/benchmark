@@ -5,14 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Yves\PerformanceAudit\Request;
+namespace Spryker\Zed\PerformanceAudit\Business\Request;
 
 use Spryker\Shared\PerformanceAudit\Request\SharedRequest;
 
 /**
  * Class Request
  *
- * @package Spryker\Yves\PerformanceAudit\Request
+ * @package Spryker\Zed\PerformanceAudit\Request
  */
 class Request extends SharedRequest
 {

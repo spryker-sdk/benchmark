@@ -8,6 +8,7 @@
 namespace Spryker\Zed\PerformanceAudit;
 
 use InvalidArgumentException;
+use Spryker\Shared\Application\ApplicationConstants;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
 
 /**
@@ -23,8 +24,8 @@ class PerformanceAuditConfig extends AbstractBundleConfig
 
     public const APPLICATIONS = [
         self::APPLICATION_YVES,
-//        self::APPLICATION_ZED,
-//        self::APPLICATION_GLUE
+        self::APPLICATION_ZED,
+        self::APPLICATION_GLUE,
     ];
 
     /**
@@ -77,5 +78,13 @@ class PerformanceAuditConfig extends AbstractBundleConfig
         }
 
         throw new InvalidArgumentException();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRequestBaseUrl()
+    {
+        return $this->get(ApplicationConstants::BASE_URL_ZED);
     }
 }

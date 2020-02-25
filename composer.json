@@ -8,7 +8,7 @@
     "ext-json": "*",
     "spryker/config": "^3.0.0",
     "spryker/guzzle": "^2.1.0",
-    "spryker/application": "*",
+    "spryker/application": "^3.8.0",
     "spryker/kernel": "^3.30.0",
     "spryker/symfony": "^3.1.0",
     "spryker/error-handler": "^2.2.0",

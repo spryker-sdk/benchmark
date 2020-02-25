@@ -5,14 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Yves\PerformanceAudit\Bench;
+namespace Spryker\Zed\PerformanceAudit\Business\Bench;
 
 use DOMDocument;
 use GuzzleHttp\Cookie\CookieJar;
 use Psr\Http\Message\ResponseInterface;
 use Spryker\Shared\PerformanceAudit\Bench\SharedAbstractBench;
-use Spryker\Yves\PerformanceAudit\PerformanceAuditFactory;
-use Spryker\Yves\PerformanceAudit\Request\Request;
+use Spryker\Zed\PerformanceAudit\Business\PerformanceAuditBusinessFactory;
+use Spryker\Zed\PerformanceAudit\Business\Request\Request;
 
 class AbstractBench extends SharedAbstractBench
 {
@@ -65,7 +65,7 @@ class AbstractBench extends SharedAbstractBench
     }
 
     /**
-     * @return \Spryker\Yves\PerformanceAudit\Request\Request
+     * @return \Spryker\Zed\PerformanceAudit\Business\Request\Request
      */
     protected function getRequest(): Request
     {
@@ -81,10 +81,10 @@ class AbstractBench extends SharedAbstractBench
     }
 
     /**
-     * @return \Spryker\Yves\PerformanceAudit\PerformanceAuditFactory
+     * @return \Spryker\Zed\PerformanceAudit\Business\PerformanceAuditBusinessFactory
      */
-    protected function getFactory(): PerformanceAuditFactory
+    protected function getFactory(): PerformanceAuditBusinessFactory
     {
-        return new PerformanceAuditFactory();
+        return new PerformanceAuditBusinessFactory();
     }
 }

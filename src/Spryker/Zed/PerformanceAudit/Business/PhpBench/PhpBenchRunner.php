@@ -34,7 +34,7 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
      *
      * @return int Exit code
      */
-    public function run(InputInterface $input, OutputInterface $output)
+    public function run(InputInterface $input, OutputInterface $output): int
     {
         $message = 'Run PHPBench in PROJECT level';
 
@@ -56,9 +56,9 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
      *
      * @throws \Symfony\Component\Process\Exception\ProcessFailedException
      *
-     * @return int Exit code
+     * @return int|null
      */
-    protected function runCommand(string $application, InputInterface $input, OutputInterface $output)
+    protected function runCommand(string $application, InputInterface $input, OutputInterface $output): ?int
     {
         $path = $this->config->getPathToProjectLevelTestDirectory($application);
         $bootstrap = $this->config->getPathToBootstrap($application);
@@ -91,7 +91,7 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
      *
      * @return \Symfony\Component\Process\Process
      */
-    protected function getProcess($command)
+    protected function getProcess($command): Process
     {
         return new Process(explode(' ', $command), null, null, null, 0);
     }

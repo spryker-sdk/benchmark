@@ -7,7 +7,10 @@
 
 namespace Spryker\Zed\PerformanceAudit;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
+use Spryker\Zed\Kernel\Communication\Plugin\Pimple;
 use Spryker\Zed\Kernel\Container;
 
 /**
@@ -15,6 +18,10 @@ use Spryker\Zed\Kernel\Container;
  */
 class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvider
 {
+    public const GUZZLE_CLIENT = 'guzzle_client';
+    public const FORM_CSRF_PROVIDER = 'form_csrf_provider';
+    public const COOKIE_JAR = 'cookie_jar';
+
     /**
      * @param \Spryker\Zed\Kernel\Container $container
      *
@@ -22,6 +29,10 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      */
     public function provideBusinessLayerDependencies(Container $container)
     {
+        $container = $this->addGuzzleClient($container);
+        $container = $this->addFormCsrfProvider($container);
+        $container = $this->addCookieJar($container);
+
         return $container;
     }
 
@@ -30,8 +41,40 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      *
      * @return \Spryker\Zed\Kernel\Container
      */
-    public function providePersistenceLayerDependencies(Container $container)
+    protected function addGuzzleClient(Container $container)
     {
+        $container[static::GUZZLE_CLIENT] = function (Container $container) {
+            return new Client();
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addFormCsrfProvider(Container $container)
+    {
+        $container[static::FORM_CSRF_PROVIDER] = function (Container $container) {
+            return (new Pimple())->getApplication()->get('form.csrf_provider');
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addCookieJar(Container $container)
+    {
+        $container[static::COOKIE_JAR] = function (Container $container) {
+            return new CookieJar();
+        };
+
         return $container;
     }
 }

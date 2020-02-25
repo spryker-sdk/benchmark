@@ -1,11 +1,12 @@
 <?php
 
-use Pyz\Zed\Application\Communication\ZedBootstrap;
+use Pyz\Glue\GlueApplication\Bootstrap\GlueBootstrap;
 use Spryker\Shared\Config\Application\Environment;
 use Spryker\Shared\ErrorHandler\ErrorHandlerEnvironment;
 
-define('APPLICATION', 'ZED');
+define('APPLICATION', 'GLUE');
 defined('APPLICATION_ROOT_DIR') || define('APPLICATION_ROOT_DIR', getcwd());
+
 require_once APPLICATION_ROOT_DIR . '/vendor/autoload.php';
 
 Environment::initialize();
@@ -13,6 +14,6 @@ Environment::initialize();
 $errorHandlerEnvironment = new ErrorHandlerEnvironment();
 $errorHandlerEnvironment->initialize();
 
-$bootstrap = new ZedBootstrap();
+$bootstrap = new GlueBootstrap();
 $bootstrap
     ->boot();

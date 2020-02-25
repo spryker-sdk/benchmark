@@ -5,14 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Yves\PerformanceAudit\Request;
+namespace Spryker\Glue\PerformanceAudit\Request;
 
 use Spryker\Shared\PerformanceAudit\Request\SharedRequest;
 
 /**
  * Class Request
  *
- * @package Spryker\Yves\PerformanceAudit\Request
+ * @package Spryker\Glue\PerformanceAudit\Request
  */
 class Request extends SharedRequest
 {

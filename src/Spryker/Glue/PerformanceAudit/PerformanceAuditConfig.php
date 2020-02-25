@@ -5,15 +5,15 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Yves\PerformanceAudit;
+namespace Spryker\Glue\PerformanceAudit;
 
-use Spryker\Shared\Application\ApplicationConstants;
+use Spryker\Shared\GlueApplication\GlueApplicationConstants;
 use Spryker\Yves\Kernel\AbstractBundleConfig;
 
 /**
  * Class PerformanceAuditConfig
  *
- * @package Spryker\Yves\PerformanceAudit
+ * @package Spryker\Glue\PerformanceAudit
  */
 class PerformanceAuditConfig extends AbstractBundleConfig
 {
@@ -22,6 +22,6 @@ class PerformanceAuditConfig extends AbstractBundleConfig
      */
     public function getRequestBaseUrl()
     {
-        return $this->get(ApplicationConstants::BASE_URL_YVES);
+        return $this->get(GlueApplicationConstants::GLUE_APPLICATION_DOMAIN);
     }
 }
