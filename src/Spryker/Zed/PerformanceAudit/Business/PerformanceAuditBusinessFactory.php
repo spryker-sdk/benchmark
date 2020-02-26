@@ -7,14 +7,13 @@
 
 namespace Spryker\Zed\PerformanceAudit\Business;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJar;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use Spryker\Zed\PerformanceAudit\Business\PhpBench\PhpBenchRunner;
 use Spryker\Zed\PerformanceAudit\Business\PhpBench\PhpBenchRunnerInterface;
 use Spryker\Zed\PerformanceAudit\Business\Request\Request;
 use Spryker\Zed\PerformanceAudit\PerformanceAuditDependencyProvider;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 /**
  * @method \Spryker\Zed\PerformanceAudit\PerformanceAuditConfig getConfig()
@@ -38,19 +37,11 @@ class PerformanceAuditBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \GuzzleHttp\Client
+     * @return \GuzzleHttp\ClientInterface
      */
-    public function getGuzzleClient(): Client
+    public function getGuzzleClient(): ClientInterface
     {
-        return $this->getProvidedDependency(PerformanceAuditDependencyProvider::GUZZLE_CLIENT);
-    }
-
-    /**
-     * @return \Symfony\Component\Security\Csrf\CsrfTokenManager
-     */
-    public function getFormCsrfProvider(): CsrfTokenManager
-    {
-        return $this->getProvidedDependency(PerformanceAuditDependencyProvider::FORM_CSRF_PROVIDER);
+        return $this->getProvidedDependency(PerformanceAuditDependencyProvider::CLIENT_GUZZLE);
     }
 
     /**

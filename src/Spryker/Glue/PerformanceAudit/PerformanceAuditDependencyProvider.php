@@ -16,8 +16,7 @@ use Spryker\Glue\Kernel\Container;
  */
 class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvider
 {
-    public const GUZZLE_CLIENT = 'guzzle_client';
-    public const FORM_CSRF_PROVIDER = 'form_csrf_provider';
+    public const CLIENT_GUZZLE = 'CLIENT_GUZZLE';
     public const COOKIE_JAR = 'cookie_jar';
 
     /**
@@ -39,9 +38,9 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      */
     protected function addGuzzleClient(Container $container): Container
     {
-        $container[static::GUZZLE_CLIENT] = function (Container $container) {
+        $container->set(static::CLIENT_GUZZLE, function (Container $container) {
             return new Client();
-        };
+        });
 
         return $container;
     }

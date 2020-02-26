@@ -7,6 +7,7 @@
 
 namespace Spryker\Glue\PerformanceAudit;
 
+use GuzzleHttp\ClientInterface;
 use Spryker\Glue\Kernel\AbstractFactory;
 use Spryker\Glue\PerformanceAudit\Request\Request;
 
@@ -24,10 +25,10 @@ class PerformanceAuditFactory extends AbstractFactory
     }
 
     /**
-     * @return mixed
+     * @return \GuzzleHttp\ClientInterface
      */
-    public function getGuzzleClient()
+    public function getGuzzleClient(): ClientInterface
     {
-        return $this->getProvidedDependency(PerformanceAuditDependencyProvider::GUZZLE_CLIENT);
+        return $this->getProvidedDependency(PerformanceAuditDependencyProvider::CLIENT_GUZZLE);
     }
 }

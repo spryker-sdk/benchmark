@@ -4,8 +4,6 @@
   "description": "PerformanceAudit module",
   "license": "proprietary",
   "require": {
-    "ext-curl": "*",
-    "ext-json": "*",
     "spryker/config": "^3.0.0",
     "spryker/guzzle": "^2.1.0",
     "spryker/application": "^3.8.0",
@@ -16,9 +14,7 @@
     "phpbench/phpbench": "^1.0@dev"
   },
   "require-dev": {
-    "phpbench/phpbench": "^1.0@dev",
-    "spryker/code-sniffer": "*",
-    "spryker/testify": "*"
+    "spryker/code-sniffer": "*"
   },
   "autoload": {
     "psr-4": {

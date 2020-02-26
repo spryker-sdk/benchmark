@@ -12,8 +12,6 @@ use Spryker\Shared\Application\ApplicationConstants;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
 
 /**
- * Class PerformanceAuditConfig
- *
  * @package Spryker\Zed\PerformanceAudit
  */
 class PerformanceAuditConfig extends AbstractBundleConfig
@@ -21,12 +19,6 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     protected const APPLICATION_YVES = 'yves';
     protected const APPLICATION_ZED = 'zed';
     protected const APPLICATION_GLUE = 'glue';
-
-    public const APPLICATIONS = [
-        self::APPLICATION_YVES,
-        self::APPLICATION_ZED,
-        self::APPLICATION_GLUE,
-    ];
 
     /**
      * Gets path to application root directory.
@@ -36,6 +28,12 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     protected function getPathToRoot(): string
     {
         return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR;
+    }
+
+
+    public function getApplicationsList()
+    {
+        return [static::APPLICATION_YVES, static::APPLICATION_ZED, static::APPLICATION_GLUE];
     }
 
     /**
@@ -48,11 +46,11 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     public function getPathToProjectLevelTestDirectory(string $application): string
     {
         switch ($application) {
-            case self::APPLICATION_YVES:
+            case static::APPLICATION_YVES:
                 return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . 'tests/PerformanceAudit/Yves';
-            case self::APPLICATION_ZED:
+            case static::APPLICATION_ZED:
                 return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . 'tests/PerformanceAudit/Zed';
-            case self::APPLICATION_GLUE:
+            case static::APPLICATION_GLUE:
                 return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . 'tests/PerformanceAudit/Glue';
         }
 
@@ -69,11 +67,11 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     public function getPathToBootstrap(string $application): string
     {
         switch ($application) {
-            case self::APPLICATION_YVES:
+            case static::APPLICATION_YVES:
                 return $this->getYvesBootstrapFilePath();
-            case self::APPLICATION_ZED:
+            case static::APPLICATION_ZED:
                 return $this->getZedBootstrapFilePath();
-            case self::APPLICATION_GLUE:
+            case static::APPLICATION_GLUE:
                 return $this->getGlueBootstrapFilePath();
         }
 

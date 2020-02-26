@@ -7,6 +7,7 @@
 
 namespace Spryker\Zed\PerformanceAudit\Business\PhpBench;
 
+use InvalidArgumentException;
 use Spryker\Zed\PerformanceAudit\PerformanceAuditConfig;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -42,8 +43,16 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
 
         $resultCode = 0;
 
-        foreach ($this->config::APPLICATIONS as $application) {
-            $resultCode |= $this->runCommand($application, $input, $output);
+        if (!$input->getOption('application')) {
+            foreach ($this->config->getApplicationsList() as $application) {
+                $resultCode |= $this->runCommand($application, $input, $output);
+            }
+        } else {
+            if (!in_array($input->getOption('application'), $this->config->getApplicationsList())) {
+                throw new InvalidArgumentException();
+            }
+
+            $resultCode = $this->runCommand($input->getOption('application'), $input, $output);
         }
 
         return $resultCode;

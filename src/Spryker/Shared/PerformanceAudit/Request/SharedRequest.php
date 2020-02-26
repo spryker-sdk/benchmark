@@ -54,7 +54,7 @@ class SharedRequest
      */
     public function sendRequest(string $method, string $url, array $options, int $expectedStatusCode): ResponseInterface
     {
-        if ($method === self::METHOD_GET) {
+        if ($method === static::METHOD_GET) {
             $response = $this->client->get($this->config->getRequestBaseUrl() . $url, $options);
         } else {
             $response = $this->client->post($this->config->getRequestBaseUrl() . $url, $options);

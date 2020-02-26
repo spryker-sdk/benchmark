@@ -9,11 +9,6 @@ namespace Spryker\Yves\PerformanceAudit\Request;
 
 use Spryker\Shared\PerformanceAudit\Request\SharedRequest;
 
-/**
- * Class Request
- *
- * @package Spryker\Yves\PerformanceAudit\Request
- */
 class Request extends SharedRequest
 {
 }

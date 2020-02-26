@@ -30,9 +30,9 @@ class PerformanceAuditRunConsole extends Console
         $this
             ->setName(static::COMMAND_NAME)
             ->setDescription(static::COMMAND_DESCRIPTION)
-            ->addOption('config', null, InputOption::VALUE_OPTIONAL, 'phpbench config file (json) - optional')
             ->addOption('iterations', null, InputOption::VALUE_OPTIONAL, 'Iterations represent the number of times we will perform the benchmark')
-            ->addOption('revs', null, InputOption::VALUE_OPTIONAL, 'The number of times the benchmark is executed consecutively within a single time measurement');
+            ->addOption('revs', null, InputOption::VALUE_OPTIONAL, 'The number of times the benchmark is executed consecutively within a single time measurement')
+            ->addOption('application', null, InputOption::VALUE_OPTIONAL, 'Application for which tests will be run (yves, zed, glue)');
     }
 
     /**

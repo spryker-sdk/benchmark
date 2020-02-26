@@ -11,8 +11,6 @@ use Spryker\Shared\GlueApplication\GlueApplicationConstants;
 use Spryker\Yves\Kernel\AbstractBundleConfig;
 
 /**
- * Class PerformanceAuditConfig
- *
  * @package Spryker\Glue\PerformanceAudit
  */
 class PerformanceAuditConfig extends AbstractBundleConfig

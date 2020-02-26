@@ -7,11 +7,10 @@
 
 namespace Spryker\Yves\PerformanceAudit;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJar;
 use Spryker\Yves\Kernel\AbstractFactory;
 use Spryker\Yves\PerformanceAudit\Request\Request;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 /**
  * @method \Spryker\Yves\PerformanceAudit\PerformanceAuditConfig getConfig()
@@ -27,19 +26,11 @@ class PerformanceAuditFactory extends AbstractFactory
     }
 
     /**
-     * @return \GuzzleHttp\Client
+     * @return \GuzzleHttp\ClientInterface
      */
-    public function getGuzzleClient(): Client
+    public function getGuzzleClient(): ClientInterface
     {
-        return $this->getProvidedDependency(PerformanceAuditDependencyProvider::GUZZLE_CLIENT);
-    }
-
-    /**
-     * @return \Symfony\Component\Security\Csrf\CsrfTokenManager
-     */
-    public function getFormCsrfProvider(): CsrfTokenManager
-    {
-        return $this->getProvidedDependency(PerformanceAuditDependencyProvider::FORM_CSRF_PROVIDER);
+        return $this->getProvidedDependency(PerformanceAuditDependencyProvider::CLIENT_GUZZLE);
     }
 
     /**

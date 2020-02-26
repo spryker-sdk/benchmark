@@ -35,7 +35,7 @@ class AbstractBench extends SharedAbstractBench
                 'loginForm' => [
                     'email' => $email,
                     'password' => $password,
-                    '_token' => $this->getCsrfTokenFromHtml($loginFormPageResponse->getBody()->getContents(), 'loginForm__token'),
+                    '_token' => $this->getCsrfToken($loginFormPageResponse->getBody()->getContents(), 'loginForm__token'),
                 ],
             ],
             'cookies' => $cookieJar,
@@ -54,7 +54,7 @@ class AbstractBench extends SharedAbstractBench
      *
      * @return string
      */
-    protected function getCsrfTokenFromHtml(string $content, string $elementId): string
+    protected function getCsrfToken(string $content, string $elementId): string
     {
         $doc = new DOMDocument();
         libxml_use_internal_errors(true);

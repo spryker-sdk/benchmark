@@ -10,7 +10,6 @@ namespace Spryker\Zed\PerformanceAudit;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
-use Spryker\Zed\Kernel\Communication\Plugin\Pimple;
 use Spryker\Zed\Kernel\Container;
 
 /**
@@ -18,9 +17,8 @@ use Spryker\Zed\Kernel\Container;
  */
 class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvider
 {
-    public const GUZZLE_CLIENT = 'guzzle_client';
-    public const FORM_CSRF_PROVIDER = 'form_csrf_provider';
-    public const COOKIE_JAR = 'cookie_jar';
+    public const CLIENT_GUZZLE = 'CLIENT_GUZZLE';
+    public const COOKIE_JAR = 'COOKIE_JAR';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
@@ -30,7 +28,6 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
     public function provideBusinessLayerDependencies(Container $container): Container
     {
         $container = $this->addGuzzleClient($container);
-        $container = $this->addFormCsrfProvider($container);
         $container = $this->addCookieJar($container);
 
         return $container;
@@ -43,23 +40,9 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      */
     protected function addGuzzleClient(Container $container): Container
     {
-        $container[static::GUZZLE_CLIENT] = function (Container $container) {
+        $container->set(static::CLIENT_GUZZLE, function (Container $container) {
             return new Client();
-        };
-
-        return $container;
-    }
-
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
-    protected function addFormCsrfProvider(Container $container): Container
-    {
-        $container[static::FORM_CSRF_PROVIDER] = function (Container $container) {
-            return (new Pimple())->getApplication()->get('form.csrf_provider');
-        };
+        });
 
         return $container;
     }
@@ -71,9 +54,9 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      */
     protected function addCookieJar(Container $container): Container
     {
-        $container[static::COOKIE_JAR] = function (Container $container) {
+        $container->set(static::COOKIE_JAR, function (Container $container) {
             return new CookieJar();
-        };
+        });
 
         return $container;
     }

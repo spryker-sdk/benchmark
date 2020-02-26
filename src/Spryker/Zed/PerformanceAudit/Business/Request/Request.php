@@ -9,11 +9,6 @@ namespace Spryker\Zed\PerformanceAudit\Business\Request;
 
 use Spryker\Shared\PerformanceAudit\Request\SharedRequest;
 
-/**
- * Class Request
- *
- * @package Spryker\Zed\PerformanceAudit\Request
- */
 class Request extends SharedRequest
 {
 }
