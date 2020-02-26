@@ -18,9 +18,9 @@ use Spryker\Zed\Kernel\AbstractBundleConfig;
  */
 class PerformanceAuditConfig extends AbstractBundleConfig
 {
-    public const APPLICATION_YVES = 'yves';
-    public const APPLICATION_ZED = 'zed';
-    public const APPLICATION_GLUE = 'glue';
+    protected const APPLICATION_YVES = 'yves';
+    protected const APPLICATION_ZED = 'zed';
+    protected const APPLICATION_GLUE = 'glue';
 
     public const APPLICATIONS = [
         self::APPLICATION_YVES,
@@ -33,7 +33,7 @@ class PerformanceAuditConfig extends AbstractBundleConfig
      *
      * @return string
      */
-    public function getPathToRoot(): string
+    protected function getPathToRoot(): string
     {
         return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR;
     }
@@ -70,11 +70,11 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     {
         switch ($application) {
             case self::APPLICATION_YVES:
-                return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Yves/PerformanceAudit/bootstrap.php';
+                return $this->getYvesBootstrapFilePath();
             case self::APPLICATION_ZED:
-                return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Zed/PerformanceAudit/bootstrap.php';
+                return $this->getZedBootstrapFilePath();
             case self::APPLICATION_GLUE:
-                return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Glue/PerformanceAudit/bootstrap.php';
+                return $this->getGlueBootstrapFilePath();
         }
 
         throw new InvalidArgumentException();
@@ -86,5 +86,29 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     public function getRequestBaseUrl()
     {
         return $this->get(ApplicationConstants::BASE_URL_ZED);
+    }
+
+    /**
+     * @return string
+     */
+    public function getYvesBootstrapFilePath()
+    {
+        return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Yves/PerformanceAudit/bootstrap.php';
+    }
+
+    /**
+     * @return string
+     */
+    public function getZedBootstrapFilePath()
+    {
+        return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Zed/PerformanceAudit/bootstrap.php';
+    }
+
+    /**
+     * @return string
+     */
+    public function getGlueBootstrapFilePath()
+    {
+        return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Glue/PerformanceAudit/bootstrap.php';
     }
 }
