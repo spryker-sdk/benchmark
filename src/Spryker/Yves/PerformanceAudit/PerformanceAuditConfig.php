@@ -18,9 +18,9 @@ use Spryker\Yves\Kernel\AbstractBundleConfig;
 class PerformanceAuditConfig extends AbstractBundleConfig
 {
     /**
-     * @return mixed
+     * @return string
      */
-    public function getRequestBaseUrl()
+    public function getRequestBaseUrl(): string
     {
         return $this->get(ApplicationConstants::BASE_URL_YVES);
     }

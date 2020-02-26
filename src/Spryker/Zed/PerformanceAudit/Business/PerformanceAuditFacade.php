@@ -24,9 +24,9 @@ class PerformanceAuditFacade extends AbstractFacade implements PerformanceAuditF
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return int
+     * @return int|null
      */
-    public function runPhpBench(InputInterface $input, OutputInterface $output)
+    public function runPhpBench(InputInterface $input, OutputInterface $output): ?int
     {
         return $this->getFactory()->createPhpBenchRunner()->run($input, $output);
     }

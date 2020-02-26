@@ -27,7 +27,7 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      *
      * @return \Spryker\Yves\Kernel\Container
      */
-    public function provideDependencies(Container $container)
+    public function provideDependencies(Container $container): Container
     {
         $container = $this->addGuzzleClient($container);
         $container = $this->addFormCsrfProvider($container);
@@ -41,7 +41,7 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      *
      * @return \Spryker\Yves\Kernel\Container
      */
-    protected function addGuzzleClient(Container $container)
+    protected function addGuzzleClient(Container $container): Container
     {
         $container[static::GUZZLE_CLIENT] = function (Container $container) {
             return new Client();
@@ -55,7 +55,7 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      *
      * @return \Spryker\Yves\Kernel\Container
      */
-    protected function addFormCsrfProvider(Container $container)
+    protected function addFormCsrfProvider(Container $container): Container
     {
         $container[static::FORM_CSRF_PROVIDER] = function (Container $container) {
             return (new Pimple())->getApplication()->get('form.csrf_provider');
@@ -69,7 +69,7 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      *
      * @return \Spryker\Yves\Kernel\Container
      */
-    protected function addCookieJar(Container $container)
+    protected function addCookieJar(Container $container): Container
     {
         $container[static::COOKIE_JAR] = function (Container $container) {
             return new CookieJar();

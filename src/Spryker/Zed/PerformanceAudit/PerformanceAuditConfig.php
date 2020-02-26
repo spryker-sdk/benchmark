@@ -45,7 +45,7 @@ class PerformanceAuditConfig extends AbstractBundleConfig
      *
      * @return string
      */
-    public function getPathToProjectLevelTestDirectory($application): string
+    public function getPathToProjectLevelTestDirectory(string $application): string
     {
         switch ($application) {
             case self::APPLICATION_YVES:
@@ -81,9 +81,9 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getRequestBaseUrl()
+    public function getRequestBaseUrl(): string
     {
         return $this->get(ApplicationConstants::BASE_URL_ZED);
     }
@@ -91,7 +91,7 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     /**
      * @return string
      */
-    public function getYvesBootstrapFilePath()
+    public function getYvesBootstrapFilePath(): string
     {
         return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Yves/PerformanceAudit/bootstrap.php';
     }
@@ -99,7 +99,7 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     /**
      * @return string
      */
-    public function getZedBootstrapFilePath()
+    public function getZedBootstrapFilePath(): string
     {
         return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Zed/PerformanceAudit/bootstrap.php';
     }
@@ -107,7 +107,7 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     /**
      * @return string
      */
-    public function getGlueBootstrapFilePath()
+    public function getGlueBootstrapFilePath(): string
     {
         return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Glue/PerformanceAudit/bootstrap.php';
     }

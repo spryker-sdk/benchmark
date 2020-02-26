@@ -26,7 +26,7 @@ class AbstractBench extends SharedAbstractBench
     protected function login(string $url, string $email, string $password): ResponseInterface
     {
         $loginFormPageResponse = $this->getRequest()
-            ->sendRequest(Request::METHOD_GET, '/en/login', ['headers' => $this->headers], 200);
+            ->sendRequest(Request::METHOD_GET, $url, ['headers' => $this->headers], 200);
 
         $cookieJar = $this->getCookieJar();
         $options = [

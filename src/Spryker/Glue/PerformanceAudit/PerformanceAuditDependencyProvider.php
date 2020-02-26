@@ -25,7 +25,7 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      *
      * @return \Spryker\Glue\Kernel\Container
      */
-    public function provideDependencies(Container $container)
+    public function provideDependencies(Container $container): Container
     {
         $container = $this->addGuzzleClient($container);
 
@@ -37,7 +37,7 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      *
      * @return \Spryker\Glue\Kernel\Container
      */
-    protected function addGuzzleClient(Container $container)
+    protected function addGuzzleClient(Container $container): Container
     {
         $container[static::GUZZLE_CLIENT] = function (Container $container) {
             return new Client();

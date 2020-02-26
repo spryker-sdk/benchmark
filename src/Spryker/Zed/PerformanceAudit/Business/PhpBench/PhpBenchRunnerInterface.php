@@ -16,7 +16,7 @@ interface PhpBenchRunnerInterface
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return int Exit code
+     * @return int|null Exit code
      */
-    public function run(InputInterface $input, OutputInterface $output);
+    public function run(InputInterface $input, OutputInterface $output): ?int;
 }

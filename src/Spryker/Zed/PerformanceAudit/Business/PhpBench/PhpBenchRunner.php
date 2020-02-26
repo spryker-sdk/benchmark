@@ -91,7 +91,7 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
      *
      * @return \Symfony\Component\Process\Process
      */
-    protected function getProcess($command): Process
+    protected function getProcess(string $command): Process
     {
         return new Process(explode(' ', $command), null, null, null, 0);
     }
