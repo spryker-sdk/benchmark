@@ -13,7 +13,7 @@ use Spryker\Yves\Kernel\AbstractBundleConfig;
 /**
  * Class PerformanceAuditConfig
  *
- * @package Spryker\Yves\PerformanceAudit
+ * @package Spryker\Zed\PerformanceAudit
  */
 class PerformanceAuditConfig extends AbstractBundleConfig
 {

@@ -16,5 +16,4 @@ use Spryker\Shared\PerformanceAudit\Request\SharedRequest;
  */
 class Request extends SharedRequest
 {
-
 }
