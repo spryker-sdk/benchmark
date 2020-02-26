@@ -14,7 +14,8 @@
     "phpbench/phpbench": "^1.0@dev"
   },
   "require-dev": {
-    "spryker/code-sniffer": "*"
+    "spryker/code-sniffer": "*",
+    "spryker/testify": "*"
   },
   "autoload": {
     "psr-4": {

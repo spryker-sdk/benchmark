@@ -7,7 +7,7 @@
 
 namespace Spryker\Shared\PerformanceAudit\Request;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 use Spryker\Shared\Kernel\AbstractBundleConfig;
@@ -28,15 +28,15 @@ class SharedRequest
     protected $config;
 
     /**
-     * @var \GuzzleHttp\Client
+     * @var \GuzzleHttp\ClientInterface
      */
     protected $client;
 
     /**
      * @param \Spryker\Shared\Kernel\AbstractBundleConfig $config
-     * @param \GuzzleHttp\Client $client
+     * @param \GuzzleHttp\ClientInterface $client
      */
-    public function __construct(AbstractBundleConfig $config, Client $client)
+    public function __construct(AbstractBundleConfig $config, ClientInterface $client)
     {
         $this->config = $config;
         $this->client = $client;
@@ -54,11 +54,7 @@ class SharedRequest
      */
     public function sendRequest(string $method, string $url, array $options, int $expectedStatusCode): ResponseInterface
     {
-        if ($method === static::METHOD_GET) {
-            $response = $this->client->get($this->config->getRequestBaseUrl() . $url, $options);
-        } else {
-            $response = $this->client->post($this->config->getRequestBaseUrl() . $url, $options);
-        }
+        $response = $this->client->request($method, $this->config->getRequestBaseUrl() . $url, $options);
 
         if ($response->getStatusCode() != $expectedStatusCode) {
             $msg = sprintf('Unexpected status code %s, %s was expected', $response->getStatusCode(), $expectedStatusCode);

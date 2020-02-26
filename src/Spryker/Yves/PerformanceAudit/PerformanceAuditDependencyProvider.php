@@ -11,7 +11,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;
-use Spryker\Yves\Kernel\Plugin\Pimple;
 
 /**
  * @method \Spryker\Yves\PerformanceAudit\PerformanceAuditConfig getConfig()
@@ -61,5 +60,4 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
 
         return $container;
     }
-
 }

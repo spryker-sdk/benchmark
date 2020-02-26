@@ -30,8 +30,10 @@ class PerformanceAuditConfig extends AbstractBundleConfig
         return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR;
     }
 
-
-    public function getApplicationsList()
+    /**
+     * @return string[]
+     */
+    public function getApplicationsList(): array
     {
         return [static::APPLICATION_YVES, static::APPLICATION_ZED, static::APPLICATION_GLUE];
     }
