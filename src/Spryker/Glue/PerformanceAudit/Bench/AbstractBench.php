@@ -8,15 +8,15 @@
 namespace Spryker\Glue\PerformanceAudit\Bench;
 
 use Spryker\Glue\PerformanceAudit\PerformanceAuditFactory;
-use Spryker\Glue\PerformanceAudit\Request\Request;
 use Spryker\Shared\PerformanceAudit\Bench\SharedAbstractBench;
+use Spryker\Shared\PerformanceAudit\Request\RequestInterface;
 
 class AbstractBench extends SharedAbstractBench
 {
     /**
-     * @return \Spryker\Glue\PerformanceAudit\Request\Request
+     * @return \Spryker\Shared\PerformanceAudit\Request\RequestInterface
      */
-    protected function getRequest(): Request
+    protected function getRequest(): RequestInterface
     {
         return $this->getFactory()->createRequest();
     }

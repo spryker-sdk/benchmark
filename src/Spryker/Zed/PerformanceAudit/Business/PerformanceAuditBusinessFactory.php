@@ -9,6 +9,7 @@ namespace Spryker\Zed\PerformanceAudit\Business;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJar;
+use Spryker\Shared\PerformanceAudit\Request\RequestInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use Spryker\Zed\PerformanceAudit\Business\PhpBench\PhpBenchRunner;
 use Spryker\Zed\PerformanceAudit\Business\PhpBench\PhpBenchRunnerInterface;
@@ -31,7 +32,7 @@ class PerformanceAuditBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \Spryker\Zed\PerformanceAudit\Business\Request\Request
      */
-    public function createRequest(): Request
+    public function createRequest(): RequestInterface
     {
         return new Request($this->getConfig(), $this->getGuzzleClient());
     }

@@ -17,7 +17,6 @@ use Spryker\Glue\Kernel\Container;
 class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const CLIENT_GUZZLE = 'CLIENT_GUZZLE';
-    public const COOKIE_JAR = 'cookie_jar';
 
     /**
      * @param \Spryker\Glue\Kernel\Container $container

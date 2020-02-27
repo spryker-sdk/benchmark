@@ -11,6 +11,7 @@ use DOMDocument;
 use GuzzleHttp\Cookie\CookieJar;
 use Psr\Http\Message\ResponseInterface;
 use Spryker\Shared\PerformanceAudit\Bench\SharedAbstractBench;
+use Spryker\Shared\PerformanceAudit\Request\RequestInterface;
 use Spryker\Yves\PerformanceAudit\PerformanceAuditFactory;
 use Spryker\Yves\PerformanceAudit\Request\Request;
 
@@ -87,9 +88,9 @@ class AbstractBench extends SharedAbstractBench
     }
 
     /**
-     * @return \Spryker\Yves\PerformanceAudit\Request\Request
+     * @return \Spryker\Shared\PerformanceAudit\Request\RequestInterface
      */
-    protected function getRequest(): Request
+    protected function getRequest(): RequestInterface
     {
         return $this->getFactory()->createRequest();
     }

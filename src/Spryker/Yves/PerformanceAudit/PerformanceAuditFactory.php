@@ -9,6 +9,7 @@ namespace Spryker\Yves\PerformanceAudit;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJar;
+use Spryker\Shared\PerformanceAudit\Request\RequestInterface;
 use Spryker\Yves\Kernel\AbstractFactory;
 use Spryker\Yves\PerformanceAudit\Request\Request;
 
@@ -20,7 +21,7 @@ class PerformanceAuditFactory extends AbstractFactory
     /**
      * @return \Spryker\Yves\PerformanceAudit\Request\Request
      */
-    public function createRequest(): Request
+    public function createRequest(): RequestInterface
     {
         return new Request($this->getConfig(), $this->getGuzzleClient());
     }

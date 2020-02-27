@@ -10,6 +10,7 @@ namespace Spryker\Glue\PerformanceAudit;
 use GuzzleHttp\ClientInterface;
 use Spryker\Glue\Kernel\AbstractFactory;
 use Spryker\Glue\PerformanceAudit\Request\Request;
+use Spryker\Shared\PerformanceAudit\Request\RequestInterface;
 
 /**
  * @method \Spryker\Glue\PerformanceAudit\PerformanceAuditConfig getConfig()
@@ -19,7 +20,7 @@ class PerformanceAuditFactory extends AbstractFactory
     /**
      * @return \Spryker\Glue\PerformanceAudit\Request\Request
      */
-    public function createRequest(): Request
+    public function createRequest(): RequestInterface
     {
         return new Request($this->getConfig(), $this->getGuzzleClient());
     }

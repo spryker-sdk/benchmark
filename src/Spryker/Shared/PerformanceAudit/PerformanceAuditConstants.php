@@ -13,16 +13,31 @@ namespace Spryker\Shared\PerformanceAudit;
 interface PerformanceAuditConstants
 {
     /**
+     * Specification:
+     *   The domain name used for glue application.
+     *
+     * @api
+     *
      * @uses \Spryker\Shared\GlueApplication::GLUE_APPLICATION_DOMAIN
      */
     public const GLUE_APPLICATION_DOMAIN = 'GLUE_APPLICATION_DOMAIN';
 
     /**
+     * Specification:
+     *   Base URL for Yves including scheme and port (e.g. http://www.de.demoshop.local:8080)
+     *
+     * @api
+     *
      * @uses \Spryker\Shared\Application::BASE_URL_YVES
      */
     public const BASE_URL_YVES = 'APPLICATION:BASE_URL_YVES';
 
     /**
+     * Specification:
+     *   Base URL for Zed including scheme and port (e.g. http://zed.de.demoshop.local:9080)
+     *
+     * @api
+     *
      * @uses \Spryker\Shared\Application::BASE_URL_ZED
      */
     public const BASE_URL_ZED = 'APPLICATION:BASE_URL_ZED';
