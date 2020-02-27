@@ -7,8 +7,45 @@
 
 namespace Spryker\Yves\PerformanceAudit\Request;
 
+use GuzzleHttp\ClientInterface;
 use Spryker\Shared\PerformanceAudit\Request\SharedRequest;
+use Spryker\Yves\PerformanceAudit\PerformanceAuditConfig;
 
 class Request extends SharedRequest
 {
+    /**
+     * @var \Spryker\Yves\PerformanceAudit\PerformanceAuditConfig
+     */
+    protected $config;
+
+    /**
+     * @var \GuzzleHttp\ClientInterface
+     */
+    protected $client;
+
+    /**
+     * @param \Spryker\Yves\PerformanceAudit\PerformanceAuditConfig $config
+     * @param \GuzzleHttp\ClientInterface $client
+     */
+    public function __construct(PerformanceAuditConfig $config, ClientInterface $client)
+    {
+        $this->config = $config;
+        $this->client = $client;
+    }
+
+    /**
+     * @return \GuzzleHttp\ClientInterface
+     */
+    protected function getClient(): ClientInterface
+    {
+        return $this->client;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRequestBaseUrl(): string
+    {
+        return $this->config->getRequestBaseUrl();
+    }
 }
