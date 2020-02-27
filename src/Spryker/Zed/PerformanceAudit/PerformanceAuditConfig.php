@@ -97,7 +97,7 @@ class PerformanceAuditConfig extends AbstractBundleConfig
      */
     public function getYvesBootstrapFilePath(): string
     {
-        return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Yves/PerformanceAudit/bootstrap.php';
+        return $this->getPathToRoot() . 'vendor/spryker/performance-audit/src/Spryker/Yves/PerformanceAudit/bootstrap.php';
     }
 
     /**
@@ -105,7 +105,7 @@ class PerformanceAuditConfig extends AbstractBundleConfig
      */
     public function getZedBootstrapFilePath(): string
     {
-        return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Zed/PerformanceAudit/bootstrap.php';
+        return $this->getPathToRoot() . 'vendor/spryker/performance-audit/src/Spryker/Zed/PerformanceAudit/bootstrap.php';
     }
 
     /**
@@ -113,6 +113,6 @@ class PerformanceAuditConfig extends AbstractBundleConfig
      */
     public function getGlueBootstrapFilePath(): string
     {
-        return $this->getPathToRoot() . 'vendor/spryker/spryker/Bundles/PerformanceAudit/src/Spryker/Glue/PerformanceAudit/bootstrap.php';
+        return $this->getPathToRoot() . 'vendor/spryker/performance-audit/src/Spryker/Glue/PerformanceAudit/bootstrap.php';
     }
 }

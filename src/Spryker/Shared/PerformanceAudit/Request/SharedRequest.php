@@ -56,7 +56,7 @@ class SharedRequest
     {
         $response = $this->client->request($method, $this->config->getRequestBaseUrl() . $url, $options);
 
-        if ($response->getStatusCode() != $expectedStatusCode) {
+        if ($response->getStatusCode() !== $expectedStatusCode) {
             $msg = sprintf('Unexpected status code %s, %s was expected', $response->getStatusCode(), $expectedStatusCode);
 
             throw new RuntimeException($msg);

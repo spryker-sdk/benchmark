@@ -16,6 +16,8 @@ use Spryker\Yves\PerformanceAudit\Request\Request;
 
 class AbstractBench extends SharedAbstractBench
 {
+    protected const COOKIE_DATA_INDEX = 1;
+
     /**
      * @param string $url
      * @param string $email
@@ -42,10 +44,30 @@ class AbstractBench extends SharedAbstractBench
         ];
 
         $response = $this->getRequest()->sendRequest(Request::METHOD_POST, $url, $options, 200);
-        $cookie = $cookieJar->toArray()[1];
-        $this->addHeader('Cookie', $cookie['Name'] . '=' . $cookie['Value']);
+        $cookie = $this->getCookieDataFromCookieJar($cookieJar, static::COOKIE_DATA_INDEX);
+
+        if ($cookie) {
+            $this->addHeader('Cookie', $cookie['Name'] . '=' . $cookie['Value']);
+        }
 
         return $response;
+    }
+
+    /**
+     * @param \GuzzleHttp\Cookie\CookieJar $cookieJar
+     * @param int $index
+     *
+     * @return array|null
+     */
+    protected function getCookieDataFromCookieJar(CookieJar $cookieJar, int $index): ?array
+    {
+        $data = $cookieJar->toArray();
+
+        if (isset($data[$index])) {
+            return $data[$index];
+        }
+
+        return null;
     }
 
     /**
