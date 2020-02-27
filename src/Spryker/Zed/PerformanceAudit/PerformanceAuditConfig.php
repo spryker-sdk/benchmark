@@ -8,7 +8,7 @@
 namespace Spryker\Zed\PerformanceAudit;
 
 use InvalidArgumentException;
-use Spryker\Shared\Application\ApplicationConstants;
+use Spryker\Shared\PerformanceAudit\PerformanceAuditConstants;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
 
 /**
@@ -19,6 +19,10 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     protected const APPLICATION_YVES = 'yves';
     protected const APPLICATION_ZED = 'zed';
     protected const APPLICATION_GLUE = 'glue';
+
+    protected const BASE_URL_YVES = 'APPLICATION:BASE_URL_YVES';
+    protected const BASE_URL_ZED = 'APPLICATION:BASE_URL_ZED';
+    protected const GLUE_APPLICATION_DOMAIN = 'GLUE_APPLICATION_DOMAIN';
 
     /**
      * Gets path to application root directory.
@@ -49,11 +53,11 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     {
         switch ($application) {
             case static::APPLICATION_YVES:
-                return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . 'tests/PerformanceAudit/Yves';
+                return $this->getPathToRoot() . 'tests/PerformanceAudit/Yves';
             case static::APPLICATION_ZED:
-                return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . 'tests/PerformanceAudit/Zed';
+                return $this->getPathToRoot() . 'tests/PerformanceAudit/Zed';
             case static::APPLICATION_GLUE:
-                return APPLICATION_ROOT_DIR . DIRECTORY_SEPARATOR . 'tests/PerformanceAudit/Glue';
+                return $this->getPathToRoot() . 'tests/PerformanceAudit/Glue';
         }
 
         throw new InvalidArgumentException();
@@ -85,7 +89,7 @@ class PerformanceAuditConfig extends AbstractBundleConfig
      */
     public function getRequestBaseUrl(): string
     {
-        return $this->get(ApplicationConstants::BASE_URL_ZED);
+        return $this->get(PerformanceAuditConstants::BASE_URL_ZED);
     }
 
     /**

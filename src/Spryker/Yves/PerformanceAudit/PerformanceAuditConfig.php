@@ -7,12 +7,9 @@
 
 namespace Spryker\Yves\PerformanceAudit;
 
-use Spryker\Shared\Application\ApplicationConstants;
+use Spryker\Shared\PerformanceAudit\PerformanceAuditConstants;
 use Spryker\Yves\Kernel\AbstractBundleConfig;
 
-/**
- * @package Spryker\Zed\PerformanceAudit
- */
 class PerformanceAuditConfig extends AbstractBundleConfig
 {
     /**
@@ -20,6 +17,6 @@ class PerformanceAuditConfig extends AbstractBundleConfig
      */
     public function getRequestBaseUrl(): string
     {
-        return $this->get(ApplicationConstants::BASE_URL_YVES);
+        return $this->get(PerformanceAuditConstants::BASE_URL_YVES);
     }
 }

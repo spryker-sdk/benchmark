@@ -7,7 +7,7 @@
 
 namespace Spryker\Glue\PerformanceAudit;
 
-use Spryker\Shared\GlueApplication\GlueApplicationConstants;
+use Spryker\Shared\PerformanceAudit\PerformanceAuditConstants;
 use Spryker\Yves\Kernel\AbstractBundleConfig;
 
 /**
@@ -20,6 +20,6 @@ class PerformanceAuditConfig extends AbstractBundleConfig
      */
     public function getRequestBaseUrl(): string
     {
-        return $this->get(GlueApplicationConstants::GLUE_APPLICATION_DOMAIN);
+        return $this->get(PerformanceAuditConstants::GLUE_APPLICATION_DOMAIN);
     }
 }
