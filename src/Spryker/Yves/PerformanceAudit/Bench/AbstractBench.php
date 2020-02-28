@@ -8,7 +8,6 @@
 namespace Spryker\Yves\PerformanceAudit\Bench;
 
 use DOMDocument;
-use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\CookieJarInterface;
 use Psr\Http\Message\ResponseInterface;
 use Spryker\Shared\PerformanceAudit\Bench\SharedAbstractBench;

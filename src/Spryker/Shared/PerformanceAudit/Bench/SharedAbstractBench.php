@@ -22,6 +22,8 @@ class SharedAbstractBench
     /**
      * @param string $key
      * @param string $value
+     *
+     * @return void
      */
     protected function addHeader(string $key, string $value): void
     {

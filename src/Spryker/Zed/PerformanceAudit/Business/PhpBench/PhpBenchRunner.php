@@ -52,13 +52,11 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
             }
         } else {
             if (!in_array($input->getOption('application'), $applicationsList)) {
-
                 throw new InvalidArgumentException(
                     sprintf(
                         "The provided value is invalid. Available values: '%s'",
                         implode(', ', $applicationsList)
                     )
-
                 );
             }
 
