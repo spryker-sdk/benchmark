@@ -21,16 +21,16 @@ class Request extends SharedRequest
     /**
      * @var \GuzzleHttp\ClientInterface
      */
-    protected $client;
+    protected $guzzleClient;
 
     /**
      * @param \Spryker\Glue\PerformanceAudit\PerformanceAuditConfig $config
-     * @param \GuzzleHttp\ClientInterface $client
+     * @param \GuzzleHttp\ClientInterface $guzzleClient
      */
-    public function __construct(PerformanceAuditConfig $config, ClientInterface $client)
+    public function __construct(PerformanceAuditConfig $config, ClientInterface $guzzleClient)
     {
         $this->config = $config;
-        $this->client = $client;
+        $this->guzzleClient = $guzzleClient;
     }
 
     /**
@@ -38,7 +38,7 @@ class Request extends SharedRequest
      */
     protected function getClient(): ClientInterface
     {
-        return $this->client;
+        return $this->guzzleClient;
     }
 
     /**

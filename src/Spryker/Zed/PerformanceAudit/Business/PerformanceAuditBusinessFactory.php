@@ -8,7 +8,7 @@
 namespace Spryker\Zed\PerformanceAudit\Business;
 
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Cookie\CookieJarInterface;
 use Spryker\Shared\PerformanceAudit\Request\RequestInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use Spryker\Zed\PerformanceAudit\Business\PhpBench\PhpBenchRunner;
@@ -46,9 +46,9 @@ class PerformanceAuditBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \GuzzleHttp\Cookie\CookieJar
+     * @return \GuzzleHttp\Cookie\CookieJarInterface
      */
-    public function getCookieJar(): CookieJar
+    public function getCookieJar(): CookieJarInterface
     {
         return $this->getProvidedDependency(PerformanceAuditDependencyProvider::COOKIE_JAR);
     }

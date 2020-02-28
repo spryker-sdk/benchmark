@@ -8,7 +8,7 @@
 namespace Spryker\Zed\PerformanceAudit\Business\Bench;
 
 use DOMDocument;
-use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Cookie\CookieJarInterface;
 use Psr\Http\Message\ResponseInterface;
 use Spryker\Shared\PerformanceAudit\Bench\SharedAbstractBench;
 use Spryker\Shared\PerformanceAudit\Request\RequestInterface;
@@ -28,9 +28,6 @@ class AbstractBench extends SharedAbstractBench
      */
     protected function login(string $url, string $email, string $password): ResponseInterface
     {
-        $loginFormPageResponse = $this->getRequest()
-            ->sendRequest(Request::METHOD_GET, $url, ['headers' => $this->headers], 200);
-
         $cookieJar = $this->getCookieJar();
         $options = [
             'headers' => $this->headers,
@@ -38,7 +35,7 @@ class AbstractBench extends SharedAbstractBench
                 'loginForm' => [
                     'email' => $email,
                     'password' => $password,
-                    '_token' => $this->getCsrfToken($loginFormPageResponse->getBody()->getContents(), 'loginForm__token'),
+                    '_token' => $this->getCsrfToken($url, 'loginForm__token'),
                 ],
             ],
             'cookies' => $cookieJar,
@@ -55,12 +52,12 @@ class AbstractBench extends SharedAbstractBench
     }
 
     /**
-     * @param \GuzzleHttp\Cookie\CookieJar $cookieJar
+     * @param \GuzzleHttp\Cookie\CookieJarInterface $cookieJar
      * @param int $index
      *
      * @return array|null
      */
-    protected function getCookieDataFromCookieJar(CookieJar $cookieJar, int $index): ?array
+    protected function getCookieDataFromCookieJar(CookieJarInterface $cookieJar, int $index): ?array
     {
         $data = $cookieJar->toArray();
 
@@ -72,17 +69,20 @@ class AbstractBench extends SharedAbstractBench
     }
 
     /**
-     * @param string $content
+     * @param string $url
      * @param string $elementId
      *
      * @return string
      */
-    protected function getCsrfToken(string $content, string $elementId): string
+    protected function getCsrfToken(string $url, string $elementId): string
     {
+        $response = $this->getRequest()
+            ->sendRequest(Request::METHOD_GET, $url, ['headers' => $this->getHeaders()], 200);
+
         $doc = new DOMDocument();
         libxml_use_internal_errors(true);
 
-        $doc->loadHTML($content);
+        $doc->loadHTML($response->getBody()->getContents());
 
         return $doc->getElementById($elementId)->getAttribute('value');
     }
@@ -96,9 +96,9 @@ class AbstractBench extends SharedAbstractBench
     }
 
     /**
-     * @return \GuzzleHttp\Cookie\CookieJar
+     * @return \GuzzleHttp\Cookie\CookieJarInterface
      */
-    protected function getCookieJar(): CookieJar
+    protected function getCookieJar(): CookieJarInterface
     {
         return $this->getFactory()->getCookieJar();
     }

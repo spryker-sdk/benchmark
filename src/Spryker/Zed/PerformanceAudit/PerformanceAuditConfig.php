@@ -20,10 +20,6 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     protected const APPLICATION_ZED = 'zed';
     protected const APPLICATION_GLUE = 'glue';
 
-    protected const BASE_URL_YVES = 'APPLICATION:BASE_URL_YVES';
-    protected const BASE_URL_ZED = 'APPLICATION:BASE_URL_ZED';
-    protected const GLUE_APPLICATION_DOMAIN = 'GLUE_APPLICATION_DOMAIN';
-
     /**
      * Gets path to application root directory.
      *

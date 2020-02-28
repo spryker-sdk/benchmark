@@ -14,7 +14,7 @@ interface PerformanceAuditConstants
 {
     /**
      * Specification:
-     *   The domain name used for glue application.
+     * - The domain name used for glue application.
      *
      * @api
      *
@@ -24,7 +24,7 @@ interface PerformanceAuditConstants
 
     /**
      * Specification:
-     *   Base URL for Yves including scheme and port (e.g. http://www.de.demoshop.local:8080)
+     * - Base URL for Yves including scheme and port (e.g. http://www.de.demoshop.local:8080)
      *
      * @api
      *
@@ -34,7 +34,7 @@ interface PerformanceAuditConstants
 
     /**
      * Specification:
-     *   Base URL for Zed including scheme and port (e.g. http://zed.de.demoshop.local:9080)
+     * - Base URL for Zed including scheme and port (e.g. http://zed.de.demoshop.local:9080)
      *
      * @api
      *

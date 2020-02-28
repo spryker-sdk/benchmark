@@ -8,7 +8,7 @@
 namespace Spryker\Yves\PerformanceAudit;
 
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Cookie\CookieJarInterface;
 use Spryker\Shared\PerformanceAudit\Request\RequestInterface;
 use Spryker\Yves\Kernel\AbstractFactory;
 use Spryker\Yves\PerformanceAudit\Request\Request;
@@ -35,9 +35,9 @@ class PerformanceAuditFactory extends AbstractFactory
     }
 
     /**
-     * @return \GuzzleHttp\Cookie\CookieJar
+     * @return \GuzzleHttp\Cookie\CookieJarInterface
      */
-    public function getCookieJar(): CookieJar
+    public function getCookieJar(): CookieJarInterface
     {
         return $this->getProvidedDependency(PerformanceAuditDependencyProvider::COOKIE_JAR);
     }

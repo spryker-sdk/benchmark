@@ -9,13 +9,8 @@ namespace Spryker\Shared\PerformanceAudit\Request;
 
 use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
-use RuntimeException;
+use Spryker\Shared\PerformanceAudit\Exception\UnexpectedStatusCodeException;
 
-/**
- * Class SharedRequest
- *
- * @package Spryker\Yves\PerformanceAudit\Request
- */
 abstract class SharedRequest implements RequestInterface
 {
     public const METHOD_GET = 'get';
@@ -27,7 +22,7 @@ abstract class SharedRequest implements RequestInterface
      * @param array $options
      * @param int $expectedStatusCode
      *
-     * @throws \RuntimeException
+     * @throws \Spryker\Shared\PerformanceAudit\Exception\UnexpectedStatusCodeException
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
@@ -38,7 +33,7 @@ abstract class SharedRequest implements RequestInterface
         if ($response->getStatusCode() !== $expectedStatusCode) {
             $msg = sprintf('Unexpected status code %s, %s was expected', $response->getStatusCode(), $expectedStatusCode);
 
-            throw new RuntimeException($msg);
+            throw new UnexpectedStatusCodeException($msg);
         }
 
         return $response;

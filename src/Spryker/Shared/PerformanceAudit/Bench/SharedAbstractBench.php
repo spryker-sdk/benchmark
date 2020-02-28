@@ -22,14 +22,10 @@ class SharedAbstractBench
     /**
      * @param string $key
      * @param string $value
-     *
-     * @return string[]
      */
-    protected function addHeader(string $key, string $value): array
+    protected function addHeader(string $key, string $value): void
     {
         $this->headers[$key] = $value;
-
-        return $this->headers;
     }
 
     /**
