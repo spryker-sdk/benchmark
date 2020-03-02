@@ -63,9 +63,7 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
             );
         }
 
-        $resultCode = $this->runCommand($input->getOption('application'), $input, $output);
-
-        return $resultCode;
+        return $this->runCommand($input->getOption('application'), $input, $output);
     }
 
     /**
