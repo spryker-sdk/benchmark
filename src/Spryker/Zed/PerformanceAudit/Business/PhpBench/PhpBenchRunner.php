@@ -50,18 +50,20 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
             foreach ($applicationsList as $application) {
                 $resultCode |= $this->runCommand($application, $input, $output);
             }
-        } else {
-            if (!in_array($input->getOption('application'), $applicationsList)) {
-                throw new InvalidArgumentException(
-                    sprintf(
-                        "The provided value is invalid. Available values: '%s'",
-                        implode(', ', $applicationsList)
-                    )
-                );
-            }
 
-            $resultCode = $this->runCommand($input->getOption('application'), $input, $output);
+            return $resultCode;
         }
+
+        if (!in_array($input->getOption('application'), $applicationsList)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "The provided value is invalid. Available values: '%s'",
+                    implode(', ', $applicationsList)
+                )
+            );
+        }
+
+        $resultCode = $this->runCommand($input->getOption('application'), $input, $output);
 
         return $resultCode;
     }
