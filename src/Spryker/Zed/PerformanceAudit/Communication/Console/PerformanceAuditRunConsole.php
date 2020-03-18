@@ -47,8 +47,8 @@ class PerformanceAuditRunConsole extends Console
 
         return $this->getFacade()->runPhpBench(
             $input->getOption('path'),
-            intval($input->getOption('iterations')),
-            intval($input->getOption('revs'))
+            (int)$input->getOption('iterations'),
+            (int)$input->getOption('revs')
         );
     }
 }
