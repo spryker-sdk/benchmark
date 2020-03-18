@@ -7,7 +7,6 @@
 
 namespace Spryker\Zed\PerformanceAudit;
 
-use InvalidArgumentException;
 use Spryker\Shared\PerformanceAudit\PerformanceAuditConstants;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
 
@@ -16,9 +15,9 @@ use Spryker\Zed\Kernel\AbstractBundleConfig;
  */
 class PerformanceAuditConfig extends AbstractBundleConfig
 {
-    protected const APPLICATION_YVES = 'yves';
-    protected const APPLICATION_ZED = 'zed';
-    protected const APPLICATION_GLUE = 'glue';
+    public const APPLICATION_YVES = 'yves';
+    public const APPLICATION_ZED = 'zed';
+    public const APPLICATION_GLUE = 'glue';
 
     /**
      * Gets path to application root directory.
@@ -39,48 +38,6 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     }
 
     /**
-     * @param string $application
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return string
-     */
-    public function getPathToProjectLevelTestDirectory(string $application): string
-    {
-        switch ($application) {
-            case static::APPLICATION_YVES:
-                return $this->getPathToRoot() . 'tests/PerformanceAudit/Yves';
-            case static::APPLICATION_ZED:
-                return $this->getPathToRoot() . 'tests/PerformanceAudit/Zed';
-            case static::APPLICATION_GLUE:
-                return $this->getPathToRoot() . 'tests/PerformanceAudit/Glue';
-        }
-
-        throw new InvalidArgumentException();
-    }
-
-    /**
-     * @param string $application
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return string
-     */
-    public function getPathToBootstrap(string $application): string
-    {
-        switch ($application) {
-            case static::APPLICATION_YVES:
-                return $this->getYvesBootstrapFilePath();
-            case static::APPLICATION_ZED:
-                return $this->getZedBootstrapFilePath();
-            case static::APPLICATION_GLUE:
-                return $this->getGlueBootstrapFilePath();
-        }
-
-        throw new InvalidArgumentException();
-    }
-
-    /**
      * @return string
      */
     public function getRequestBaseUrl(): string
@@ -91,9 +48,33 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     /**
      * @return string
      */
+    public function getPathToYvesTests(): string
+    {
+        return $this->getPathToRoot() . 'tests/PerformanceAudit/Yves';
+    }
+
+    /**
+     * @return string
+     */
+    public function getPathToZedTests(): string
+    {
+        return $this->getPathToRoot() . 'tests/PerformanceAudit/Zed';
+    }
+
+    /**
+     * @return string
+     */
+    public function getPathToGlueTests(): string
+    {
+        return $this->getPathToRoot() . 'tests/PerformanceAudit/Glue';
+    }
+
+    /**
+     * @return string
+     */
     public function getYvesBootstrapFilePath(): string
     {
-        return $this->getPathToRoot() . 'vendor/spryker/performance-audit/src/Spryker/Yves/PerformanceAudit/bootstrap.php';
+        return $this->getPathToRoot() . 'tests/PerformanceAudit/Yves/bootstrap.php';
     }
 
     /**
@@ -101,7 +82,7 @@ class PerformanceAuditConfig extends AbstractBundleConfig
      */
     public function getZedBootstrapFilePath(): string
     {
-        return $this->getPathToRoot() . 'vendor/spryker/performance-audit/src/Spryker/Zed/PerformanceAudit/bootstrap.php';
+        return $this->getPathToRoot() . 'tests/PerformanceAudit/Zed/bootstrap.php';
     }
 
     /**
@@ -109,6 +90,6 @@ class PerformanceAuditConfig extends AbstractBundleConfig
      */
     public function getGlueBootstrapFilePath(): string
     {
-        return $this->getPathToRoot() . 'vendor/spryker/performance-audit/src/Spryker/Glue/PerformanceAudit/bootstrap.php';
+        return $this->getPathToRoot() . 'tests/PerformanceAudit/Glue/bootstrap.php';
     }
 }

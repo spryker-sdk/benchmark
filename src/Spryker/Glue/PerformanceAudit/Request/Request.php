@@ -9,9 +9,9 @@ namespace Spryker\Glue\PerformanceAudit\Request;
 
 use GuzzleHttp\ClientInterface;
 use Spryker\Glue\PerformanceAudit\PerformanceAuditConfig;
-use Spryker\Shared\PerformanceAudit\Request\SharedRequest;
+use Spryker\Shared\PerformanceAudit\Request\AbstractSharedRequest;
 
-class Request extends SharedRequest
+class Request extends AbstractSharedRequest
 {
     /**
      * @var \Spryker\Glue\PerformanceAudit\PerformanceAuditConfig

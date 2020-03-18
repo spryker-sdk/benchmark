@@ -8,10 +8,10 @@
 namespace Spryker\Glue\PerformanceAudit\Bench;
 
 use Spryker\Glue\PerformanceAudit\PerformanceAuditFactory;
-use Spryker\Shared\PerformanceAudit\Bench\SharedAbstractBench;
+use Spryker\Shared\PerformanceAudit\Bench\AbstractSharedBench;
 use Spryker\Shared\PerformanceAudit\Request\RequestInterface;
 
-class AbstractBench extends SharedAbstractBench
+class AbstractBench extends AbstractSharedBench
 {
     /**
      * @return \Spryker\Shared\PerformanceAudit\Request\RequestInterface

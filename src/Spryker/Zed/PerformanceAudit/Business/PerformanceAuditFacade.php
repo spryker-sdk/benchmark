@@ -8,8 +8,6 @@
 namespace Spryker\Zed\PerformanceAudit\Business;
 
 use Spryker\Zed\Kernel\Business\AbstractFacade;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @method \Spryker\Zed\PerformanceAudit\Business\PerformanceAuditBusinessFactory getFactory()
@@ -21,13 +19,14 @@ class PerformanceAuditFacade extends AbstractFacade implements PerformanceAuditF
      *
      * @api
      *
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param string|null $testDirectoryPath
+     * @param int|null $iterations
+     * @param int|null $revs
      *
      * @return int|null
      */
-    public function runPhpBench(InputInterface $input, OutputInterface $output): ?int
+    public function runPhpBench(?string $testDirectoryPath = null, ?int $iterations = null, ?int $revs = null): ?int
     {
-        return $this->getFactory()->createPhpBenchRunner()->run($input, $output);
+        return $this->getFactory()->createPhpBenchRunner()->run($testDirectoryPath, $iterations, $revs);
     }
 }

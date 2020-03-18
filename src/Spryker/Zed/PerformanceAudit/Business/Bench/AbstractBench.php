@@ -10,12 +10,12 @@ namespace Spryker\Zed\PerformanceAudit\Business\Bench;
 use DOMDocument;
 use GuzzleHttp\Cookie\CookieJarInterface;
 use Psr\Http\Message\ResponseInterface;
-use Spryker\Shared\PerformanceAudit\Bench\SharedAbstractBench;
+use Spryker\Shared\PerformanceAudit\Bench\AbstractSharedBench;
 use Spryker\Shared\PerformanceAudit\Request\RequestInterface;
 use Spryker\Zed\PerformanceAudit\Business\PerformanceAuditBusinessFactory;
 use Spryker\Zed\PerformanceAudit\Business\Request\Request;
 
-class AbstractBench extends SharedAbstractBench
+class AbstractBench extends AbstractSharedBench
 {
     protected const COOKIE_DATA_INDEX = 1;
 

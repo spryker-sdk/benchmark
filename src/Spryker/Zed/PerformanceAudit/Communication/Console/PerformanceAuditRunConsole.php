@@ -32,7 +32,7 @@ class PerformanceAuditRunConsole extends Console
             ->setDescription(static::COMMAND_DESCRIPTION)
             ->addOption('iterations', null, InputOption::VALUE_OPTIONAL, 'Iterations represent the number of times we will perform the benchmark')
             ->addOption('revs', null, InputOption::VALUE_OPTIONAL, 'The number of times the benchmark is executed consecutively within a single time measurement')
-            ->addOption('application', null, InputOption::VALUE_OPTIONAL, 'Application for which tests will be run (yves, zed, glue)');
+            ->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Path to the directory that contains tests to be executed');
     }
 
     /**
@@ -43,6 +43,12 @@ class PerformanceAuditRunConsole extends Console
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        return $this->getFacade()->runPhpBench($this->input, $this->output);
+        $output->writeln('Run PHPBench on project level');
+
+        return $this->getFacade()->runPhpBench(
+            $input->getOption('path'),
+            intval($input->getOption('iterations')),
+            intval($input->getOption('revs'))
+        );
     }
 }

@@ -8,10 +8,10 @@
 namespace Spryker\Zed\PerformanceAudit\Business\Request;
 
 use GuzzleHttp\ClientInterface;
-use Spryker\Shared\PerformanceAudit\Request\SharedRequest;
+use Spryker\Shared\PerformanceAudit\Request\AbstractSharedRequest;
 use Spryker\Zed\PerformanceAudit\PerformanceAuditConfig;
 
-class Request extends SharedRequest
+class Request extends AbstractSharedRequest
 {
     /**
      * @var \Spryker\Zed\PerformanceAudit\PerformanceAuditConfig

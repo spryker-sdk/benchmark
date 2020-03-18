@@ -11,7 +11,7 @@ use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Spryker\Shared\PerformanceAudit\Exception\UnexpectedStatusCodeException;
 
-abstract class SharedRequest implements RequestInterface
+abstract class AbstractSharedRequest implements RequestInterface
 {
     public const METHOD_GET = 'get';
     public const METHOD_POST = 'post';
@@ -31,9 +31,9 @@ abstract class SharedRequest implements RequestInterface
         $response = $this->getClient()->request($method, $this->getRequestBaseUrl() . $url, $options);
 
         if ($response->getStatusCode() !== $expectedStatusCode) {
-            $msg = sprintf('Unexpected status code %s, %s was expected', $response->getStatusCode(), $expectedStatusCode);
+            $message = sprintf('Unexpected status code \'%s\', \'%s\' was expected', $response->getStatusCode(), $expectedStatusCode);
 
-            throw new UnexpectedStatusCodeException($msg);
+            throw new UnexpectedStatusCodeException($message);
         }
 
         return $response;

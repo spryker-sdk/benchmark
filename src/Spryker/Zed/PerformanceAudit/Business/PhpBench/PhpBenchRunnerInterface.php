@@ -7,16 +7,14 @@
 
 namespace Spryker\Zed\PerformanceAudit\Business\PhpBench;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-
 interface PhpBenchRunnerInterface
 {
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param string|null $testDirectoryPath
+     * @param int|null $iterations
+     * @param int|null $revs
      *
      * @return int|null Exit code
      */
-    public function run(InputInterface $input, OutputInterface $output): ?int;
+    public function run(?string $testDirectoryPath = null, ?int $iterations = null, ?int $revs = null): ?int;
 }

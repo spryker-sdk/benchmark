@@ -7,9 +7,6 @@
 
 namespace Spryker\Zed\PerformanceAudit\Business;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-
 interface PerformanceAuditFacadeInterface
 {
     /**
@@ -18,10 +15,11 @@ interface PerformanceAuditFacadeInterface
      *
      * @api
      *
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param string|null $testDirectoryPath
+     * @param int|null $iterations
+     * @param int|null $revs
      *
      * @return int|null
      */
-    public function runPhpBench(InputInterface $input, OutputInterface $output): ?int;
+    public function runPhpBench(?string $testDirectoryPath = null, ?int $iterations = null, ?int $revs = null): ?int;
 }

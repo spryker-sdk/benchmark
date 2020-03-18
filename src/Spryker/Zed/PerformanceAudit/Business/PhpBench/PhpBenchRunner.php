@@ -9,8 +9,6 @@ namespace Spryker\Zed\PerformanceAudit\Business\PhpBench;
 
 use InvalidArgumentException;
 use Spryker\Zed\PerformanceAudit\PerformanceAuditConfig;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -30,64 +28,54 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @throws \InvalidArgumentException
+     * @param string|null $testDirectoryPath
+     * @param int|null $iterations
+     * @param int|null $revs
      *
      * @return int Exit code
      */
-    public function run(InputInterface $input, OutputInterface $output): int
+    public function run(?string $testDirectoryPath = null, ?int $iterations = null, ?int $revs = null): int
     {
-        $message = 'Run PHPBench in PROJECT level';
-
-        $output->writeln($message);
-
         $resultCode = 0;
         $applicationsList = $this->config->getApplicationsList();
 
-        if (!$input->getOption('application')) {
+        if (!$testDirectoryPath) {
             foreach ($applicationsList as $application) {
-                $resultCode |= $this->runCommand($application, $input, $output);
+                $resultCode |= $this->runCommand($this->getPathToProjectLevelTestDirectory($application), $iterations, $revs);
             }
 
             return $resultCode;
         }
 
-        if (!in_array($input->getOption('application'), $applicationsList)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    "The provided value is invalid. Available values: '%s'",
-                    implode(', ', $applicationsList)
-                )
-            );
-        }
-
-        return $this->runCommand($input->getOption('application'), $input, $output);
+        return $this->runCommand($testDirectoryPath, $iterations, $revs);
     }
 
     /**
-     * @param string $application
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param string|null $path
+     * @param int|null $iterations
+     * @param int|null $revs
      *
      * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     * @throws \InvalidArgumentException
      *
      * @return int|null
      */
-    protected function runCommand(string $application, InputInterface $input, OutputInterface $output): ?int
+    protected function runCommand(?string $path, ?int $iterations = null, ?int $revs = null): ?int
     {
-        $path = $this->config->getPathToProjectLevelTestDirectory($application);
-        $bootstrap = $this->config->getPathToBootstrap($application);
+        $bootstrap = $this->getPathToBootstrap($path);
+
+        if (!file_exists($bootstrap)) {
+            throw new InvalidArgumentException('Could not find bootstrap file. Bootstrap file must be defined!');
+        }
 
         $command = 'php vendor/bin/phpbench run %s --bootstrap=%s --report=aggregate';
         $command = sprintf($command, $path, $bootstrap);
 
-        if ($iterations = $input->getOption('iterations')) {
+        if ($iterations) {
             $command .= ' --iterations=' . $iterations;
         }
 
-        if ($revs = $input->getOption('revs')) {
+        if ($revs) {
             $command .= ' --revs=' . $revs;
         }
 
@@ -101,6 +89,54 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
         echo $process->getOutput();
 
         return $process->getExitCode();
+    }
+
+    /**
+     * @param string $application
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return string
+     */
+    public function getPathToProjectLevelTestDirectory(string $application): string
+    {
+        switch ($application) {
+            case PerformanceAuditConfig::APPLICATION_YVES:
+                return $this->config->getPathToYvesTests();
+            case PerformanceAuditConfig::APPLICATION_ZED:
+                return $this->config->getPathToZedTests();
+            case PerformanceAuditConfig::APPLICATION_GLUE:
+                return $this->config->getPathToGlueTests();
+        }
+
+        throw new InvalidArgumentException();
+    }
+
+    /**
+     * @param string $path
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return string
+     */
+    protected function getPathToBootstrap(string $path): string
+    {
+        $applications = $this->config->getApplicationsList();
+
+        foreach ($applications as $application) {
+            if (strpos($path, ucfirst($application))) {
+                switch ($application) {
+                    case PerformanceAuditConfig::APPLICATION_YVES:
+                        return $this->config->getYvesBootstrapFilePath();
+                    case PerformanceAuditConfig::APPLICATION_ZED:
+                        return $this->config->getZedBootstrapFilePath();
+                    case PerformanceAuditConfig::APPLICATION_GLUE:
+                        return $this->config->getGlueBootstrapFilePath();
+                }
+            }
+        }
+
+        throw new InvalidArgumentException();
     }
 
     /**

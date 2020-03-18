@@ -7,7 +7,7 @@
 
 namespace Spryker\Shared\PerformanceAudit\Bench;
 
-class SharedAbstractBench
+class AbstractSharedBench
 {
     /**
      * @var string[]

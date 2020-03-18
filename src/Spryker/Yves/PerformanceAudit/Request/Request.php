@@ -8,10 +8,10 @@
 namespace Spryker\Yves\PerformanceAudit\Request;
 
 use GuzzleHttp\ClientInterface;
-use Spryker\Shared\PerformanceAudit\Request\SharedRequest;
+use Spryker\Shared\PerformanceAudit\Request\AbstractSharedRequest;
 use Spryker\Yves\PerformanceAudit\PerformanceAuditConfig;
 
-class Request extends SharedRequest
+class Request extends AbstractSharedRequest
 {
     /**
      * @var \Spryker\Yves\PerformanceAudit\PerformanceAuditConfig
