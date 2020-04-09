@@ -13,9 +13,6 @@ use Spryker\Shared\PerformanceAudit\Exception\UnexpectedStatusCodeException;
 
 abstract class AbstractSharedRequest implements RequestInterface
 {
-    public const METHOD_GET = 'get';
-    public const METHOD_POST = 'post';
-
     /**
      * @param string $method
      * @param string $url
@@ -26,7 +23,7 @@ abstract class AbstractSharedRequest implements RequestInterface
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function sendRequest(string $method, string $url, array $options, int $expectedStatusCode): ResponseInterface
+    public function sendRequest(string $method, string $url, array $options, int $expectedStatusCode = 200): ResponseInterface
     {
         $response = $this->getClient()->request($method, $this->getRequestBaseUrl() . $url, $options);
 

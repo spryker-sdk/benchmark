@@ -7,107 +7,54 @@
 
 namespace Spryker\Yves\PerformanceAudit\Bench;
 
-use DOMDocument;
-use GuzzleHttp\Cookie\CookieJarInterface;
-use Psr\Http\Message\ResponseInterface;
 use Spryker\Shared\PerformanceAudit\Bench\AbstractSharedBench;
-use Spryker\Shared\PerformanceAudit\Request\RequestInterface;
-use Spryker\Yves\PerformanceAudit\PerformanceAuditFactory;
-use Spryker\Yves\PerformanceAudit\Request\Request;
+use Spryker\Yves\Kernel\ClassResolver\Factory\FactoryResolver;
 
 class AbstractBench extends AbstractSharedBench
 {
-    protected const COOKIE_DATA_INDEX = 1;
+    protected const LOGIN_URL = '/login';
+    protected const LOGIN_CSRF_FORM_ELEMENT_ID = 'loginForm__token';
+    protected const LOGIN_EMAIL = 'spencor.hopkin@spryker.com';
+    protected const LOGIN_PASSWORD = 'change123';
 
     /**
-     * @param string $url
-     * @param string $email
-     * @param string $password
-     *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @var \Spryker\Shared\PerformanceAudit\Request\RequestInterface
      */
-    protected function login(string $url, string $email, string $password): ResponseInterface
+    protected $request;
+
+    /**
+     * @var \Spryker\Yves\PerformanceAudit\PerformanceAuditFactory
+     */
+    protected $factory;
+
+    /**
+     * @return \Spryker\Yves\PerformanceAudit\PerformanceAuditFactory
+     */
+    protected function getFactory()
     {
-        $cookieJar = $this->getCookieJar();
-        $options = [
-            'headers' => $this->headers,
-            'form_params' => [
-                'loginForm' => [
-                    'email' => $email,
-                    'password' => $password,
-                    '_token' => $this->getCsrfToken($url, 'loginForm__token'),
-                ],
-            ],
-            'cookies' => $cookieJar,
-        ];
-
-        $response = $this->getRequest()->sendRequest(Request::METHOD_POST, $url, $options, 200);
-        $cookie = $this->getCookieDataFromCookieJar($cookieJar, static::COOKIE_DATA_INDEX);
-
-        if ($cookie) {
-            $this->addHeader('Cookie', $cookie['Name'] . '=' . $cookie['Value']);
+        if ($this->factory === null) {
+            $this->factory = $this->resolveFactory();
         }
 
-        return $response;
-    }
-
-    /**
-     * @param \GuzzleHttp\Cookie\CookieJarInterface $cookieJar
-     * @param int $index
-     *
-     * @return array|null
-     */
-    protected function getCookieDataFromCookieJar(CookieJarInterface $cookieJar, int $index): ?array
-    {
-        $data = $cookieJar->toArray();
-
-        if (isset($data[$index])) {
-            return $data[$index];
-        }
-
-        return null;
-    }
-
-    /**
-     * @param string $url
-     * @param string $elementId
-     *
-     * @return string
-     */
-    protected function getCsrfToken(string $url, string $elementId): string
-    {
-        $response = $this->getRequest()
-            ->sendRequest(Request::METHOD_GET, $url, ['headers' => $this->getHeaders()], 200);
-
-        $doc = new DOMDocument();
-        libxml_use_internal_errors(true);
-
-        $doc->loadHTML($response->getBody()->getContents());
-
-        return $doc->getElementById($elementId)->getAttribute('value');
-    }
-
-    /**
-     * @return \Spryker\Shared\PerformanceAudit\Request\RequestInterface
-     */
-    protected function getRequest(): RequestInterface
-    {
-        return $this->getFactory()->createRequest();
-    }
-
-    /**
-     * @return \GuzzleHttp\Cookie\CookieJarInterface
-     */
-    protected function getCookieJar(): CookieJarInterface
-    {
-        return $this->getFactory()->getCookieJar();
+        return $this->factory;
     }
 
     /**
      * @return \Spryker\Yves\PerformanceAudit\PerformanceAuditFactory
      */
-    protected function getFactory(): PerformanceAuditFactory
+    private function resolveFactory()
     {
-        return new PerformanceAuditFactory();
+        /** @var \Spryker\Yves\PerformanceAudit\PerformanceAuditFactory $factory */
+        $factory = $this->getFactoryResolver()->resolve(static::class);
+
+        return $factory;
+    }
+
+    /**
+     * @return \Spryker\Yves\Kernel\ClassResolver\Factory\FactoryResolver
+     */
+    private function getFactoryResolver()
+    {
+        return new FactoryResolver();
     }
 }

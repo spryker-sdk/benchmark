@@ -11,6 +11,12 @@ use Psr\Http\Message\ResponseInterface;
 
 interface RequestInterface
 {
+    public const METHOD_GET = 'GET';
+    public const METHOD_POST = 'POST';
+    public const METHOD_DELETE = 'DELETE';
+    public const METHOD_PUT = 'PUT';
+    public const METHOD_PATCH = 'PATCH';
+
     /**
      * @param string $method
      * @param string $url
@@ -19,5 +25,5 @@ interface RequestInterface
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function sendRequest(string $method, string $url, array $options, int $expectedStatusCode): ResponseInterface;
+    public function sendRequest(string $method, string $url, array $options, int $expectedStatusCode = 200): ResponseInterface;
 }

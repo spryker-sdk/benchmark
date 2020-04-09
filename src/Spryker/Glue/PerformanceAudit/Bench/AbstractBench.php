@@ -13,6 +13,37 @@ use Spryker\Shared\PerformanceAudit\Request\RequestInterface;
 
 class AbstractBench extends AbstractSharedBench
 {
+    protected const LOGIN_EMAIL = 'spencor.hopkin@spryker.com';
+    protected const LOGIN_PASSWORD = 'change123';
+    protected const LOGIN_ENDPOINT = '/access-tokens';
+
+    /**
+     * @return void
+     */
+    protected function login(): void
+    {
+        if ($this->hasHeader('Authorization')) {
+            return;
+        }
+
+        $loginRequestData = [
+            'data' => [
+                'type' => 'access-tokens',
+                'attributes' => [
+                    'username' => static::LOGIN_EMAIL,
+                    'password' => static::LOGIN_PASSWORD,
+                ],
+            ],
+        ];
+
+        $response = $this->sendRequest(RequestInterface::METHOD_POST, static::LOGIN_ENDPOINT, $loginRequestData);
+
+        $responseData = json_decode($response->getBody()->getContents(), true);
+        $token = $responseData['data']['attributes']['tokenType'] . ' ' . $responseData['data']['attributes']['accessToken'];
+
+        $this->addHeader('Authorization', $token);
+    }
+
     /**
      * @return \Spryker\Shared\PerformanceAudit\Request\RequestInterface
      */
