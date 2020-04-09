@@ -7,6 +7,7 @@
 
 namespace Spryker\Shared\PerformanceAudit\Bench;
 
+use DOMDocument;
 use GuzzleHttp\Cookie\CookieJarInterface;
 use Psr\Http\Message\ResponseInterface;
 use Spryker\Shared\PerformanceAudit\Exception\NoCsrfTokenElementException;
@@ -18,6 +19,11 @@ class AbstractSharedBench
     protected const ERROR_MESSAGE_NO_CSRF_TOKEN_ELEMENT_EXCEPTION = 'Csrf token element %s not found.';
 
     protected const COOKIE_DATA_INDEX = 1;
+
+    /**
+     * @var \Spryker\Shared\PerformanceAudit\Request\RequestInterface
+     */
+    protected $request;
 
     /**
      * @var string[]
@@ -213,9 +219,9 @@ class AbstractSharedBench
     protected function buildLoginData(CookieJarInterface $cookieJar): array
     {
         return [
-            'headers' => $this->headers,
+            'headers' => $this->getHeaders(),
             'form_params' => [
-                'loginForm' => [
+                static::LOGIN_FORM_NAME => [
                     'email' => static::LOGIN_EMAIL,
                     'password' => static::LOGIN_PASSWORD,
                     '_token' => $this->getCsrfToken(static::LOGIN_URL, static::LOGIN_CSRF_FORM_ELEMENT_ID),

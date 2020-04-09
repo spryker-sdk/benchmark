@@ -9,6 +9,7 @@ namespace Spryker\Yves\PerformanceAudit\Bench;
 
 use Spryker\Shared\PerformanceAudit\Bench\AbstractSharedBench;
 use Spryker\Yves\Kernel\ClassResolver\Factory\FactoryResolver;
+use Spryker\Yves\PerformanceAudit\PerformanceAuditFactory;
 
 class AbstractBench extends AbstractSharedBench
 {
@@ -16,11 +17,7 @@ class AbstractBench extends AbstractSharedBench
     protected const LOGIN_CSRF_FORM_ELEMENT_ID = 'loginForm__token';
     protected const LOGIN_EMAIL = 'spencor.hopkin@spryker.com';
     protected const LOGIN_PASSWORD = 'change123';
-
-    /**
-     * @var \Spryker\Shared\PerformanceAudit\Request\RequestInterface
-     */
-    protected $request;
+    protected const LOGIN_FORM_NAME = 'loginForm';
 
     /**
      * @var \Spryker\Yves\PerformanceAudit\PerformanceAuditFactory
@@ -30,7 +27,7 @@ class AbstractBench extends AbstractSharedBench
     /**
      * @return \Spryker\Yves\PerformanceAudit\PerformanceAuditFactory
      */
-    protected function getFactory()
+    protected function getFactory(): PerformanceAuditFactory
     {
         if ($this->factory === null) {
             $this->factory = $this->resolveFactory();
@@ -45,7 +42,7 @@ class AbstractBench extends AbstractSharedBench
     private function resolveFactory()
     {
         /** @var \Spryker\Yves\PerformanceAudit\PerformanceAuditFactory $factory */
-        $factory = $this->getFactoryResolver()->resolve(static::class);
+        $factory = $this->getFactoryResolver()->resolve(self::class);
 
         return $factory;
     }
