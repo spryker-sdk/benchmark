@@ -37,9 +37,9 @@ class AbstractBench extends AbstractSharedBench
     }
 
     /**
-     * @return \Spryker\Yves\PerformanceAudit\PerformanceAuditFactory
+     * @return \Spryker\Zed\PerformanceAudit\Business\PerformanceAuditBusinessFactory
      */
-    private function resolveFactory()
+    private function resolveFactory(): PerformanceAuditBusinessFactory
     {
         /** @var \Spryker\Zed\PerformanceAudit\Business\PerformanceAuditBusinessFactory $factory */
         $factory = $this->getFactoryResolver()->resolve(self::class);
@@ -50,7 +50,7 @@ class AbstractBench extends AbstractSharedBench
     /**
      * @return \Spryker\Zed\Kernel\ClassResolver\Business\BusinessFactoryResolver
      */
-    private function getFactoryResolver()
+    private function getFactoryResolver(): BusinessFactoryResolver
     {
         return new BusinessFactoryResolver();
     }

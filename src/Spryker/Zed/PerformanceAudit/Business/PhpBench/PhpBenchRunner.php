@@ -7,7 +7,7 @@
 
 namespace Spryker\Zed\PerformanceAudit\Business\PhpBench;
 
-use InvalidArgumentException;
+use Spryker\Zed\PerformanceAudit\Business\Exception\InvalidConfigurationException;
 use Spryker\Zed\PerformanceAudit\PerformanceAuditConfig;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -51,25 +51,25 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
     }
 
     /**
-     * @param string|null $path
+     * @param string $path
      * @param int|null $iterations
      * @param int|null $revs
      *
      * @throws \Symfony\Component\Process\Exception\ProcessFailedException
-     * @throws \InvalidArgumentException
+     * @throws \Spryker\Zed\PerformanceAudit\Business\Exception\InvalidConfigurationException
      *
-     * @return int|null
+     * @return int
      */
-    protected function runCommand(?string $path, ?int $iterations = null, ?int $revs = null): ?int
+    protected function runCommand(string $path, ?int $iterations = null, ?int $revs = null): int
     {
-        $bootstrap = $this->getPathToBootstrap($path);
+        $bootstrapFilePath = $this->getPathToBootstrap($path);
 
-        if (!file_exists($bootstrap)) {
-            throw new InvalidArgumentException('Could not find bootstrap file. Bootstrap file must be defined!');
+        if (!file_exists($bootstrapFilePath)) {
+            throw new InvalidConfigurationException(sprintf('Could not find bootstrap file at `%s`. Please add file or adjust configs.', $bootstrapFilePath));
         }
 
         $command = 'php vendor/bin/phpbench run %s --bootstrap=%s --report=aggregate';
-        $command = sprintf($command, $path, $bootstrap);
+        $command = sprintf($command, $path, $bootstrapFilePath);
 
         if ($iterations) {
             $command .= ' --iterations=' . $iterations;
@@ -88,34 +88,23 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
 
         echo $process->getOutput();
 
-        return $process->getExitCode();
+        return (int)$process->getExitCode();
     }
 
     /**
      * @param string $application
      *
-     * @throws \InvalidArgumentException
-     *
      * @return string
      */
     public function getPathToProjectLevelTestDirectory(string $application): string
     {
-        switch ($application) {
-            case PerformanceAuditConfig::APPLICATION_YVES:
-                return $this->config->getPathToYvesTests();
-            case PerformanceAuditConfig::APPLICATION_ZED:
-                return $this->config->getPathToZedTests();
-            case PerformanceAuditConfig::APPLICATION_GLUE:
-                return $this->config->getPathToGlueTests();
-        }
-
-        throw new InvalidArgumentException();
+        return $this->config->getTestsFolder() . ucfirst($application);
     }
 
     /**
      * @param string $path
      *
-     * @throws \InvalidArgumentException
+     * @throws \Spryker\Zed\PerformanceAudit\Business\Exception\InvalidConfigurationException
      *
      * @return string
      */
@@ -124,19 +113,18 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
         $applications = $this->config->getApplicationsList();
 
         foreach ($applications as $application) {
-            if (strpos($path, ucfirst($application))) {
-                switch ($application) {
-                    case PerformanceAuditConfig::APPLICATION_YVES:
-                        return $this->config->getYvesBootstrapFilePath();
-                    case PerformanceAuditConfig::APPLICATION_ZED:
-                        return $this->config->getZedBootstrapFilePath();
-                    case PerformanceAuditConfig::APPLICATION_GLUE:
-                        return $this->config->getGlueBootstrapFilePath();
-                }
+            $application = ucfirst($application);
+            if (strpos($path, $application) === false) {
+                continue;
             }
-        }
 
-        throw new InvalidArgumentException();
+            $methodName = sprintf('get%sBootstrapFilePath', $application);
+            if (!method_exists($this->config, $methodName)) {
+                throw new InvalidConfigurationException(sprintf('Missing bootstrap file configuration for `%s` layer.', $application));
+            }
+
+            return $this->config->{$methodName}();
+        }
     }
 
     /**
