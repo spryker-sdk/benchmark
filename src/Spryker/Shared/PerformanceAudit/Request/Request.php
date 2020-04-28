@@ -83,6 +83,8 @@ class Request implements RequestInterface
      */
     public function sendPostRequest(string $url, array $body = [], int $expectedStatusCode = 200): ResponseInterface
     {
+        $body = $body ? ['body' => $body] : [];
+
         return $this->sendRequest(RequestInterface::METHOD_POST, $url, $body, $expectedStatusCode);
     }
 
@@ -107,6 +109,8 @@ class Request implements RequestInterface
      */
     public function sendPutRequest(string $url, array $body = [], int $expectedStatusCode = 200): ResponseInterface
     {
+        $body = $body ? ['body' => $body] : [];
+
         return $this->sendRequest(RequestInterface::METHOD_PUT, $url, $body, $expectedStatusCode);
     }
 
@@ -119,6 +123,8 @@ class Request implements RequestInterface
      */
     public function sendPatchRequest(string $url, array $body = [], int $expectedStatusCode = 200): ResponseInterface
     {
+        $body = $body ? ['body' => $body] : [];
+
         return $this->sendRequest(RequestInterface::METHOD_PATCH, $url, $body, $expectedStatusCode);
     }
 

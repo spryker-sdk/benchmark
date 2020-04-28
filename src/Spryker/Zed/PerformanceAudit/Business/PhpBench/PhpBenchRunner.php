@@ -48,7 +48,7 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
         $testDirectories = $this->findTestDirectories();
         foreach ($testDirectories as $testDirectoryInformation) {
             $commandExitCode = $this->runCommand(
-                $testDirectoryInformation->getPath(),
+                $testDirectoryInformation->getRealPath(),
                 $phpBenchConfigurationTransfer->getIterations(),
                 $phpBenchConfigurationTransfer->getRevolutions()
             );
