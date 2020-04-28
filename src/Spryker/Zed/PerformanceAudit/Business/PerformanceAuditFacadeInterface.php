@@ -7,6 +7,8 @@
 
 namespace Spryker\Zed\PerformanceAudit\Business;
 
+use Generated\Shared\Transfer\PhpBenchConfigurationTransfer;
+
 interface PerformanceAuditFacadeInterface
 {
     /**
@@ -15,11 +17,9 @@ interface PerformanceAuditFacadeInterface
      *
      * @api
      *
-     * @param string|null $testDirectoryPath
-     * @param int|null $iterations
-     * @param int|null $revs
+     * @param \Generated\Shared\Transfer\PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer
      *
-     * @return int|null
+     * @return int
      */
-    public function runPhpBench(?string $testDirectoryPath = null, ?int $iterations = null, ?int $revs = null): ?int;
+    public function runPhpBench(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): int;
 }

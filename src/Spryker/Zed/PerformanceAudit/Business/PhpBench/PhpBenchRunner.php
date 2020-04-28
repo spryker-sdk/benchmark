@@ -7,8 +7,10 @@
 
 namespace Spryker\Zed\PerformanceAudit\Business\PhpBench;
 
-use Spryker\Zed\PerformanceAudit\Business\Exception\InvalidConfigurationException;
+use Generated\Shared\Transfer\PhpBenchConfigurationTransfer;
+use Spryker\Zed\PerformanceAudit\Business\Exception\InvalidBootstrapException;
 use Spryker\Zed\PerformanceAudit\PerformanceAuditConfig;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -28,45 +30,50 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
     }
 
     /**
-     * @param string|null $testDirectoryPath
-     * @param int|null $iterations
-     * @param int|null $revs
+     * @param \Generated\Shared\Transfer\PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer
      *
-     * @return int Exit code
+     * @return int
      */
-    public function run(?string $testDirectoryPath = null, ?int $iterations = null, ?int $revs = null): int
+    public function run(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): int
     {
-        $resultCode = 0;
-        $applicationsList = $this->config->getApplicationsList();
-
-        if (!$testDirectoryPath) {
-            foreach ($applicationsList as $application) {
-                $resultCode |= $this->runCommand($this->getPathToProjectLevelTestDirectory($application), $iterations, $revs);
-            }
-
-            return $resultCode;
+        if ($phpBenchConfigurationTransfer->getTestDirectory()) {
+            return $this->runCommand(
+                $phpBenchConfigurationTransfer->getTestDirectory(),
+                $phpBenchConfigurationTransfer->getIterations(),
+                $phpBenchConfigurationTransfer->getRevolutions()
+            );
         }
 
-        return $this->runCommand($testDirectoryPath, $iterations, $revs);
+        $exitCode = 0;
+        $testDirectories = $this->findTestDirectories();
+        foreach ($testDirectories as $testDirectoryInformation) {
+            $commandExitCode = $this->runCommand(
+                $testDirectoryInformation->getPath(),
+                $phpBenchConfigurationTransfer->getIterations(),
+                $phpBenchConfigurationTransfer->getRevolutions()
+            );
+            if ($commandExitCode !== 0) {
+                $exitCode = $commandExitCode;
+
+                break;
+            }
+        }
+
+        return $exitCode;
     }
 
     /**
      * @param string $path
-     * @param int|null $iterations
-     * @param int|null $revs
+     * @param int $iterations
+     * @param int $revolutions
      *
      * @throws \Symfony\Component\Process\Exception\ProcessFailedException
-     * @throws \Spryker\Zed\PerformanceAudit\Business\Exception\InvalidConfigurationException
      *
      * @return int
      */
-    protected function runCommand(string $path, ?int $iterations = null, ?int $revs = null): int
+    protected function runCommand(string $path, int $iterations, int $revolutions): int
     {
         $bootstrapFilePath = $this->getPathToBootstrap($path);
-
-        if (!file_exists($bootstrapFilePath)) {
-            throw new InvalidConfigurationException(sprintf('Could not find bootstrap file at `%s`. Please add file or adjust configs.', $bootstrapFilePath));
-        }
 
         $command = 'php vendor/bin/phpbench run %s --bootstrap=%s --report=aggregate';
         $command = sprintf($command, $path, $bootstrapFilePath);
@@ -75,11 +82,11 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
             $command .= ' --iterations=' . $iterations;
         }
 
-        if ($revs) {
-            $command .= ' --revs=' . $revs;
+        if ($revolutions) {
+            $command .= ' --revs=' . $revolutions;
         }
 
-        $process = $this->getProcess($command);
+        $process = $this->createProcess($command);
         $process->run();
 
         if (!$process->isSuccessful()) {
@@ -92,39 +99,20 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
     }
 
     /**
-     * @param string $application
-     *
-     * @return string
-     */
-    public function getPathToProjectLevelTestDirectory(string $application): string
-    {
-        return $this->config->getTestsFolder() . ucfirst($application);
-    }
-
-    /**
      * @param string $path
      *
-     * @throws \Spryker\Zed\PerformanceAudit\Business\Exception\InvalidConfigurationException
+     * @throws \Spryker\Zed\PerformanceAudit\Business\Exception\InvalidBootstrapException
      *
      * @return string
      */
     protected function getPathToBootstrap(string $path): string
     {
-        $applications = $this->config->getApplicationsList();
-
-        foreach ($applications as $application) {
-            $application = ucfirst($application);
-            if (strpos($path, $application) === false) {
-                continue;
-            }
-
-            $methodName = sprintf('get%sBootstrapFilePath', $application);
-            if (!method_exists($this->config, $methodName)) {
-                throw new InvalidConfigurationException(sprintf('Missing bootstrap file configuration for `%s` layer.', $application));
-            }
-
-            return $this->config->{$methodName}();
+        $filePath = sprintf('%s/%s', $path, 'bootstrap.php');
+        if (!file_exists($filePath)) {
+            throw new InvalidBootstrapException(sprintf('Bootstrap file is missing in the `%s` folder', $path));
         }
+
+        return $filePath;
     }
 
     /**
@@ -132,8 +120,22 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
      *
      * @return \Symfony\Component\Process\Process
      */
-    protected function getProcess(string $command): Process
+    protected function createProcess(string $command): Process
     {
         return new Process(explode(' ', $command), null, null, null, 0);
+    }
+
+    /**
+     * @return \Symfony\Component\Finder\Finder
+     */
+    protected function findTestDirectories(): Finder
+    {
+        $finder = new Finder();
+
+        $finder->directories()
+            ->in($this->config->getTestsFolder())
+            ->depth('== 0');
+
+        return $finder;
     }
 }

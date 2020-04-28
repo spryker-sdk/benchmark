@@ -7,6 +7,7 @@
 
 namespace Spryker\Zed\PerformanceAudit\Business;
 
+use Generated\Shared\Transfer\PhpBenchConfigurationTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
@@ -19,14 +20,12 @@ class PerformanceAuditFacade extends AbstractFacade implements PerformanceAuditF
      *
      * @api
      *
-     * @param string|null $testDirectoryPath
-     * @param int|null $iterations
-     * @param int|null $revs
+     * @param \Generated\Shared\Transfer\PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer
      *
-     * @return int|null
+     * @return int
      */
-    public function runPhpBench(?string $testDirectoryPath = null, ?int $iterations = null, ?int $revs = null): ?int
+    public function runPhpBench(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): int
     {
-        return $this->getFactory()->createPhpBenchRunner()->run($testDirectoryPath, $iterations, $revs);
+        return $this->getFactory()->createPhpBenchRunner()->run($phpBenchConfigurationTransfer);
     }
 }

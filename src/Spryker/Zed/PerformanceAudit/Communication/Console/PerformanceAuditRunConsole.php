@@ -7,6 +7,7 @@
 
 namespace Spryker\Zed\PerformanceAudit\Communication\Console;
 
+use Generated\Shared\Transfer\PhpBenchConfigurationTransfer;
 use Spryker\Zed\Kernel\Communication\Console\Console;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -45,10 +46,21 @@ class PerformanceAuditRunConsole extends Console
     {
         $output->writeln('Run PHPBench on project level');
 
-        return $this->getFacade()->runPhpBench(
-            $input->getOption('path'),
-            (int)$input->getOption('iterations'),
-            (int)$input->getOption('revs')
-        );
+        return $this->getFacade()->runPhpBench($this->createPhpBenchConfigurationTransfer($input));
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return \Generated\Shared\Transfer\PhpBenchConfigurationTransfer
+     */
+    protected function createPhpBenchConfigurationTransfer(InputInterface $input): PhpBenchConfigurationTransfer
+    {
+        $phpBenchConfigurationTransfer = (new PhpBenchConfigurationTransfer())
+            ->setTestDirectory($input->getOption('path'))
+            ->setIterations((int)$input->getOption('iterations'))
+            ->setRevolutions((int)$input->getOption('revs'));
+
+        return $phpBenchConfigurationTransfer;
     }
 }

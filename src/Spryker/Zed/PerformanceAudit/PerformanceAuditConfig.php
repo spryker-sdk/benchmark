@@ -15,20 +15,6 @@ use Spryker\Zed\Kernel\AbstractBundleConfig;
  */
 class PerformanceAuditConfig extends AbstractBundleConfig
 {
-    public const APPLICATION_YVES = 'yves';
-    public const APPLICATION_ZED = 'zed';
-    public const APPLICATION_GLUE = 'glue';
-
-    /**
-     * @api
-     *
-     * @return string[]
-     */
-    public function getApplicationsList(): array
-    {
-        return [static::APPLICATION_YVES, static::APPLICATION_ZED, static::APPLICATION_GLUE];
-    }
-
     /**
      * @api
      *
@@ -47,35 +33,5 @@ class PerformanceAuditConfig extends AbstractBundleConfig
     public function getTestsFolder(): string
     {
         return APPLICATION_ROOT_DIR . '/tests/PerformanceAudit/';
-    }
-
-    /**
-     * @api
-     *
-     * @return string
-     */
-    public function getYvesBootstrapFilePath(): string
-    {
-        return $this->getTestsFolder() . '/Yves/bootstrap.php';
-    }
-
-    /**
-     * @api
-     *
-     * @return string
-     */
-    public function getZedBootstrapFilePath(): string
-    {
-        return $this->getTestsFolder() . '/Zed/bootstrap.php';
-    }
-
-    /**
-     * @api
-     *
-     * @return string
-     */
-    public function getGlueBootstrapFilePath(): string
-    {
-        return $this->getTestsFolder() . '/Glue/bootstrap.php';
     }
 }

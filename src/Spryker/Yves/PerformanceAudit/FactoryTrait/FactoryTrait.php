@@ -5,20 +5,13 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Yves\PerformanceAudit\Bench;
+namespace Spryker\Yves\PerformanceAudit\FactoryTrait;
 
-use Spryker\Shared\PerformanceAudit\Bench\AbstractSharedBench;
 use Spryker\Yves\Kernel\ClassResolver\Factory\FactoryResolver;
 use Spryker\Yves\PerformanceAudit\PerformanceAuditFactory;
 
-class AbstractBench extends AbstractSharedBench
+trait FactoryTrait
 {
-    protected const LOGIN_URL = '/login';
-    protected const LOGIN_CSRF_FORM_ELEMENT_ID = 'loginForm__token';
-    protected const LOGIN_EMAIL = 'spencor.hopkin@spryker.com';
-    protected const LOGIN_PASSWORD = 'change123';
-    protected const LOGIN_FORM_NAME = 'loginForm';
-
     /**
      * @var \Spryker\Yves\PerformanceAudit\PerformanceAuditFactory
      */

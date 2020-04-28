@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<transfers xmlns="spryker:transfer-01"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="spryker:transfer-01 http://static.spryker.com/transfer-01.xsd">
+
+    <transfer name="PhpBenchConfiguration">
+        <property name="testDirectory" type="string"/>
+        <property name="iterations" type="int"/>
+        <property name="revolutions" type="int"/>
+    </transfer>
+
+</transfers>

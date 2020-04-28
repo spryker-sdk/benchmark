@@ -26,4 +26,63 @@ interface RequestInterface
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function sendRequest(string $method, string $url, array $options, int $expectedStatusCode = 200): ResponseInterface;
+
+    /**
+     * @param string $url
+     * @param int $expectedStatusCode
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function sendGetRequest(string $url, int $expectedStatusCode = 200): ResponseInterface;
+
+    /**
+     * @param string $url
+     * @param array $body
+     * @param int $expectedStatusCode
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function sendPostRequest(string $url, array $body = [], int $expectedStatusCode = 200): ResponseInterface;
+
+    /**
+     * @param string $url
+     * @param array $body
+     * @param int $expectedStatusCode
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function sendDeleteRequest(string $url, array $body = [], int $expectedStatusCode = 200): ResponseInterface;
+
+    /**
+     * @param string $url
+     * @param array $body
+     * @param int $expectedStatusCode
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function sendPutRequest(string $url, array $body = [], int $expectedStatusCode = 200): ResponseInterface;
+
+    /**
+     * @param string $url
+     * @param array $body
+     * @param int $expectedStatusCode
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function sendPatchRequest(string $url, array $body = [], int $expectedStatusCode = 200): ResponseInterface;
+
+    /**
+     * @param string $headerName
+     * @param string $headerValue
+     *
+     * @return $this
+     */
+    public function addHeader(string $headerName, string $headerValue);
+
+    /**
+     * @param string $headerName
+     *
+     * @return bool
+     */
+    public function hasHeader(string $headerName): bool;
 }

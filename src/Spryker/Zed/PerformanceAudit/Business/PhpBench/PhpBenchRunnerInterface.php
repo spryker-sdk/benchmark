@@ -7,14 +7,14 @@
 
 namespace Spryker\Zed\PerformanceAudit\Business\PhpBench;
 
+use Generated\Shared\Transfer\PhpBenchConfigurationTransfer;
+
 interface PhpBenchRunnerInterface
 {
     /**
-     * @param string|null $testDirectoryPath
-     * @param int|null $iterations
-     * @param int|null $revs
+     * @param \Generated\Shared\Transfer\PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer
      *
-     * @return int|null Exit code
+     * @return int
      */
-    public function run(?string $testDirectoryPath = null, ?int $iterations = null, ?int $revs = null): ?int;
+    public function run(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): int;
 }

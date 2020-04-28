@@ -5,10 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\PerformanceAudit\Business\Exception;
+namespace Spryker\Shared\PerformanceAudit\Helper\CsrfToken;
 
-use Exception;
-
-class InvalidConfigurationException extends Exception
+interface CsrfTokenInterface
 {
+    /**
+     * @return string
+     */
+    public function getToken(): string;
 }
