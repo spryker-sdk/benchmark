@@ -5,12 +5,10 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Shared\PerformanceAudit\Helper\CsrfToken;
+namespace Spryker\Shared\PerformanceAudit\Exception;
 
-interface CsrfTokenInterface
+use Exception;
+
+class HttpMethodNotAllowed extends Exception
 {
-    /**
-     * @return string
-     */
-    public function getToken(): string;
 }

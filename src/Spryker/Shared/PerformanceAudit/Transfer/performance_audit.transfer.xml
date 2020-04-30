@@ -9,4 +9,13 @@
         <property name="revolutions" type="int"/>
     </transfer>
 
+    <transfer name="LoginHeader">
+        <property name="name" type="string"/>
+        <property name="value" type="string"/>
+    </transfer>
+
+    <transfer name="PhpBenchCsrfTokenConfig">
+        <property name="url" type="string"/>
+        <property name="elementId" type="string"/>
+    </transfer>
 </transfers>

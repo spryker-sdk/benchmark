@@ -7,13 +7,15 @@
 
 namespace Spryker\Shared\PerformanceAudit\Helper\Login;
 
+use Generated\Shared\Transfer\LoginHeaderTransfer;
+
 interface LoginHelperInterface
 {
     /**
      * @param string $email
      * @param string $password
      *
-     * @return void
+     * @return \Generated\Shared\Transfer\LoginHeaderTransfer|null
      */
-    public function login(string $email, string $password): void;
+    public function login(string $email, string $password): ?LoginHeaderTransfer;
 }

@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\PerformanceAudit\Business\FactoryTrait;
+namespace Spryker\Zed\PerformanceAudit\Business\FactoryResolver;
 
 use Spryker\Zed\Kernel\ClassResolver\Business\BusinessFactoryResolver;
 use Spryker\Zed\PerformanceAudit\Business\PerformanceAuditBusinessFactory;
 
-trait FactoryTrait
+final class FactoryResolver
 {
     /**
      * @var \Spryker\Zed\PerformanceAudit\Business\PerformanceAuditBusinessFactory
@@ -20,7 +20,7 @@ trait FactoryTrait
     /**
      * @return \Spryker\Zed\PerformanceAudit\Business\PerformanceAuditBusinessFactory
      */
-    protected function getFactory(): PerformanceAuditBusinessFactory
+    public function getFactory(): PerformanceAuditBusinessFactory
     {
         if ($this->factory === null) {
             $this->factory = $this->resolveFactory();

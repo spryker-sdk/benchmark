@@ -16,6 +16,8 @@ use Symfony\Component\Process\Process;
 
 class PhpBenchRunner implements PhpBenchRunnerInterface
 {
+    protected const EXIT_CODE_SUCCESS = 0;
+
     /**
      * @var \Spryker\Zed\PerformanceAudit\PerformanceAuditConfig
      */
@@ -44,7 +46,16 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
             );
         }
 
-        $exitCode = 0;
+        return $this->runTestsForAllDirectories($phpBenchConfigurationTransfer);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer
+     *
+     * @return int
+     */
+    protected function runTestsForAllDirectories(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): int
+    {
         $testDirectories = $this->findTestDirectories();
         foreach ($testDirectories as $testDirectoryInformation) {
             $commandExitCode = $this->runCommand(
@@ -52,14 +63,13 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
                 $phpBenchConfigurationTransfer->getIterations(),
                 $phpBenchConfigurationTransfer->getRevolutions()
             );
-            if ($commandExitCode !== 0) {
-                $exitCode = $commandExitCode;
 
-                break;
+            if ($commandExitCode !== static::EXIT_CODE_SUCCESS) {
+                return $commandExitCode;
             }
         }
 
-        return $exitCode;
+        return static::EXIT_CODE_SUCCESS;
     }
 
     /**
