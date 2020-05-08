@@ -10,7 +10,7 @@ namespace Spryker\Zed\PerformanceAudit\Business\FactoryResolver;
 use Spryker\Zed\Kernel\ClassResolver\Business\BusinessFactoryResolver;
 use Spryker\Zed\PerformanceAudit\Business\PerformanceAuditBusinessFactory;
 
-final class FactoryResolver
+class FactoryResolver
 {
     /**
      * @var \Spryker\Zed\PerformanceAudit\Business\PerformanceAuditBusinessFactory

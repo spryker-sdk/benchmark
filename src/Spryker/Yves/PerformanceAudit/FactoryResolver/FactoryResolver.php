@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Yves\PerformanceAudit\FactoryTrait;
+namespace Spryker\Yves\PerformanceAudit\FactoryResolver;
 
-use Spryker\Yves\Kernel\ClassResolver\Factory\FactoryResolver;
+use Spryker\Yves\Kernel\ClassResolver\Factory\FactoryResolver as KernelFactoryResolver;
 use Spryker\Yves\PerformanceAudit\PerformanceAuditFactory;
 
-trait FactoryTrait
+class FactoryResolver
 {
     /**
      * @var \Spryker\Yves\PerformanceAudit\PerformanceAuditFactory
@@ -20,7 +20,7 @@ trait FactoryTrait
     /**
      * @return \Spryker\Yves\PerformanceAudit\PerformanceAuditFactory
      */
-    protected function getFactory(): PerformanceAuditFactory
+    public function getFactory(): PerformanceAuditFactory
     {
         if ($this->factory === null) {
             $this->factory = $this->resolveFactory();
@@ -43,8 +43,8 @@ trait FactoryTrait
     /**
      * @return \Spryker\Yves\Kernel\ClassResolver\Factory\FactoryResolver
      */
-    private function getFactoryResolver(): FactoryResolver
+    private function getFactoryResolver(): KernelFactoryResolver
     {
-        return new FactoryResolver();
+        return new KernelFactoryResolver();
     }
 }

@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Glue\PerformanceAudit\FactoryTrait;
+namespace Spryker\Glue\PerformanceAudit\FactoryResolver;
 
-use Spryker\Glue\Kernel\ClassResolver\Factory\FactoryResolver;
+use Spryker\Glue\Kernel\ClassResolver\Factory\FactoryResolver as KernelFactoryResolver;
 use Spryker\Glue\PerformanceAudit\PerformanceAuditFactory;
 
-trait FactoryTrait
+class FactoryResolver
 {
     /**
      * @var \Spryker\Glue\PerformanceAudit\PerformanceAuditFactory
@@ -20,7 +20,7 @@ trait FactoryTrait
     /**
      * @return \Spryker\Glue\PerformanceAudit\PerformanceAuditFactory
      */
-    protected function getFactory(): PerformanceAuditFactory
+    public function getFactory(): PerformanceAuditFactory
     {
         if ($this->factory === null) {
             $this->factory = $this->resolveFactory();
@@ -32,7 +32,7 @@ trait FactoryTrait
     /**
      * @return \Spryker\Glue\PerformanceAudit\PerformanceAuditFactory
      */
-    private function resolveFactory()
+    private function resolveFactory(): PerformanceAuditFactory
     {
         /** @var \Spryker\Glue\PerformanceAudit\PerformanceAuditFactory $factory */
         $factory = $this->getFactoryResolver()->resolve(self::class);
@@ -43,8 +43,8 @@ trait FactoryTrait
     /**
      * @return \Spryker\Glue\Kernel\ClassResolver\Factory\FactoryResolver
      */
-    private function getFactoryResolver(): FactoryResolver
+    private function getFactoryResolver(): KernelFactoryResolver
     {
-        return new FactoryResolver();
+        return new KernelFactoryResolver();
     }
 }

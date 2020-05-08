@@ -56,7 +56,7 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
      */
     protected function runTestsForAllDirectories(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): int
     {
-        $testDirectories = $this->findTestDirectories();
+        $testDirectories = $this->findDirectoriesUnderPath($this->config->getTestsFolder());
         foreach ($testDirectories as $testDirectoryInformation) {
             $commandExitCode = $this->runCommand(
                 $testDirectoryInformation->getRealPath(),
@@ -117,12 +117,35 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
      */
     protected function getPathToBootstrap(string $path): string
     {
-        $filePath = sprintf('%s/%s', $path, 'bootstrap.php');
-        if (!file_exists($filePath)) {
-            throw new InvalidBootstrapException(sprintf('Bootstrap file is missing in the `%s` folder', $path));
+        $filePath = sprintf('%s' . DIRECTORY_SEPARATOR . '%s', $path, 'bootstrap.php');
+        if (file_exists($filePath)) {
+            return $filePath;
+        }
+        $defaultBootstrapFile = $this->findDefaultBootstrapFile($path);
+
+        if (!$defaultBootstrapFile) {
+            throw new InvalidBootstrapException('Unable to find bootstrap file. Please add one or check if tests folder name contains tests layer name.');
         }
 
-        return $filePath;
+        return $defaultBootstrapFile;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return string|null
+     */
+    protected function findDefaultBootstrapFile(string $path): ?string
+    {
+        $defaultBootstrapFolders = $this->findDirectoriesUnderPath(realpath(__DIR__ . '/../../../../../../bootstrap'));
+        $pathParts = explode(DIRECTORY_SEPARATOR, $path);
+        foreach ($defaultBootstrapFolders as $defaultBootstrapFolder) {
+            if (in_array(mb_strtoupper($defaultBootstrapFolder->getBasename()), mb_strtoupper($pathParts), true)) {
+                return sprintf('%s' . DIRECTORY_SEPARATOR . '%s', $defaultBootstrapFolder->getRealPath(), 'bootstrap.php');
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -136,14 +159,16 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
     }
 
     /**
+     * @param string $path
+     *
      * @return \Symfony\Component\Finder\Finder
      */
-    protected function findTestDirectories(): Finder
+    protected function findDirectoriesUnderPath(string $path): Finder
     {
         $finder = new Finder();
 
         $finder->directories()
-            ->in($this->config->getTestsFolder())
+            ->in($path)
             ->depth('== 0');
 
         return $finder;

@@ -5,16 +5,15 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\PerformanceAudit\Business\Helper\CsrfToken;
+namespace Spryker\Shared\PerformanceAudit\Helper\CsrfToken;
 
 use DOMDocument;
 use DOMElement;
 use Generated\Shared\Transfer\PhpBenchCsrfTokenConfigTransfer;
 use Psr\Http\Message\ResponseInterface;
+use Spryker\Client\PerformanceAudit\PerformanceAuditClientInterface;
 use Spryker\Shared\PerformanceAudit\Exception\NoCsrfTokenElementException;
-use Spryker\Shared\PerformanceAudit\Helper\CsrfToken\CsrfTokenHelperInterface;
 use Spryker\Shared\PerformanceAudit\Request\RequestBuilderInterface;
-use Spryker\Zed\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientInterface;
 
 class FormCsrfTokenHelper implements CsrfTokenHelperInterface
 {
@@ -26,20 +25,20 @@ class FormCsrfTokenHelper implements CsrfTokenHelperInterface
     protected $requestBuilder;
 
     /**
-     * @var \Spryker\Zed\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientInterface
+     * @var \Spryker\Client\PerformanceAudit\PerformanceAuditClientInterface
      */
-    protected $guzzleClient;
+    protected $performanceAuditClient;
 
     /**
      * @param \Spryker\Shared\PerformanceAudit\Request\RequestBuilderInterface $requestBuilder
-     * @param \Spryker\Zed\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientInterface $guzzleClient
+     * @param \Spryker\Client\PerformanceAudit\PerformanceAuditClientInterface $performanceAuditClient
      */
     public function __construct(
         RequestBuilderInterface $requestBuilder,
-        PerformanceAuditToGuzzleClientInterface $guzzleClient
+        PerformanceAuditClientInterface $performanceAuditClient
     ) {
         $this->requestBuilder = $requestBuilder;
-        $this->guzzleClient = $guzzleClient;
+        $this->performanceAuditClient = $performanceAuditClient;
     }
 
     /**
@@ -69,7 +68,7 @@ class FormCsrfTokenHelper implements CsrfTokenHelperInterface
     {
         $request = $this->requestBuilder->buildRequest(RequestBuilderInterface::METHOD_GET, $url);
 
-        return $this->guzzleClient->send($request);
+        return $this->performanceAuditClient->sendRequest($request);
     }
 
     /**

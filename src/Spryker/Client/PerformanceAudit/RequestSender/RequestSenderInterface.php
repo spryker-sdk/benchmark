@@ -5,17 +5,19 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\PerformanceAudit\Dependency\Guzzle;
+namespace Spryker\Client\PerformanceAudit\RequestSender;
 
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-interface PerformanceAuditToGuzzleClientInterface
+interface RequestSenderInterface
 {
     /**
      * @param \Psr\Http\Message\RequestInterface $request
      * @param array $options
+     * @param int $expectedStatusCode
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function send(RequestInterface $request, array $options = []);
+    public function send(RequestInterface $request, array $options = [], int $expectedStatusCode = 200): ResponseInterface;
 }

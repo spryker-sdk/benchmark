@@ -5,23 +5,22 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\PerformanceAudit\Business\Helper\Http;
+namespace Spryker\Client\PerformanceAudit\RequestSender;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Spryker\Shared\PerformanceAudit\Exception\UnexpectedStatusCodeException;
-use Spryker\Shared\PerformanceAudit\Helper\Http\HttpHelperInterface;
-use Spryker\Zed\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientInterface;
+use Spryker\Client\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientInterface;
+use Spryker\Client\PerformanceAudit\Exception\UnexpectedStatusCodeException;
 
-class HttpHelper implements HttpHelperInterface
+class RequestSender implements RequestSenderInterface
 {
     /**
-     * @var \Spryker\Zed\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientInterface
+     * @var \Spryker\Client\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientInterface
      */
     protected $guzzleClient;
 
     /**
-     * @param \Spryker\Zed\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientInterface $guzzleClient
+     * @param \Spryker\Client\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientInterface $guzzleClient
      */
     public function __construct(PerformanceAuditToGuzzleClientInterface $guzzleClient)
     {
@@ -33,7 +32,7 @@ class HttpHelper implements HttpHelperInterface
      * @param array $options
      * @param int $expectedStatusCode
      *
-     * @throws \Spryker\Shared\PerformanceAudit\Exception\UnexpectedStatusCodeException
+     * @throws \Spryker\Client\PerformanceAudit\Exception\UnexpectedStatusCodeException
      *
      * @return \Psr\Http\Message\ResponseInterface
      */

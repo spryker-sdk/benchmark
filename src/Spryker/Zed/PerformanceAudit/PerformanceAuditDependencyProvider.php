@@ -7,11 +7,9 @@
 
 namespace Spryker\Zed\PerformanceAudit;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
-use Spryker\Zed\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientBridge;
 use Spryker\Zed\PerformanceAudit\Dependency\Service\PerformanceAuditToUtilEncodingServiceBridge;
 
 /**
@@ -20,7 +18,7 @@ use Spryker\Zed\PerformanceAudit\Dependency\Service\PerformanceAuditToUtilEncodi
 class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const SERVICE_UTIL_ENCODING = 'SERVICE_UTIL_ENCODING';
-    public const CLIENT_GUZZLE = 'CLIENT_GUZZLE';
+    public const CLIENT_PERFORMANCE_AUDIT = 'CLIENT_PERFORMANCE_AUDIT';
     public const COOKIE_JAR = 'COOKIE_JAR';
 
     /**
@@ -30,7 +28,7 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      */
     public function provideBusinessLayerDependencies(Container $container): Container
     {
-        $container = $this->addGuzzleClient($container);
+        $container = $this->addPerformanceAuditClient($container);
         $container = $this->addCookieJar($container);
         $container = $this->addUtilEncodingService($container);
 
@@ -42,10 +40,10 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      *
      * @return \Spryker\Zed\Kernel\Container
      */
-    protected function addGuzzleClient(Container $container): Container
+    protected function addPerformanceAuditClient(Container $container): Container
     {
-        $container->set(static::CLIENT_GUZZLE, function () {
-            return new PerformanceAuditToGuzzleClientBridge(new Client());
+        $container->set(static::CLIENT_PERFORMANCE_AUDIT, function (Container $container) {
+            return $container->getLocator()->performanceAudit->client();
         });
 
         return $container;

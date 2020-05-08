@@ -7,15 +7,15 @@
 
 namespace Spryker\Yves\PerformanceAudit\Request;
 
-use Spryker\Shared\PerformanceAudit\Request\Request;
+use GuzzleHttp\Psr7\Request;
+use Psr\Http\Message\RequestInterface;
+use Spryker\Shared\PerformanceAudit\Exception\HttpMethodNotAllowed;
 use Spryker\Shared\PerformanceAudit\Request\RequestBuilderInterface;
-use Spryker\Shared\PerformanceAudit\Request\RequestInterface;
-use Spryker\Yves\PerformanceAudit\FactoryTrait\FactoryTrait;
+use Spryker\Yves\PerformanceAudit\Dependency\Service\PerformanceAuditToUtilEncodingServiceInterface;
+use Spryker\Yves\PerformanceAudit\PerformanceAuditConfig;
 
 class RequestBuilder implements RequestBuilderInterface
 {
-    use FactoryTrait;
-
     /**
      * @var string[]
      */
@@ -27,12 +27,106 @@ class RequestBuilder implements RequestBuilderInterface
     ];
 
     /**
-     * @return \Spryker\Shared\PerformanceAudit\Request\RequestInterface
+     * @var \Spryker\Yves\PerformanceAudit\Dependency\Service\PerformanceAuditToUtilEncodingServiceInterface
      */
-    public function buildRequest(): RequestInterface
-    {
-        $factory = $this->getFactory();
+    protected $utilEncodingService;
 
-        return new Request($factory->getGuzzleClient(), $factory->getConfig()->getRequestBaseUrl(), $this->headers);
+    /**
+     * @var \Spryker\Yves\PerformanceAudit\PerformanceAuditConfig
+     */
+    protected $performanceAuditConfig;
+
+    /**
+     * @param \Spryker\Yves\PerformanceAudit\Dependency\Service\PerformanceAuditToUtilEncodingServiceInterface $utilEncodingService
+     * @param \Spryker\Yves\PerformanceAudit\PerformanceAuditConfig $performanceAuditConfig
+     */
+    public function __construct(
+        PerformanceAuditToUtilEncodingServiceInterface $utilEncodingService,
+        PerformanceAuditConfig $performanceAuditConfig
+    ) {
+        $this->utilEncodingService = $utilEncodingService;
+        $this->performanceAuditConfig = $performanceAuditConfig;
+    }
+
+    /**
+     * @param string $method
+     * @param string $uri
+     * @param array $headers
+     * @param mixed $body
+     *
+     * @return \Psr\Http\Message\RequestInterface
+     */
+    public function buildRequest(string $method, string $uri, array $headers = [], $body = null): RequestInterface
+    {
+        $this->assertMethod($method);
+
+        return new Request(
+            $method,
+            $this->buildUri($uri),
+            $this->buildHeaders($headers),
+            $this->buildBody($body)
+        );
+    }
+
+    /**
+     * @param string $method
+     *
+     * @throws \Spryker\Shared\PerformanceAudit\Exception\HttpMethodNotAllowed
+     *
+     * @return void
+     */
+    protected function assertMethod(string $method): void
+    {
+        $allowedMethods = [
+            static::METHOD_POST,
+            static::METHOD_GET,
+            static::METHOD_DELETE,
+            static::METHOD_PATCH,
+            static::METHOD_PUT,
+        ];
+
+        if (!in_array($method, $allowedMethods, true)) {
+            throw new HttpMethodNotAllowed(sprintf('Not allowed HTTP method `%s`', $method));
+        }
+    }
+
+    /**
+     * @param string $uri
+     *
+     * @return string
+     */
+    protected function buildUri(string $uri): string
+    {
+        return sprintf('%s%s', $this->performanceAuditConfig->getRequestBaseUrl(), $uri);
+    }
+
+    /**
+     * @param string[] $headers
+     *
+     * @return string[]
+     */
+    protected function buildHeaders(array $headers): array
+    {
+        $headers = array_merge($this->headers, $headers);
+
+        return $headers;
+    }
+
+    /**
+     * @param mixed $body
+     *
+     * @return mixed
+     */
+    protected function buildBody($body)
+    {
+        if (!$body) {
+            return null;
+        }
+
+        if (is_array($body)) {
+            return $this->utilEncodingService->encodeJson($body);
+        }
+
+        return $body;
     }
 }

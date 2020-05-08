@@ -7,16 +7,16 @@
 
 namespace Spryker\Glue\PerformanceAudit;
 
-use GuzzleHttp\Client;
 use Spryker\Glue\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Glue\Kernel\Container;
+use Spryker\Glue\PerformanceAudit\Dependency\Service\PerformanceAuditToUtilEncodingServiceBridge;
 
 /**
  * @method \Spryker\Glue\PerformanceAudit\PerformanceAuditConfig getConfig()
  */
 class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvider
 {
-    public const CLIENT_GUZZLE = 'CLIENT_GUZZLE';
+    public const SERVICE_UTIL_ENCODING = 'SERVICE_UTIL_ENCODING';
 
     /**
      * @param \Spryker\Glue\Kernel\Container $container
@@ -25,7 +25,7 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      */
     public function provideDependencies(Container $container): Container
     {
-        $container = $this->addGuzzleClient($container);
+        $container = $this->addUtilEncodingService($container);
 
         return $container;
     }
@@ -35,10 +35,12 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
      *
      * @return \Spryker\Glue\Kernel\Container
      */
-    protected function addGuzzleClient(Container $container): Container
+    protected function addUtilEncodingService(Container $container): Container
     {
-        $container->set(static::CLIENT_GUZZLE, function (Container $container) {
-            return new Client();
+        $container->set(static::SERVICE_UTIL_ENCODING, function (Container $container) {
+            return new PerformanceAuditToUtilEncodingServiceBridge(
+                $container->getLocator()->utilEncoding()->service()
+            );
         });
 
         return $container;

@@ -10,10 +10,11 @@ namespace Spryker\Zed\PerformanceAudit\Business\Helper\Login;
 use Generated\Shared\Transfer\LoginHeaderTransfer;
 use Generated\Shared\Transfer\PhpBenchCsrfTokenConfigTransfer;
 use GuzzleHttp\Cookie\CookieJarInterface;
+use Spryker\Client\PerformanceAudit\PerformanceAuditClientInterface;
+use Spryker\Shared\PerformanceAudit\Exception\LoginFailedException;
 use Spryker\Shared\PerformanceAudit\Helper\CsrfToken\CsrfTokenHelperInterface;
 use Spryker\Shared\PerformanceAudit\Helper\Login\LoginHelperInterface;
 use Spryker\Shared\PerformanceAudit\Request\RequestBuilderInterface;
-use Spryker\Zed\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientInterface;
 
 class LoginHelper implements LoginHelperInterface
 {
@@ -24,9 +25,9 @@ class LoginHelper implements LoginHelperInterface
     protected const COOKIE_DATA_INDEX = 1;
 
     /**
-     * @var \Spryker\Zed\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientInterface
+     * @var \Spryker\Client\PerformanceAudit\PerformanceAuditClientInterface
      */
-    protected $guzzleClient;
+    protected $performanceAuditClient;
 
     /**
      * @var \Spryker\Shared\PerformanceAudit\Request\RequestBuilderInterface
@@ -44,19 +45,19 @@ class LoginHelper implements LoginHelperInterface
     protected $csrfToken;
 
     /**
-     * @param \Spryker\Zed\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientInterface $guzzleClient
+     * @param \Spryker\Client\PerformanceAudit\PerformanceAuditClientInterface $performanceAuditClient
      * @param \Spryker\Shared\PerformanceAudit\Request\RequestBuilderInterface $requestBuilder
      * @param \GuzzleHttp\Cookie\CookieJarInterface $cookieJar
      * @param \Spryker\Shared\PerformanceAudit\Helper\CsrfToken\CsrfTokenHelperInterface $csrfToken
      */
     public function __construct(
-        PerformanceAuditToGuzzleClientInterface $guzzleClient,
+        PerformanceAuditClientInterface $performanceAuditClient,
         RequestBuilderInterface $requestBuilder,
         CookieJarInterface $cookieJar,
         CsrfTokenHelperInterface $csrfToken
     ) {
 
-        $this->guzzleClient = $guzzleClient;
+        $this->performanceAuditClient = $performanceAuditClient;
         $this->requestBuilder = $requestBuilder;
         $this->cookieJar = $cookieJar;
         $this->csrfToken = $csrfToken;
@@ -66,14 +67,14 @@ class LoginHelper implements LoginHelperInterface
      * @param string $email
      * @param string $password
      *
-     * @return \Generated\Shared\Transfer\LoginHeaderTransfer|null
+     * @return \Generated\Shared\Transfer\LoginHeaderTransfer
      */
-    public function login(string $email, string $password): ?LoginHeaderTransfer
+    public function login(string $email, string $password): LoginHeaderTransfer
     {
         $request = $this->requestBuilder->buildRequest(RequestBuilderInterface::METHOD_POST, static::LOGIN_URL);
         $options = $this->buildLoginOptions($this->cookieJar, $email, $password);
 
-        $this->guzzleClient->send($request, $options);
+        $this->performanceAuditClient->sendRequest($request, $options);
 
         return $this->getLoginHeaderFromCookieJar($this->cookieJar);
     }
@@ -102,16 +103,18 @@ class LoginHelper implements LoginHelperInterface
     /**
      * @param \GuzzleHttp\Cookie\CookieJarInterface $cookieJar
      *
-     * @return \Generated\Shared\Transfer\LoginHeaderTransfer|null
+     * @throws \Spryker\Shared\PerformanceAudit\Exception\LoginFailedException
+     *
+     * @return \Generated\Shared\Transfer\LoginHeaderTransfer
      */
-    protected function getLoginHeaderFromCookieJar(CookieJarInterface $cookieJar): ?LoginHeaderTransfer
+    protected function getLoginHeaderFromCookieJar(CookieJarInterface $cookieJar): LoginHeaderTransfer
     {
         $data = $cookieJar->toArray();
 
         $data = $data[static::COOKIE_DATA_INDEX] ?? null;
 
         if (!$data) {
-            return null;
+            throw new LoginFailedException('Cookie with login data is missing in response. Please check providede credentials');
         }
 
         return (new LoginHeaderTransfer())

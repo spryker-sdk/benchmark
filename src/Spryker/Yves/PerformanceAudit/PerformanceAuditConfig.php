@@ -13,6 +13,8 @@ use Spryker\Yves\Kernel\AbstractBundleConfig;
 class PerformanceAuditConfig extends AbstractBundleConfig
 {
     /**
+     * @api
+     *
      * @return string
      */
     public function getRequestBaseUrl(): string

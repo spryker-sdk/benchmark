@@ -9,6 +9,6 @@ namespace Spryker\Shared\PerformanceAudit\Exception;
 
 use Exception;
 
-class UnexpectedStatusCodeException extends Exception
+class LoginFailedException extends Exception
 {
 }

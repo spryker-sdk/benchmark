@@ -10,12 +10,11 @@ namespace Spryker\Glue\PerformanceAudit;
 use Spryker\Shared\PerformanceAudit\PerformanceAuditConstants;
 use Spryker\Yves\Kernel\AbstractBundleConfig;
 
-/**
- * @package Spryker\Glue\PerformanceAudit
- */
 class PerformanceAuditConfig extends AbstractBundleConfig
 {
     /**
+     * @api
+     *
      * @return string
      */
     public function getRequestBaseUrl(): string

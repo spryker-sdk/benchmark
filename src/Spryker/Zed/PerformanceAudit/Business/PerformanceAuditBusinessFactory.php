@@ -8,18 +8,18 @@
 namespace Spryker\Zed\PerformanceAudit\Business;
 
 use GuzzleHttp\Cookie\CookieJarInterface;
+use Spryker\Client\PerformanceAudit\PerformanceAuditClientInterface;
 use Spryker\Shared\PerformanceAudit\Helper\CsrfToken\CsrfTokenHelperInterface;
+use Spryker\Shared\PerformanceAudit\Helper\CsrfToken\FormCsrfTokenHelper;
+use Spryker\Shared\PerformanceAudit\Helper\Http\HttpHelper;
 use Spryker\Shared\PerformanceAudit\Helper\Http\HttpHelperInterface;
 use Spryker\Shared\PerformanceAudit\Helper\Login\LoginHelperInterface;
 use Spryker\Shared\PerformanceAudit\Request\RequestBuilderInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
-use Spryker\Zed\PerformanceAudit\Business\Helper\CsrfToken\FormCsrfTokenHelper;
-use Spryker\Zed\PerformanceAudit\Business\Helper\Http\HttpHelper;
 use Spryker\Zed\PerformanceAudit\Business\Helper\Login\LoginHelper;
 use Spryker\Zed\PerformanceAudit\Business\PhpBench\PhpBenchRunner;
 use Spryker\Zed\PerformanceAudit\Business\PhpBench\PhpBenchRunnerInterface;
 use Spryker\Zed\PerformanceAudit\Business\Request\RequestBuilder;
-use Spryker\Zed\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientInterface;
 use Spryker\Zed\PerformanceAudit\Dependency\Service\PerformanceAuditToUtilEncodingServiceInterface;
 use Spryker\Zed\PerformanceAudit\PerformanceAuditDependencyProvider;
 
@@ -50,7 +50,7 @@ class PerformanceAuditBusinessFactory extends AbstractBusinessFactory
     public function createLoginHelper(): LoginHelperInterface
     {
         return new LoginHelper(
-            $this->getGuzzleClient(),
+            $this->getPerformanceAuditClient(),
             $this->createRequestBuilder(),
             $this->getCookieJar(),
             $this->createCsrfTokenHelper()
@@ -62,7 +62,7 @@ class PerformanceAuditBusinessFactory extends AbstractBusinessFactory
      */
     public function createHttpHelper(): HttpHelperInterface
     {
-        return new HttpHelper($this->getGuzzleClient());
+        return new HttpHelper($this->getPerformanceAuditClient());
     }
 
     /**
@@ -70,15 +70,15 @@ class PerformanceAuditBusinessFactory extends AbstractBusinessFactory
      */
     public function createCsrfTokenHelper(): CsrfTokenHelperInterface
     {
-        return new FormCsrfTokenHelper($this->createRequestBuilder(), $this->getGuzzleClient());
+        return new FormCsrfTokenHelper($this->createRequestBuilder(), $this->getPerformanceAuditClient());
     }
 
     /**
-     * @return \Spryker\Zed\PerformanceAudit\Dependency\Guzzle\PerformanceAuditToGuzzleClientInterface
+     * @return \Spryker\Client\PerformanceAudit\PerformanceAuditClientInterface
      */
-    public function getGuzzleClient(): PerformanceAuditToGuzzleClientInterface
+    public function getPerformanceAuditClient(): PerformanceAuditClientInterface
     {
-        return $this->getProvidedDependency(PerformanceAuditDependencyProvider::CLIENT_GUZZLE);
+        return $this->getProvidedDependency(PerformanceAuditDependencyProvider::CLIENT_PERFORMANCE_AUDIT);
     }
 
     /**

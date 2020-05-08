@@ -7,42 +7,78 @@
 
 namespace Spryker\Glue\PerformanceAudit\Helper\Login;
 
-use Spryker\Glue\PerformanceAudit\FactoryTrait\FactoryTrait;
+use Generated\Shared\Transfer\LoginHeaderTransfer;
+use Psr\Http\Message\ResponseInterface;
+use Spryker\Client\PerformanceAudit\PerformanceAuditClientInterface;
+use Spryker\Glue\PerformanceAudit\Dependency\Service\PerformanceAuditToUtilEncodingServiceInterface;
+use Spryker\Shared\PerformanceAudit\Exception\LoginFailedException;
 use Spryker\Shared\PerformanceAudit\Helper\Login\LoginHelperInterface;
 use Spryker\Shared\PerformanceAudit\Request\RequestBuilderInterface;
 
 class LoginHelper implements LoginHelperInterface
 {
-    use FactoryTrait;
-
     protected const LOGIN_ENDPOINT = '/access-tokens';
 
     /**
-     * @var \Spryker\Shared\PerformanceAudit\Request\RequestInterface
+     * @var \Spryker\Client\PerformanceAudit\PerformanceAuditClientInterface
      */
-    protected $request;
+    protected $performanceAuditClient;
 
     /**
-     * @param \Spryker\Shared\PerformanceAudit\Request\RequestBuilderInterface $requestBuilder
+     * @var \Spryker\Shared\PerformanceAudit\Request\RequestBuilderInterface
      */
-    public function __construct(RequestBuilderInterface $requestBuilder)
-    {
-        $this->request = $requestBuilder->buildRequest();
+    protected $requestBuilder;
+
+    /**
+     * @var \Spryker\Glue\PerformanceAudit\Dependency\Service\PerformanceAuditToUtilEncodingServiceInterface
+     */
+    protected $utilEncodingService;
+
+    /**
+     * @param \Spryker\Client\PerformanceAudit\PerformanceAuditClientInterface $performanceAuditClient
+     * @param \Spryker\Shared\PerformanceAudit\Request\RequestBuilderInterface $requestBuilder
+     * @param \Spryker\Glue\PerformanceAudit\Dependency\Service\PerformanceAuditToUtilEncodingServiceInterface $utilEncodingService
+     */
+    public function __construct(
+        PerformanceAuditClientInterface $performanceAuditClient,
+        RequestBuilderInterface $requestBuilder,
+        PerformanceAuditToUtilEncodingServiceInterface $utilEncodingService
+    ) {
+
+        $this->performanceAuditClient = $performanceAuditClient;
+        $this->requestBuilder = $requestBuilder;
+        $this->utilEncodingService = $utilEncodingService;
     }
 
     /**
      * @param string $email
      * @param string $password
      *
-     * @return void
+     * @return \Generated\Shared\Transfer\LoginHeaderTransfer
      */
-    public function login(string $email, string $password): void
+    public function login(string $email, string $password): LoginHeaderTransfer
     {
-        if ($this->request->hasHeader('Authorization')) {
-            return;
-        }
+        $request = $this->requestBuilder->buildRequest(
+            RequestBuilderInterface::METHOD_POST,
+            static::LOGIN_ENDPOINT,
+            [],
+            $this->buildLoginBody($email, $password)
+        );
 
-        $loginRequestData = [
+        $response = $this->performanceAuditClient->sendRequest($request);
+
+        return $this->buildLoginHeaderTransferAuthorizationToken($response);
+    }
+
+    /**
+     * @param string $email
+     * @param string $password
+     *
+     * @return array
+     */
+    protected function buildLoginBody(string $email, string $password): array
+    {
+        return [
             'data' => [
                 'type' => 'access-tokens',
                 'attributes' => [
@@ -51,23 +87,26 @@ class LoginHelper implements LoginHelperInterface
                 ],
             ],
         ];
-
-        $response = $this->request->sendPostRequest(static::LOGIN_ENDPOINT, $loginRequestData);
-
-        $responseData = json_decode($response->getBody()->getContents(), true);
-
-        $this->request->addHeader('Authorization', $this->buildAuthorizationToken($responseData));
     }
 
     /**
-     * @param array $responseData
+     * @param \Psr\Http\Message\ResponseInterface $response
      *
-     * @return string
+     * @throws \Spryker\Shared\PerformanceAudit\Exception\LoginFailedException
+     *
+     * @return \Generated\Shared\Transfer\LoginHeaderTransfer
      */
-    protected function buildAuthorizationToken(array $responseData): string
+    protected function buildLoginHeaderTransferAuthorizationToken(ResponseInterface $response): LoginHeaderTransfer
     {
-        $attributes = $responseData['data']['attributes'];
+        $responseData = $this->utilEncodingService->decodeJson($response->getBody()->getContents(), true);
+        $attributes = $responseData['data']['attributes'] ?? null;
 
-        return sprintf('%s $%s', $attributes['tokenType'], $attributes['accessToken']);
+        if (!$attributes) {
+            throw new LoginFailedException('Cookie with login data is missing in response. Please check provided credentials');
+        }
+
+        return (new LoginHeaderTransfer())
+            ->setName('Authorization')
+            ->setValue(sprintf('%s $%s', $attributes['tokenType'], $attributes['accessToken']));
     }
 }

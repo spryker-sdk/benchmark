@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\PerformanceAudit\Dependency\Guzzle;
+namespace Spryker\Client\PerformanceAudit\Dependency\Guzzle;
 
 use Psr\Http\Message\RequestInterface;
 

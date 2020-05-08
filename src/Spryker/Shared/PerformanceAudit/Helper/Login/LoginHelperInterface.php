@@ -15,7 +15,7 @@ interface LoginHelperInterface
      * @param string $email
      * @param string $password
      *
-     * @return \Generated\Shared\Transfer\LoginHeaderTransfer|null
+     * @return \Generated\Shared\Transfer\LoginHeaderTransfer
      */
-    public function login(string $email, string $password): ?LoginHeaderTransfer;
+    public function login(string $email, string $password): LoginHeaderTransfer;
 }
