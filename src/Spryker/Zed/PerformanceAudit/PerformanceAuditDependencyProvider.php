@@ -43,7 +43,7 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
     protected function addPerformanceAuditClient(Container $container): Container
     {
         $container->set(static::CLIENT_PERFORMANCE_AUDIT, function (Container $container) {
-            return $container->getLocator()->performanceAudit->client();
+            return $container->getLocator()->performanceAudit()->client();
         });
 
         return $container;

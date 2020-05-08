@@ -28,6 +28,7 @@ class PerformanceAuditDependencyProvider extends AbstractBundleDependencyProvide
     public function provideDependencies(Container $container): Container
     {
         $container = $this->addCookieJar($container);
+        $container = $this->addUtilEncodingService($container);
 
         return $container;
     }

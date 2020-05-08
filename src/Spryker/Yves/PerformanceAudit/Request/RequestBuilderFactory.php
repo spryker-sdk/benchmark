@@ -8,7 +8,7 @@
 namespace Spryker\Yves\PerformanceAudit\Request;
 
 use Spryker\Shared\PerformanceAudit\Request\RequestBuilderInterface;
-use Spryker\Yves\Kernel\ClassResolver\Factory\FactoryResolver;
+use Spryker\Yves\PerformanceAudit\FactoryResolver\FactoryResolver;
 
 class RequestBuilderFactory
 {

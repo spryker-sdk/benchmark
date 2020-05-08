@@ -22,7 +22,7 @@ class LoginHelper implements LoginHelperInterface
     protected const LOGIN_CSRF_FORM_ELEMENT_ID = 'loginForm__token';
     protected const LOGIN_FORM_NAME = 'loginForm';
 
-    protected const COOKIE_DATA_INDEX = 1;
+    protected const COOKIE_DATA_INDEX = 0;
 
     /**
      * @var \Spryker\Client\PerformanceAudit\PerformanceAuditClientInterface
@@ -114,7 +114,7 @@ class LoginHelper implements LoginHelperInterface
         $data = $data[static::COOKIE_DATA_INDEX] ?? null;
 
         if (!$data) {
-            throw new LoginFailedException('Cookie with login data is missing in response. Please check providede credentials');
+            throw new LoginFailedException('Cookie with login data is missing in response. Please check provided credentials');
         }
 
         return (new LoginHeaderTransfer())

@@ -22,7 +22,7 @@ class LoginHelper implements LoginHelperInterface
     protected const LOGIN_CSRF_FORM_ELEMENT_ID = 'auth__token';
     protected const LOGIN_FORM_NAME = 'auth';
 
-    protected const COOKIE_DATA_INDEX = 1;
+    protected const COOKIE_DATA_INDEX = 0;
 
     /**
      * @var \Spryker\Client\PerformanceAudit\PerformanceAuditClientInterface
@@ -74,7 +74,8 @@ class LoginHelper implements LoginHelperInterface
         $request = $this->requestBuilder->buildRequest(RequestBuilderInterface::METHOD_POST, static::LOGIN_URL);
         $options = $this->buildLoginOptions($this->cookieJar, $email, $password);
 
-        $this->performanceAuditClient->sendRequest($request, $options);
+        $response = $this->performanceAuditClient->sendRequest($request, $options);
+        //var_dump($response->getHeaders());die;
 
         return $this->getLoginHeaderFromCookieJar($this->cookieJar);
     }
@@ -114,7 +115,7 @@ class LoginHelper implements LoginHelperInterface
         $data = $data[static::COOKIE_DATA_INDEX] ?? null;
 
         if (!$data) {
-            throw new LoginFailedException('Cookie with login data is missing in response. Please check providede credentials');
+            throw new LoginFailedException('Cookie with login data is missing in response. Please check provided credentials');
         }
 
         return (new LoginHeaderTransfer())

@@ -12,7 +12,11 @@
     "spryker/util-encoding": "^1.0.0 || ^2.0.0"
   },
   "require-dev": {
+    "spryker/application": "*",
     "spryker/code-sniffer": "*",
+    "spryker/config": "*",
+    "spryker/error-handler": "*",
+    "spryker/glue-application": "*",
     "spryker/testify": "*"
   },
   "autoload": {
