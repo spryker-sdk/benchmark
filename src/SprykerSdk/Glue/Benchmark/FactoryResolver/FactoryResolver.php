@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Glue\Benchmark\FactoryResolver;
 
-use Spryker\Glue\Kernel\ClassResolver\Factory\FactoryResolver as KernelFactoryResolver;
+use Spryker\Glue\Kernel\ClassResolver\Factory\FactoryResolver as KernelFactoryResolve;
 use SprykerSdk\Glue\Benchmark\BenchmarkFactory;
 
 class FactoryResolver

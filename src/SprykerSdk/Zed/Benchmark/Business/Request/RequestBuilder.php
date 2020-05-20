@@ -9,23 +9,12 @@ namespace SprykerSdk\Zed\Benchmark\Business\Request;
 
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
-use SprykerSdk\Shared\Benchmark\Exception\HttpMethodNotAllowed;
-use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
+use SprykerSdk\Shared\Benchmark\Request\AbstractRequestBuilder;
 use SprykerSdk\Zed\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
 use SprykerSdk\Zed\Benchmark\BenchmarkConfig;
 
-class RequestBuilder implements RequestBuilderInterface
+class RequestBuilder extends AbstractRequestBuilder
 {
-    /**
-     * @var string[]
-     */
-    protected $headers = [
-        'Connection' => 'keep-alive',
-        'Cache-Control' => 'max-age=0',
-        'Accept-Language' => 'en-US,en;q=0.9',
-        'Accept-Encoding' => 'gzip, deflate',
-    ];
-
     /**
      * @var \SprykerSdk\Zed\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface
      */
@@ -49,84 +38,20 @@ class RequestBuilder implements RequestBuilderInterface
     }
 
     /**
-     * @param string $method
-     * @param string $uri
-     * @param array $headers
-     * @param mixed $body
-     *
-     * @return \Psr\Http\Message\RequestInterface
+     * @return string
      */
-    public function buildRequest(string $method, string $uri, array $headers = [], $body = null): RequestInterface
+    protected function getRequestBaseUrl(): string
     {
-        $this->assertMethod($method);
-
-        return new Request(
-            $method,
-            $this->buildUri($uri),
-            $this->buildHeaders($headers),
-            $this->buildBody($body)
-        );
+        return $this->performanceAuditConfig->getRequestBaseUrl();
     }
 
     /**
-     * @param string $method
-     *
-     * @throws \SprykerSdk\Shared\Benchmark\Exception\HttpMethodNotAllowed
-     *
-     * @return void
-     */
-    protected function assertMethod(string $method): void
-    {
-        $allowedMethods = [
-            static::METHOD_POST,
-            static::METHOD_GET,
-            static::METHOD_DELETE,
-            static::METHOD_PATCH,
-            static::METHOD_PUT,
-        ];
-
-        if (!in_array($method, $allowedMethods, true)) {
-            throw new HttpMethodNotAllowed(sprintf('Not allowed HTTP method `%s`', $method));
-        }
-    }
-
-    /**
-     * @param string $uri
+     * @param array $body
      *
      * @return string
      */
-    protected function buildUri(string $uri): string
+    protected function formatBodyToString(array $body): string
     {
-        return sprintf('%s%s', $this->performanceAuditConfig->getRequestBaseUrl(), $uri);
-    }
-
-    /**
-     * @param string[] $headers
-     *
-     * @return string[]
-     */
-    protected function buildHeaders(array $headers): array
-    {
-        $headers = array_merge($this->headers, $headers);
-
-        return $headers;
-    }
-
-    /**
-     * @param mixed $body
-     *
-     * @return mixed
-     */
-    protected function buildBody($body)
-    {
-        if (!$body) {
-            return null;
-        }
-
-        if (is_array($body)) {
-            return $this->utilEncodingService->encodeJson($body);
-        }
-
-        return $body;
+        return $this->utilEncodingService->encodeJson($body);
     }
 }

@@ -15,7 +15,7 @@ class HttpHelperFactory
     /**
      * @return \SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelperInterface
      */
-    public static function create(): HttpHelperInterface
+    public static function createHttpHelper(): HttpHelperInterface
     {
         $factoryResolver = new FactoryResolver();
         $factory = $factoryResolver->getFactory();

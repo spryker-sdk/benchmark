@@ -18,7 +18,7 @@ use SprykerSdk\Zed\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceBr
 class BenchmarkDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const SERVICE_UTIL_ENCODING = 'SERVICE_UTIL_ENCODING';
-    public const CLIENT_PERFORMANCE_AUDIT = 'CLIENT_PERFORMANCE_AUDIT';
+    public const CLIENT_BENCHMARK = 'CLIENT_BENCHMARK';
     public const COOKIE_JAR = 'COOKIE_JAR';
 
     /**
@@ -28,7 +28,7 @@ class BenchmarkDependencyProvider extends AbstractBundleDependencyProvider
      */
     public function provideBusinessLayerDependencies(Container $container): Container
     {
-        $container = $this->addPerformanceAuditClient($container);
+        $container = $this->addBenchmarkClient($container);
         $container = $this->addCookieJar($container);
         $container = $this->addUtilEncodingService($container);
 
@@ -40,10 +40,10 @@ class BenchmarkDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Zed\Kernel\Container
      */
-    protected function addPerformanceAuditClient(Container $container): Container
+    protected function addBenchmarkClient(Container $container): Container
     {
-        $container->set(static::CLIENT_PERFORMANCE_AUDIT, function (Container $container) {
-            return $container->getLocator()->performanceAudit()->client();
+        $container->set(static::CLIENT_BENCHMARK, function (Container $container) {
+            return $container->getLocator()->benchmark()->client();
         });
 
         return $container;

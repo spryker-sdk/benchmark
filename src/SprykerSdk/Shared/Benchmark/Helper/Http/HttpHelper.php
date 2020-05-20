@@ -16,14 +16,14 @@ class HttpHelper implements HttpHelperInterface
     /**
      * @var \SprykerSdk\Client\Benchmark\BenchmarkClientInterface
      */
-    protected $performanceAuditClient;
+    protected $benchmarkClient;
 
     /**
-     * @param \SprykerSdk\Client\Benchmark\BenchmarkClientInterface $performanceAuditClient
+     * @param \SprykerSdk\Client\Benchmark\BenchmarkClientInterface $benchmarkClient
      */
-    public function __construct(BenchmarkClientInterface $performanceAuditClient)
+    public function __construct(BenchmarkClientInterface $benchmarkClient)
     {
-        $this->performanceAuditClient = $performanceAuditClient;
+        $this->benchmarkClient = $benchmarkClient;
     }
 
     /**
@@ -35,6 +35,6 @@ class HttpHelper implements HttpHelperInterface
      */
     public function send(RequestInterface $request, array $options = [], int $expectedStatusCode = 200): ResponseInterface
     {
-        return $this->performanceAuditClient->sendRequest($request, $options, $expectedStatusCode);
+        return $this->benchmarkClient->sendRequest($request, $options, $expectedStatusCode);
     }
 }

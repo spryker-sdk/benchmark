@@ -56,7 +56,6 @@ class LoginHelper implements LoginHelperInterface
         CookieJarInterface $cookieJar,
         CsrfTokenHelperInterface $csrfToken
     ) {
-
         $this->performanceAuditClient = $performanceAuditClient;
         $this->requestBuilder = $requestBuilder;
         $this->cookieJar = $cookieJar;

@@ -15,7 +15,7 @@ class CsrfTokenHelperFactory
     /**
      * @return \SprykerSdk\Shared\Benchmark\Helper\CsrfToken\CsrfTokenHelperInterface
      */
-    public static function create(): CsrfTokenHelperInterface
+    public static function createCsrfTokenHelper(): CsrfTokenHelperInterface
     {
         $factoryResolver = new FactoryResolver();
         $factory = $factoryResolver->getFactory();

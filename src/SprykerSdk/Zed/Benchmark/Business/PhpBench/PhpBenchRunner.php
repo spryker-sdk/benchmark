@@ -137,15 +137,26 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
      */
     protected function findDefaultBootstrapFile(string $path): ?string
     {
-        $defaultBootstrapFolders = $this->findDirectoriesUnderPath(realpath(__DIR__ . '/../../../../../../bootstrap'));
+        $defaultBootstrapFolders = $this->findDirectoriesUnderPath($this->getFallbackBootstrapFolder());
         $pathParts = explode(DIRECTORY_SEPARATOR, $path);
+        $pathParts = array_map('mb_strtoupper', $pathParts);
         foreach ($defaultBootstrapFolders as $defaultBootstrapFolder) {
-            if (in_array(mb_strtoupper($defaultBootstrapFolder->getBasename()), mb_strtoupper($pathParts), true)) {
+            if (in_array(mb_strtoupper($defaultBootstrapFolder->getBasename()), $pathParts, true)) {
                 return sprintf('%s' . DIRECTORY_SEPARATOR . '%s', $defaultBootstrapFolder->getRealPath(), 'bootstrap.php');
             }
         }
 
         return null;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getFallbackBootstrapFolder(): string
+    {
+        $moduleRootFolder = __DIR__ . '/../../../../../..';
+
+        return realpath(sprintf('%s/%s', $moduleRootFolder, 'bootstrap'));
     }
 
     /**

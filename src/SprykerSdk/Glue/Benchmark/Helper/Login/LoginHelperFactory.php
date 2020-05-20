@@ -15,7 +15,7 @@ class LoginHelperFactory
     /**
      * @return \SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface
      */
-    public static function create(): LoginHelperInterface
+    public static function createLoginHelper(): LoginHelperInterface
     {
         $factoryResolver = new FactoryResolver();
         $factory = $factoryResolver->getFactory();

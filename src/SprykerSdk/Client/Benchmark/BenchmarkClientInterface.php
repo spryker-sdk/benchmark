@@ -15,7 +15,7 @@ interface BenchmarkClientInterface
     /**
      * Specification:
      * - Sends request via HTTP client.
-     * - Throws an exception if status code in response is no the expected one.
+     * - Throws an exception if status code response is not the expected one.
      *
      * @api
      *

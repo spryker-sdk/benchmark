@@ -44,7 +44,6 @@ class LoginHelper implements LoginHelperInterface
         RequestBuilderInterface $requestBuilder,
         BenchmarkToUtilEncodingServiceInterface $utilEncodingService
     ) {
-
         $this->performanceAuditClient = $performanceAuditClient;
         $this->requestBuilder = $requestBuilder;
         $this->utilEncodingService = $utilEncodingService;

@@ -62,7 +62,7 @@ class BenchmarkBusinessFactory extends AbstractBusinessFactory
      */
     public function createHttpHelper(): HttpHelperInterface
     {
-        return new HttpHelper($this->getPerformanceAuditClient());
+        return new HttpHelper($this->getBenchmarkClient());
     }
 
     /**
@@ -76,9 +76,9 @@ class BenchmarkBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerSdk\Client\Benchmark\BenchmarkClientInterface
      */
-    public function getPerformanceAuditClient(): BenchmarkClientInterface
+    public function getBenchmarkClient(): BenchmarkClientInterface
     {
-        return $this->getProvidedDependency(BenchmarkDependencyProvider::CLIENT_PERFORMANCE_AUDIT);
+        return $this->getProvidedDependency(BenchmarkDependencyProvider::CLIENT_BENCHMARK);
     }
 
     /**

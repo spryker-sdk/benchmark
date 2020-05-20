@@ -1,8 +1,9 @@
 <?php
 
-use Spryker\Glue\GlueApplication\Bootstrap\AbstractGlueBootstrap;
+
 use Spryker\Shared\Config\Application\Environment;
 use Spryker\Shared\ErrorHandler\ErrorHandlerEnvironment;
+use SprykerSdk\Glue\Benchmark\Bootstrap\FallbackGlueBootstrap;
 
 define('APPLICATION', 'GLUE');
 defined('APPLICATION_ROOT_DIR') || define('APPLICATION_ROOT_DIR', realpath(__DIR__ . '/../../../../../..'));
@@ -14,8 +15,5 @@ Environment::initialize();
 $errorHandlerEnvironment = new ErrorHandlerEnvironment();
 $errorHandlerEnvironment->initialize();
 
-$bootstrap = new class extends AbstractGlueBootstrap
-{
-};
-
+$bootstrap = new FallbackGlueBootstrap();
 $bootstrap->boot();
