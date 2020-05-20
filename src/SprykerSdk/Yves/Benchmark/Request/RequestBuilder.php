@@ -7,8 +7,6 @@
 
 namespace SprykerSdk\Yves\Benchmark\Request;
 
-use GuzzleHttp\Psr7\Request;
-use Psr\Http\Message\RequestInterface;
 use SprykerSdk\Shared\Benchmark\Request\AbstractRequestBuilder;
 use SprykerSdk\Yves\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
 use SprykerSdk\Yves\Benchmark\BenchmarkConfig;

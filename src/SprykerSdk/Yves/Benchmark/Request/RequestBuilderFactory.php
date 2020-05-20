@@ -15,7 +15,7 @@ class RequestBuilderFactory
     /**
      * @return \SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface
      */
-    public static function create(): RequestBuilderInterface
+    public static function createRequestBuilder(): RequestBuilderInterface
     {
         $factoryResolver = new FactoryResolver();
         $factory = $factoryResolver->getFactory();

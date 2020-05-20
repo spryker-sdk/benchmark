@@ -8,13 +8,13 @@
 namespace SprykerSdk\Yves\Benchmark;
 
 use GuzzleHttp\Cookie\CookieJarInterface;
+use Spryker\Yves\Kernel\AbstractFactory;
 use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\CsrfTokenHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\FormCsrfTokenHelper;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelper;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface;
 use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
-use Spryker\Yves\Kernel\AbstractFactory;
 use SprykerSdk\Yves\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
 use SprykerSdk\Yves\Benchmark\Helper\Login\LoginHelper;
 use SprykerSdk\Yves\Benchmark\Request\RequestBuilder;

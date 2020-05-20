@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Zed\Benchmark;
 
-use SprykerSdk\Shared\Benchmark\BenchmarkConstants;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
+use SprykerSdk\Shared\Benchmark\BenchmarkConstants;
 
 /**
  * @package SprykerSdk\Zed\Benchmark

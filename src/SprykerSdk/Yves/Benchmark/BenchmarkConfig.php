@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Yves\Benchmark;
 
-use SprykerSdk\Shared\Benchmark\BenchmarkConstants;
 use Spryker\Yves\Kernel\AbstractBundleConfig;
+use SprykerSdk\Shared\Benchmark\BenchmarkConstants;
 
 class BenchmarkConfig extends AbstractBundleConfig
 {

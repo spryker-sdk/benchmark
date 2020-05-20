@@ -7,11 +7,9 @@
 
 namespace SprykerSdk\Zed\Benchmark\Business\Request;
 
-use GuzzleHttp\Psr7\Request;
-use Psr\Http\Message\RequestInterface;
 use SprykerSdk\Shared\Benchmark\Request\AbstractRequestBuilder;
-use SprykerSdk\Zed\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
 use SprykerSdk\Zed\Benchmark\BenchmarkConfig;
+use SprykerSdk\Zed\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
 
 class RequestBuilder extends AbstractRequestBuilder
 {

@@ -7,8 +7,6 @@
 
 namespace SprykerSdk\Glue\Benchmark\Request;
 
-use GuzzleHttp\Psr7\Request;
-use Psr\Http\Message\RequestInterface;
 use SprykerSdk\Glue\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
 use SprykerSdk\Glue\Benchmark\BenchmarkConfig;
 use SprykerSdk\Shared\Benchmark\Request\AbstractRequestBuilder;

@@ -11,5 +11,4 @@ use Spryker\Yves\Application\YvesBootstrap;
 
 class FallbackYvesBootstrap extends YvesBootstrap
 {
-
 }

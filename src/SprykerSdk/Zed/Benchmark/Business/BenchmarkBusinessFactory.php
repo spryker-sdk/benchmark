@@ -8,6 +8,7 @@
 namespace SprykerSdk\Zed\Benchmark\Business;
 
 use GuzzleHttp\Cookie\CookieJarInterface;
+use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerSdk\Client\Benchmark\BenchmarkClientInterface;
 use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\CsrfTokenHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\FormCsrfTokenHelper;
@@ -15,7 +16,6 @@ use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelper;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface;
 use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
-use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerSdk\Zed\Benchmark\Business\Helper\Login\LoginHelper;
 use SprykerSdk\Zed\Benchmark\Business\PhpBench\PhpBenchRunner;
 use SprykerSdk\Zed\Benchmark\Business\PhpBench\PhpBenchRunnerInterface;
