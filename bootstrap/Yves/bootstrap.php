@@ -2,6 +2,7 @@
 
 use Spryker\Shared\Config\Application\Environment;
 use Spryker\Shared\ErrorHandler\ErrorHandlerEnvironment;
+use SprykerSdk\Yves\Benchmark\Bootstrap\FallbackYvesBootstrap;
 
 define('APPLICATION', 'YVES');
 defined('APPLICATION_ROOT_DIR') || define('APPLICATION_ROOT_DIR', realpath(__DIR__ . '/../../../../../..'));
@@ -13,6 +14,6 @@ Environment::initialize();
 $errorHandlerEnvironment = new ErrorHandlerEnvironment();
 $errorHandlerEnvironment->initialize();
 
-$bootstrap = new \SprykerSdk\Yves\Benchmark\Bootstrap\FallbackYvesBootstrap();
+$bootstrap = new FallbackYvesBootstrap();
 
 $bootstrap->boot();

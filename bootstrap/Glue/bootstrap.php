@@ -1,6 +1,5 @@
 <?php
 
-
 use Spryker\Shared\Config\Application\Environment;
 use Spryker\Shared\ErrorHandler\ErrorHandlerEnvironment;
 use SprykerSdk\Glue\Benchmark\Bootstrap\FallbackGlueBootstrap;
