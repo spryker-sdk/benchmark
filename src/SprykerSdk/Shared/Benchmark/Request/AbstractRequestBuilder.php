@@ -10,9 +10,6 @@ namespace SprykerSdk\Shared\Benchmark\Request;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
 use SprykerSdk\Shared\Benchmark\Exception\HttpMethodNotAllowed;
-use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
-use SprykerSdk\Zed\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
-use SprykerSdk\Zed\Benchmark\BenchmarkConfig;
 
 abstract class AbstractRequestBuilder implements RequestBuilderInterface
 {

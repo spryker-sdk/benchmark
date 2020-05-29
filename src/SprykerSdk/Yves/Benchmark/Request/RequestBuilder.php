@@ -8,8 +8,8 @@
 namespace SprykerSdk\Yves\Benchmark\Request;
 
 use SprykerSdk\Shared\Benchmark\Request\AbstractRequestBuilder;
-use SprykerSdk\Yves\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
 use SprykerSdk\Yves\Benchmark\BenchmarkConfig;
+use SprykerSdk\Yves\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
 
 class RequestBuilder extends AbstractRequestBuilder
 {

@@ -8,7 +8,6 @@
 namespace SprykerSdk\Shared\Benchmark\PhpBench;
 
 use Generated\Shared\Transfer\PhpBenchConfigurationTransfer;
-use SprykerSdk\Shared\Benchmark\PhpBench\PhpBenchRunnerInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -24,6 +23,7 @@ abstract class AbstractPhpBenchRunner implements PhpBenchRunnerInterface
     public function run(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): int
     {
         $testDirectory = $phpBenchConfigurationTransfer->getTestDirectory() ?: $this->getDefaultTestsFolder();
+
         return $this->runCommand(
             $testDirectory,
             $phpBenchConfigurationTransfer->getIterations(),
@@ -87,7 +87,7 @@ abstract class AbstractPhpBenchRunner implements PhpBenchRunnerInterface
      */
     protected function getDefaultBootstrapFile(): string
     {
-        return sprintf('%s/%s', $this->getFallbackBootstrapFolder() , 'bootstrap.php');
+        return sprintf('%s/%s', $this->getFallbackBootstrapFolder(), 'bootstrap.php');
     }
 
     /**

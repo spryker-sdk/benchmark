@@ -17,7 +17,7 @@ interface BenchmarkToUtilEncodingServiceInterface
      *
      * @return mixed|null
      */
-    public function decodeJson($jsonValue, $assoc = false, $depth = null, $options = null);
+    public function decodeJson(string $jsonValue, bool $assoc = false, ?int $depth = null, ?int $options = null);
 
     /**
      * @param array $value
@@ -26,5 +26,5 @@ interface BenchmarkToUtilEncodingServiceInterface
      *
      * @return string|null
      */
-    public function encodeJson($value, $options = null, $depth = null);
+    public function encodeJson(array $value, ?int $options = null, ?int $depth = null);
 }

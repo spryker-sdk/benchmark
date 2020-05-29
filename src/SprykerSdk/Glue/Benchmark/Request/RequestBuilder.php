@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Glue\Benchmark\Request;
 
-use SprykerSdk\Glue\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
 use SprykerSdk\Glue\Benchmark\BenchmarkConfig;
+use SprykerSdk\Glue\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
 use SprykerSdk\Shared\Benchmark\Request\AbstractRequestBuilder;
 
 class RequestBuilder extends AbstractRequestBuilder

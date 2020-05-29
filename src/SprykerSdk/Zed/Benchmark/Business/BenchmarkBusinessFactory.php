@@ -17,11 +17,11 @@ use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface;
 use SprykerSdk\Shared\Benchmark\PhpBench\PhpBenchRunnerInterface;
 use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
+use SprykerSdk\Zed\Benchmark\BenchmarkDependencyProvider;
 use SprykerSdk\Zed\Benchmark\Business\Helper\Login\LoginHelper;
 use SprykerSdk\Zed\Benchmark\Business\PhpBench\PhpBenchRunner;
 use SprykerSdk\Zed\Benchmark\Business\Request\RequestBuilder;
 use SprykerSdk\Zed\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
-use SprykerSdk\Zed\Benchmark\BenchmarkDependencyProvider;
 
 /**
  * @method \SprykerSdk\Zed\Benchmark\BenchmarkConfig getConfig()
