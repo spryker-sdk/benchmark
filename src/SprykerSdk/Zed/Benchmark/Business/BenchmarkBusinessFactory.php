@@ -15,10 +15,10 @@ use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\FormCsrfTokenHelper;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelper;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface;
+use SprykerSdk\Shared\Benchmark\PhpBench\PhpBenchRunnerInterface;
 use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
 use SprykerSdk\Zed\Benchmark\Business\Helper\Login\LoginHelper;
 use SprykerSdk\Zed\Benchmark\Business\PhpBench\PhpBenchRunner;
-use SprykerSdk\Zed\Benchmark\Business\PhpBench\PhpBenchRunnerInterface;
 use SprykerSdk\Zed\Benchmark\Business\Request\RequestBuilder;
 use SprykerSdk\Zed\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
 use SprykerSdk\Zed\Benchmark\BenchmarkDependencyProvider;
@@ -29,7 +29,7 @@ use SprykerSdk\Zed\Benchmark\BenchmarkDependencyProvider;
 class BenchmarkBusinessFactory extends AbstractBusinessFactory
 {
     /**
-     * @return \SprykerSdk\Zed\Benchmark\Business\PhpBench\PhpBenchRunnerInterface
+     * @return \SprykerSdk\Shared\Benchmark\PhpBench\PhpBenchRunnerInterface
      */
     public function createPhpBenchRunner(): PhpBenchRunnerInterface
     {
@@ -50,7 +50,7 @@ class BenchmarkBusinessFactory extends AbstractBusinessFactory
     public function createLoginHelper(): LoginHelperInterface
     {
         return new LoginHelper(
-            $this->getPerformanceAuditClient(),
+            $this->getBenchmarkClient(),
             $this->createRequestBuilder(),
             $this->getCookieJar(),
             $this->createCsrfTokenHelper()
@@ -70,7 +70,7 @@ class BenchmarkBusinessFactory extends AbstractBusinessFactory
      */
     public function createCsrfTokenHelper(): CsrfTokenHelperInterface
     {
-        return new FormCsrfTokenHelper($this->createRequestBuilder(), $this->getPerformanceAuditClient());
+        return new FormCsrfTokenHelper($this->createRequestBuilder(), $this->getBenchmarkClient());
     }
 
     /**

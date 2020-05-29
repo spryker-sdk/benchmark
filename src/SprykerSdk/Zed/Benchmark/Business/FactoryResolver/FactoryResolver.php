@@ -35,7 +35,7 @@ class FactoryResolver
     private function resolveFactory(): BenchmarkBusinessFactory
     {
         /** @var \SprykerSdk\Zed\Benchmark\Business\BenchmarkBusinessFactory $factory */
-        $factory = $this->getFactoryResolver()->resolve(self::class);
+        $factory = $this->getFactoryResolver()->resolve($this);
 
         return $factory;
     }

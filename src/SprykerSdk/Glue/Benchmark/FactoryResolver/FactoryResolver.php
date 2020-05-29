@@ -7,7 +7,7 @@
 
 namespace SprykerSdk\Glue\Benchmark\FactoryResolver;
 
-use Spryker\Glue\Kernel\ClassResolver\Factory\FactoryResolver as KernelFactoryResolve;
+use Spryker\Glue\Kernel\ClassResolver\Factory\FactoryResolver as KernelFactoryResolver;
 use SprykerSdk\Glue\Benchmark\BenchmarkFactory;
 
 class FactoryResolver
@@ -35,7 +35,7 @@ class FactoryResolver
     private function resolveFactory(): BenchmarkFactory
     {
         /** @var \SprykerSdk\Glue\Benchmark\BenchmarkFactory $factory */
-        $factory = $this->getFactoryResolver()->resolve(self::class);
+        $factory = $this->getFactoryResolver()->resolve($this);
 
         return $factory;
     }
