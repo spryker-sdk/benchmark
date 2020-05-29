@@ -5,21 +5,21 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Zed\Benchmark\Communication\Console;
+namespace SprykerSdk\Glue\Benchmark\Plugin\Console;
 
 use Generated\Shared\Transfer\PhpBenchConfigurationTransfer;
-use Spryker\Zed\Kernel\Communication\Console\Console;
+use Spryker\Glue\Kernel\Console\Console;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @method \SprykerSdk\Zed\Benchmark\Business\BenchmarkFacadeInterface getFacade()
+ * @method \SprykerSdk\Glue\Benchmark\BenchmarkFactory getFactory()
  */
 class BenchmarkRunConsole extends Console
 {
     public const COMMAND_NAME = 'benchmark:run';
-    public const COMMAND_DESCRIPTION = 'Will run test Zed tests using phpbench framework';
+    public const COMMAND_DESCRIPTION = 'Will run Glue test using phpbench framework';
 
     /**
      * @return void
@@ -42,11 +42,11 @@ class BenchmarkRunConsole extends Console
      *
      * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('Run PHPBench on project level');
 
-        return $this->getFacade()->runPhpBench($this->createPhpBenchConfigurationTransfer($input));
+        return $this->getFactory()->createPhpBenchRunner()->run($this->createPhpBenchConfigurationTransfer($input));
     }
 
     /**

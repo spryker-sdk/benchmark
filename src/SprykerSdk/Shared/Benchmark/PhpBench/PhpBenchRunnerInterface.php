@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Zed\Benchmark\Business\PhpBench;
+namespace SprykerSdk\Shared\Benchmark\PhpBench;
 
 use Generated\Shared\Transfer\PhpBenchConfigurationTransfer;
 

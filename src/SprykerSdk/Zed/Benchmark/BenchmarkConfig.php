@@ -11,7 +11,7 @@ use Spryker\Zed\Kernel\AbstractBundleConfig;
 use SprykerSdk\Shared\Benchmark\BenchmarkConstants;
 
 /**
- * @package SprykerSdk\Zed\Benchmark
+ * @method \SprykerSdk\Shared\Benchmark\BenchmarkConfig getSharedConfig()
  */
 class BenchmarkConfig extends AbstractBundleConfig
 {
@@ -32,6 +32,6 @@ class BenchmarkConfig extends AbstractBundleConfig
      */
     public function getTestsFolder(): string
     {
-        return APPLICATION_ROOT_DIR . '/tests/PerformanceAudit/';
+        return $this->getSharedConfig()->getTestsFolder();
     }
 }

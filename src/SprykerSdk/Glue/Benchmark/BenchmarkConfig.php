@@ -21,4 +21,14 @@ class BenchmarkConfig extends AbstractBundleConfig
     {
         return $this->get(BenchmarkConstants::GLUE_APPLICATION_DOMAIN);
     }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getTestsFolder(): string
+    {
+        return $this->getSharedConfig()->getTestsFolder();
+    }
 }

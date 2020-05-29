@@ -5,20 +5,20 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Zed\Benchmark\Business\PhpBench;
+namespace SprykerSdk\Glue\Benchmark\PhpBench;
 
+use SprykerSdk\Glue\Benchmark\BenchmarkConfig;
 use SprykerSdk\Shared\Benchmark\PhpBench\AbstractPhpBenchRunner;
-use SprykerSdk\Zed\Benchmark\BenchmarkConfig;
 
 class PhpBenchRunner extends AbstractPhpBenchRunner
 {
     /**
-     * @var \SprykerSdk\Zed\Benchmark\BenchmarkConfig
+     * @var \SprykerSdk\Glue\Benchmark\BenchmarkConfig
      */
     protected $config;
 
     /**
-     * @param \SprykerSdk\Zed\Benchmark\BenchmarkConfig $config
+     * @param \SprykerSdk\Glue\Benchmark\BenchmarkConfig $config
      */
     public function __construct(BenchmarkConfig $config)
     {
@@ -30,7 +30,7 @@ class PhpBenchRunner extends AbstractPhpBenchRunner
      */
     protected function getLayer(): string
     {
-        return 'Zed';
+        return 'Glue';
     }
 
     /**
