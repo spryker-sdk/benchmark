@@ -7,8 +7,8 @@
 
 namespace SprykerSdk\Glue\Benchmark\Bootstrap;
 
-use Spryker\Glue\GlueApplication\Bootstrap\AbstractGlueBootstrap;
+use Spryker\Glue\GlueApplication\Bootstrap\GlueBootstrap;
 
-class FallbackGlueBootstrap extends AbstractGlueBootstrap
+class FallbackGlueBootstrap extends GlueBootstrap
 {
 }
