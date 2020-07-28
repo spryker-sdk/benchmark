@@ -15,12 +15,8 @@ composer require --dev spryker-sdk/benchmark
 ## Usage
 
 ### How to use in Spryker projects
-Make sure you include the benchmark as `require-dev` dependency:
-```
-composer require --dev spryker-sdk/benchmark
-```
 
-This module provides a convenience command:
+The development module provides a convenience command:
 ```
 console benchmark:run
 ```
