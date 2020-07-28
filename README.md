@@ -8,6 +8,29 @@ This module allows to test the performance and response time of individual endpo
 ## Installation
 
 ```
-composer require spryker-sdk/benchmark
+composer require --dev spryker-sdk/benchmark
 ```
 
+
+## Usage
+
+### How to use in Spryker projects
+Make sure you include the benchmark as `require-dev` dependency:
+```
+composer require --dev spryker-sdk/benchmark
+```
+
+The Development bundle provides a convenience command:
+```
+console benchmark:run
+```
+
+Path to the directory with tests can be specified by option `path`:
+```
+console benchmark:run --path tests/Benchmark/Glue
+```
+
+The benchmark runner can override the number of revolutions and iterations which will be executed:
+```
+console benchmark:run --iterations=10 --revs=1000
+```
