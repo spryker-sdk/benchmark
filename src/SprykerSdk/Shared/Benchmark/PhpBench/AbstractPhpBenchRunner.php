@@ -22,7 +22,7 @@ abstract class AbstractPhpBenchRunner implements PhpBenchRunnerInterface
      */
     public function run(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): int
     {
-        $testDirectory = $phpBenchConfigurationTransfer->getTestDirectory() ?: $this->getDefaultTestsFolder();
+        $testDirectory = $phpBenchConfigurationTransfer->getTestDirectory() ?: $this->getDefaultTestsDirectory();
 
         return $this->runCommand(
             $testDirectory,
@@ -97,7 +97,7 @@ abstract class AbstractPhpBenchRunner implements PhpBenchRunnerInterface
     {
         $moduleRootFolder = __DIR__ . '/../../../../../..';
 
-        return realpath(sprintf('%s/%s/%s', $moduleRootFolder, 'bootstrap', $this->getLayer()));
+        return realpath(sprintf('%s/%s/%s', $moduleRootFolder, 'bootstrap', $this->getApplication()));
     }
 
     /**
@@ -113,10 +113,10 @@ abstract class AbstractPhpBenchRunner implements PhpBenchRunnerInterface
     /**
      * @return string
      */
-    abstract protected function getLayer(): string;
+    abstract protected function getApplication(): string;
 
     /**
      * @return string
      */
-    abstract protected function getDefaultTestsFolder(): string;
+    abstract protected function getDefaultTestsDirectory(): string;
 }

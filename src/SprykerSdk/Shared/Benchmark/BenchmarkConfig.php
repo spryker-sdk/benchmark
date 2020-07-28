@@ -16,7 +16,7 @@ class BenchmarkConfig extends AbstractSharedConfig
      *
      * @return string
      */
-    public function getTestsFolder(): string
+    public function getTestsDirectory(): string
     {
         return APPLICATION_ROOT_DIR . '/tests/Benchmark/';
     }

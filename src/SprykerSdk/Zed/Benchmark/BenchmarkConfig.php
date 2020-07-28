@@ -30,8 +30,8 @@ class BenchmarkConfig extends AbstractBundleConfig
      *
      * @return string
      */
-    public function getTestsFolder(): string
+    public function getTestsDirectory(): string
     {
-        return $this->getSharedConfig()->getTestsFolder();
+        return $this->getSharedConfig()->getTestsDirectory();
     }
 }

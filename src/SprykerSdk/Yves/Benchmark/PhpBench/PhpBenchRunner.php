@@ -28,7 +28,7 @@ class PhpBenchRunner extends AbstractPhpBenchRunner
     /**
      * @return string
      */
-    protected function getLayer(): string
+    protected function getApplication(): string
     {
         return 'Yves';
     }
@@ -36,8 +36,8 @@ class PhpBenchRunner extends AbstractPhpBenchRunner
     /**
      * @return string
      */
-    protected function getDefaultTestsFolder(): string
+    protected function getDefaultTestsDirectory(): string
     {
-        return sprintf('%s/%s', $this->config->getTestsFolder(), $this->getLayer());
+        return sprintf('%s/%s', $this->config->getTestsDirectory(), $this->getApplication());
     }
 }
