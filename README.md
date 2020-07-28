@@ -20,7 +20,7 @@ Make sure you include the benchmark as `require-dev` dependency:
 composer require --dev spryker-sdk/benchmark
 ```
 
-The Development bundle provides a convenience command:
+This module provides a convenience command:
 ```
 console benchmark:run
 ```
