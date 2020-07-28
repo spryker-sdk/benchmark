@@ -16,7 +16,7 @@ composer require --dev spryker-sdk/benchmark
 
 ### How to use in Spryker projects
 
-The development module provides a convenience command:
+This module provides a convenience command:
 ```
 console benchmark:run
 ```
