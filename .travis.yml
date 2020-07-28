@@ -26,7 +26,8 @@ install:
 
 script:
     - find ./src -path src -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v "No syntax errors detected" )
-    - composer cs-check
+    
+    - if [[ $PREFER_LOWEST != 1 ]]; then composer cs-check; fi
 
     - if [[ $PREFER_LOWEST == 1 ]]; then vendor/bin/validate-prefer-lowest || true; fi
 
