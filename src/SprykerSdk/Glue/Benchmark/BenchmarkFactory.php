@@ -8,10 +8,12 @@
 namespace SprykerSdk\Glue\Benchmark;
 
 use Spryker\Glue\Kernel\AbstractFactory;
+use SprykerSdk\Glue\Benchmark\Command\CommandBuilder;
 use SprykerSdk\Glue\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
 use SprykerSdk\Glue\Benchmark\Helper\Login\LoginHelper;
 use SprykerSdk\Glue\Benchmark\PhpBench\PhpBenchRunner;
 use SprykerSdk\Glue\Benchmark\Request\RequestBuilder;
+use SprykerSdk\Shared\Benchmark\Command\CommandBuilderInterface;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelper;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface;
@@ -53,7 +55,7 @@ class BenchmarkFactory extends AbstractFactory
      */
     public function createPhpBenchRunner(): PhpBenchRunnerInterface
     {
-        return new PhpBenchRunner($this->getConfig());
+        return new PhpBenchRunner($this->createCommandBuilder());
     }
 
     /**
@@ -62,5 +64,13 @@ class BenchmarkFactory extends AbstractFactory
     public function getUtilEncodingService(): BenchmarkToUtilEncodingServiceInterface
     {
         return $this->getProvidedDependency(BenchmarkDependencyProvider::SERVICE_UTIL_ENCODING);
+    }
+
+    /**
+     * @return \SprykerSdk\Shared\Benchmark\Command\CommandBuilderInterface
+     */
+    public function createCommandBuilder(): CommandBuilderInterface
+    {
+        return new CommandBuilder($this->getConfig());
     }
 }

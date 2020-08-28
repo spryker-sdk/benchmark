@@ -20,4 +20,34 @@ class BenchmarkConfig extends AbstractSharedConfig
     {
         return APPLICATION_ROOT_DIR . '/tests/Benchmark/';
     }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getReport(): string
+    {
+        return 'generator: "table", cols:["benchmark", "subject", "best", "mean", "worst", "stdev", "revs", "its"]';
+    }
+
+    /**
+     * @api
+     *
+     * @return int
+     */
+    public function getIterations(): int
+    {
+        return 1;
+    }
+
+    /**
+     * @api
+     *
+     * @return int
+     */
+    public function getRevolutions(): int
+    {
+        return 1;
+    }
 }

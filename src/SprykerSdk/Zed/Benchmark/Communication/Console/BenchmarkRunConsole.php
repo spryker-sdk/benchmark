@@ -33,7 +33,9 @@ class BenchmarkRunConsole extends Console
             ->setDescription(static::COMMAND_DESCRIPTION)
             ->addOption('iterations', null, InputOption::VALUE_OPTIONAL, 'Iterations represent the number of times we will perform the benchmark')
             ->addOption('revs', null, InputOption::VALUE_OPTIONAL, 'The number of times the benchmark is executed consecutively within a single time measurement')
-            ->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Path to the directory that contains tests to be executed');
+            ->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Path to the directory that contains tests to be executed')
+            ->addOption('report', null, InputOption::VALUE_OPTIONAL, 'Path to the directory that contains tests to be executed')
+            ->addOption('config', null, InputOption::VALUE_OPTIONAL, 'Path to the directory that contains tests to be executed');
     }
 
     /**
@@ -59,6 +61,8 @@ class BenchmarkRunConsole extends Console
         $phpBenchConfigurationTransfer = (new PhpBenchConfigurationTransfer())
             ->setTestDirectory($input->getOption('path'))
             ->setIterations((int)$input->getOption('iterations'))
+            ->setReport($input->getOption('report'))
+            ->setConfig($input->getOption('config'))
             ->setRevolutions((int)$input->getOption('revs'));
 
         return $phpBenchConfigurationTransfer;

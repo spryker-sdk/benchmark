@@ -31,4 +31,34 @@ class BenchmarkConfig extends AbstractBundleConfig
     {
         return $this->getSharedConfig()->getTestsDirectory();
     }
+
+    /**
+     * @api
+     *
+     * @return int
+     */
+    public function getIterations(): int
+    {
+        return $this->getSharedConfig()->getIterations();
+    }
+
+    /**
+     * @api
+     *
+     * @return int
+     */
+    public function getRevolutions(): int
+    {
+        return $this->getSharedConfig()->getRevolutions();
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getReport(): string
+    {
+        return $this->getSharedConfig()->getReport();
+    }
 }
