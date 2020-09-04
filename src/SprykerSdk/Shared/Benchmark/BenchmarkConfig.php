@@ -11,6 +11,8 @@ use Spryker\Shared\Kernel\AbstractSharedConfig;
 
 class BenchmarkConfig extends AbstractSharedConfig
 {
+    protected const BENCHMARK_REPORT_CONFIG = 'generator: "table", cols:["benchmark", "subject", "best", "mean", "worst", "stdev", "revs", "its"]';
+    
     /**
      * @api
      *
@@ -28,7 +30,7 @@ class BenchmarkConfig extends AbstractSharedConfig
      */
     public function getReport(): string
     {
-        return 'generator: "table", cols:["benchmark", "subject", "best", "mean", "worst", "stdev", "revs", "its"]';
+        return static::BENCHMARK_REPORT_CONFIG;
     }
 
     /**

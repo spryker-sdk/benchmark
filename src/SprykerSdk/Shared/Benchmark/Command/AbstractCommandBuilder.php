@@ -17,6 +17,16 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
         'run',
     ];
 
+    protected const BENCHMARK_CLI_BOOTSTRAP_CONFIG = '--bootstrap=';
+
+    protected const BENCHMARK_CLI_ITERATIONS_CONFIG = '--iterations=';
+
+    protected const BENCHMARK_CLI_REVOLUTIONS_CONFIG = '--revs=';
+
+    protected const BENCHMARK_CLI_REPORT_CONFIG = '--report=';
+
+    protected const BENCHMARK_CLI_TIME_UNIT_CONFIG = '--time-unit=';
+
     /**
      * @param \Generated\Shared\Transfer\PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer
      *
@@ -24,7 +34,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
      */
     public function buildCommand(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): array
     {
-        $commandTemplate = self::BASED_PHPBENCH_COMMAND;
+        $commandTemplate = static::BASED_PHPBENCH_COMMAND;
 
         $commandTemplate[] = $this->getTestDirectory($phpBenchConfigurationTransfer);
         $commandTemplate[] = $this->getBootstrapPath($phpBenchConfigurationTransfer);
@@ -66,7 +76,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
      */
     protected function getFallbackBootstrapFolder(): string
     {
-        $moduleRootFolder = __DIR__ . '/../../../../../..';
+        $moduleRootFolder = dirname(__DIR__, 6);
 
         return realpath(sprintf('%s/%s/%s', $moduleRootFolder, 'bootstrap', $this->getApplication()));
     }
@@ -78,7 +88,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
      */
     protected function getTestDirectory(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): string
     {
-        return $phpBenchConfigurationTransfer->getTestDirectory() ?: $this->getDefaultTestsDirectory();
+        return $phpBenchConfigurationTransfer->getTestDirectory() ?: $this->getApplicationTestsDirectory();
     }
 
     /**
@@ -90,7 +100,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
     {
         $bootstrapPath = $this->getPathToBootstrap($phpBenchConfigurationTransfer);
 
-        return '--bootstrap=' . $bootstrapPath;
+        return static::BENCHMARK_CLI_BOOTSTRAP_CONFIG . $bootstrapPath;
     }
 
     /**
@@ -102,7 +112,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
     {
         $iterations = $phpBenchConfigurationTransfer->getIterations() ?: $this->getIterationConfig();
 
-        return '--iterations=' . $iterations;
+        return static::BENCHMARK_CLI_ITERATIONS_CONFIG . $iterations;
     }
 
     /**
@@ -114,7 +124,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
     {
         $revolutions = $phpBenchConfigurationTransfer->getRevolutions() ?: $this->getRevolutionConfig();
 
-        return '--revs=' . $revolutions;
+        return static::BENCHMARK_CLI_REVOLUTIONS_CONFIG . $revolutions;
     }
 
     /**
@@ -126,7 +136,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
     {
         $report = $phpBenchConfigurationTransfer->getReport() ?: $this->getReportConfig();
 
-        return '--report=' . $report;
+        return static::BENCHMARK_CLI_REPORT_CONFIG . $report;
     }
 
     /**
@@ -134,7 +144,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
      */
     protected function getTimeUnit(): string
     {
-        return '--time-unit=milliseconds';
+        return static::BENCHMARK_CLI_TIME_UNIT_CONFIG . 'milliseconds';
     }
 
     /**
@@ -145,7 +155,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
     /**
      * @return string
      */
-    abstract protected function getDefaultTestsDirectory(): string;
+    abstract protected function getApplicationTestsDirectory(): string;
 
     /**
      * @return int

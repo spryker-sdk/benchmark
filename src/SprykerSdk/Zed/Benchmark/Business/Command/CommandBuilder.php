@@ -15,7 +15,7 @@ class CommandBuilder extends AbstractCommandBuilder
     /**
      * @var \SprykerSdk\Zed\Benchmark\BenchmarkConfig
      */
-    protected $config;
+    protected $benchmarkConfig;
 
     /**
      * @param \SprykerSdk\Zed\Benchmark\BenchmarkConfig $config
@@ -36,7 +36,7 @@ class CommandBuilder extends AbstractCommandBuilder
     /**
      * @return string
      */
-    protected function getDefaultTestsDirectory(): string
+    protected function getApplicationTestsDirectory(): string
     {
         return sprintf('%s/%s', $this->config->getTestsDirectory(), $this->getApplication());
     }

@@ -34,8 +34,7 @@ class BenchmarkRunConsole extends Console
             ->addOption('iterations', null, InputOption::VALUE_OPTIONAL, 'Iterations represent the number of times we will perform the benchmark')
             ->addOption('revs', null, InputOption::VALUE_OPTIONAL, 'The number of times the benchmark is executed consecutively within a single time measurement')
             ->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Path to the directory that contains tests to be executed')
-            ->addOption('report', null, InputOption::VALUE_OPTIONAL, 'Path to the directory that contains tests to be executed')
-            ->addOption('config', null, InputOption::VALUE_OPTIONAL, 'Path to the directory that contains tests to be executed');
+            ->addOption('report', null, InputOption::VALUE_OPTIONAL, 'Configuration for customisation benchmark report');
     }
 
     /**
