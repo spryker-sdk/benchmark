@@ -61,7 +61,6 @@ class BenchmarkRunConsole extends Console
             ->setTestDirectory($input->getOption('path'))
             ->setIterations((int)$input->getOption('iterations'))
             ->setReport($input->getOption('report'))
-            ->setConfig($input->getOption('config'))
             ->setRevolutions((int)$input->getOption('revs'));
 
         return $phpBenchConfigurationTransfer;
