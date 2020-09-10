@@ -18,11 +18,11 @@ class CommandBuilder extends AbstractCommandBuilder
     protected $benchmarkConfig;
 
     /**
-     * @param \SprykerSdk\Yves\Benchmark\BenchmarkConfig $config
+     * @param \SprykerSdk\Yves\Benchmark\BenchmarkConfig $benchmarkConfig
      */
-    public function __construct(BenchmarkConfig $config)
+    public function __construct(BenchmarkConfig $benchmarkConfig)
     {
-        $this->config = $config;
+        $this->benchmarkConfig = $benchmarkConfig;
     }
 
     /**
@@ -39,29 +39,5 @@ class CommandBuilder extends AbstractCommandBuilder
     protected function getApplicationTestsDirectory(): string
     {
         return sprintf('%s/%s', $this->config->getTestsDirectory(), $this->getApplication());
-    }
-
-    /**
-     * @return int
-     */
-    protected function getIterationConfig(): int
-    {
-        return $this->config->getIterations();
-    }
-
-    /**
-     * @return int
-     */
-    protected function getRevolutionConfig(): int
-    {
-        return $this->config->getRevolutions();
-    }
-
-    /**
-     * @return string
-     */
-    protected function getReportConfig(): string
-    {
-        return $this->config->getReport();
     }
 }

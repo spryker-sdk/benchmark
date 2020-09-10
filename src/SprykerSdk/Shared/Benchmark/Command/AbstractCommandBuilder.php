@@ -110,7 +110,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
      */
     protected function getIterations(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): string
     {
-        $iterations = $phpBenchConfigurationTransfer->getIterations() ?: $this->getIterationConfig();
+        $iterations = $phpBenchConfigurationTransfer->getIterations();
 
         return static::BENCHMARK_CLI_ITERATIONS_CONFIG . $iterations;
     }
@@ -122,7 +122,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
      */
     protected function getRevolutions(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): string
     {
-        $revolutions = $phpBenchConfigurationTransfer->getRevolutions() ?: $this->getRevolutionConfig();
+        $revolutions = $phpBenchConfigurationTransfer->getRevolutions();
 
         return static::BENCHMARK_CLI_REVOLUTIONS_CONFIG . $revolutions;
     }
@@ -134,7 +134,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
      */
     protected function getReport(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer)
     {
-        $report = $phpBenchConfigurationTransfer->getReport() ?: $this->getReportConfig();
+        $report = $phpBenchConfigurationTransfer->getReport();
 
         return static::BENCHMARK_CLI_REPORT_CONFIG . $report;
     }
@@ -156,19 +156,4 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
      * @return string
      */
     abstract protected function getApplicationTestsDirectory(): string;
-
-    /**
-     * @return int
-     */
-    abstract protected function getIterationConfig(): int;
-
-    /**
-     * @return int
-     */
-    abstract protected function getRevolutionConfig(): int;
-
-    /**
-     * @return string
-     */
-    abstract protected function getReportConfig(): string;
 }
