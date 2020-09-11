@@ -42,7 +42,7 @@ class BenchmarkConfig extends AbstractBundleConfig
      */
     public function getIterations(): int
     {
-        return $this->getSharedConfig()->getIterations();
+        return $this->getSharedConfig()->getDefaultIterationsConfig();
     }
 
     /**
@@ -52,7 +52,7 @@ class BenchmarkConfig extends AbstractBundleConfig
      */
     public function getRevolutions(): int
     {
-        return $this->getSharedConfig()->getRevolutions();
+        return $this->getSharedConfig()->getDefaultRevolutionsConfig();
     }
 
     /**
@@ -62,6 +62,6 @@ class BenchmarkConfig extends AbstractBundleConfig
      */
     public function getReport(): string
     {
-        return $this->getSharedConfig()->getReport();
+        return $this->getSharedConfig()->getDefaultReportConfig();
     }
 }

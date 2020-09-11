@@ -10,8 +10,8 @@ namespace SprykerSdk\Zed\Benchmark\Communication;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 
 /**
- * @method \Spryker\Zed\Benchmark\BenchmarkConfig getConfig()
- * @method \Spryker\Zed\Benchmark\Business\BenchmarkFacadeInterface getFacade()
+ * @method \SprykerSdk\Zed\Benchmark\BenchmarkConfig getConfig()
+ * @method \SprykerSdk\Zed\Benchmark\Business\BenchmarkFacadeInterface getFacade()
  */
 class BenchmarkCommunicationFactory extends AbstractCommunicationFactory
 {

@@ -11,9 +11,9 @@ use Spryker\Shared\Kernel\AbstractSharedConfig;
 
 class BenchmarkConfig extends AbstractSharedConfig
 {
-    protected const BENCHMARK_REPORT_CONFIG = 'generator: "table", cols:["benchmark", "subject", "best", "mean", "worst", "stdev", "revs", "its"]';
-    protected const BENCHMARK_ITERATION_CONFIG = 1;
-    protected const BENCHMARK_REVOLUTION_CONFIG = 1;
+    protected const DEFAULT_BENCHMARK_REPORT_CONFIG = 'generator: "table", cols:["benchmark", "subject", "best", "mean", "worst", "stdev", "revs", "its"]';
+    protected const DEFAULT_BENCHMARK_ITERATION_COUNT = 1;
+    protected const DEFAULT_BENCHMARK_REVOLUTION_COUNT = 1;
 
     /**
      * @api
@@ -33,7 +33,7 @@ class BenchmarkConfig extends AbstractSharedConfig
      *
      * @return string
      */
-    public function getReport(): string
+    public function getDefaultReportConfig(): string
     {
         return static::BENCHMARK_REPORT_CONFIG;
     }
@@ -46,9 +46,9 @@ class BenchmarkConfig extends AbstractSharedConfig
      *
      * @return int
      */
-    public function getIterations(): int
+    public function getDefaultIterationsConfig(): int
     {
-        return static::BENCHMARK_ITERATION_CONFIG;
+        return static::DEFAULT_BENCHMARK_ITERATION_COUNT;
     }
 
     /**
@@ -59,8 +59,8 @@ class BenchmarkConfig extends AbstractSharedConfig
      *
      * @return int
      */
-    public function getRevolutions(): int
+    public function getDefaultRevolutionsConfig(): int
     {
-        return static::BENCHMARK_REVOLUTION_CONFIG;
+        return static::DEFAULT_BENCHMARK_REVOLUTION_COUNT;
     }
 }

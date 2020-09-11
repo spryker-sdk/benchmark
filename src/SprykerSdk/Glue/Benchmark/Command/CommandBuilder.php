@@ -38,6 +38,6 @@ class CommandBuilder extends AbstractCommandBuilder
      */
     protected function getApplicationTestsDirectory(): string
     {
-        return sprintf('%s/%s', $this->config->getTestsDirectory(), $this->getApplication());
+        return sprintf('%s/%s', $this->benchmarkConfig->getTestsDirectory(), $this->getApplication());
     }
 }
