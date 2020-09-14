@@ -9,18 +9,14 @@ namespace SprykerSdk\Yves\Benchmark;
 
 use GuzzleHttp\Cookie\CookieJarInterface;
 use Spryker\Yves\Kernel\AbstractFactory;
-use SprykerSdk\Shared\Benchmark\Command\CommandBuilderInterface;
 use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\CsrfTokenHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\FormCsrfTokenHelper;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelper;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface;
-use SprykerSdk\Shared\Benchmark\PhpBench\PhpBenchRunnerInterface;
 use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
-use SprykerSdk\Yves\Benchmark\Command\CommandBuilder;
 use SprykerSdk\Yves\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
 use SprykerSdk\Yves\Benchmark\Helper\Login\LoginHelper;
-use SprykerSdk\Yves\Benchmark\PhpBench\PhpBenchRunner;
 use SprykerSdk\Yves\Benchmark\Request\RequestBuilder;
 
 /**
@@ -62,14 +58,6 @@ class BenchmarkFactory extends AbstractFactory
     }
 
     /**
-     * @return \SprykerSdk\Shared\Benchmark\PhpBench\PhpBenchRunnerInterface
-     */
-    public function createPhpBenchRunner(): PhpBenchRunnerInterface
-    {
-        return new PhpBenchRunner($this->createCommandBuilder());
-    }
-
-    /**
      * @return \GuzzleHttp\Cookie\CookieJarInterface
      */
     public function getCookieJar(): CookieJarInterface
@@ -83,13 +71,5 @@ class BenchmarkFactory extends AbstractFactory
     public function getUtilEncodingService(): BenchmarkToUtilEncodingServiceInterface
     {
         return $this->getProvidedDependency(BenchmarkDependencyProvider::SERVICE_UTIL_ENCODING);
-    }
-
-    /**
-     * @return \SprykerSdk\Shared\Benchmark\Command\CommandBuilderInterface
-     */
-    public function createCommandBuilder(): CommandBuilderInterface
-    {
-        return new CommandBuilder($this->getConfig());
     }
 }

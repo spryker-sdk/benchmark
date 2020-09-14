@@ -15,7 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @method \SprykerSdk\Zed\Benchmark\Business\BenchmarkFacadeInterface getFacade()
- * @method \SprykerSdk\Zed\Benchmark\Communication\BenchmarkCommunicationFactory getFactory()
  */
 class BenchmarkRunConsole extends Console
 {
@@ -27,10 +26,6 @@ class BenchmarkRunConsole extends Console
      */
     protected function configure(): void
     {
-        parent::configure();
-
-        $benchmarkConfig = $this->getFactory()->getConfig();
-
         $this
             ->setName(static::COMMAND_NAME)
             ->setDescription(static::COMMAND_DESCRIPTION)
@@ -38,26 +33,22 @@ class BenchmarkRunConsole extends Console
                 'iterations',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Iterations represent the number of times we will perform the benchmark',
-                $benchmarkConfig->getIterations()
+                'Iterations represent the number of times we will perform the benchmark'
             )->addOption(
                 'revs',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'The number of times the benchmark is executed consecutively within a single time measurement',
-                $benchmarkConfig->getRevolutions()
+                'The number of times the benchmark is executed consecutively within a single time measurement'
             )->addOption(
                 'path',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Path to the directory that contains tests to be executed',
-                $benchmarkConfig->getTestsDirectory()
+                'Path to the directory that contains tests to be executed'
             )->addOption(
                 'report',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Configuration for customisation benchmark report',
-                $benchmarkConfig->getReport()
+                'Configuration for customisation benchmark report'
             );
     }
 
@@ -81,12 +72,10 @@ class BenchmarkRunConsole extends Console
      */
     protected function createPhpBenchConfigurationTransfer(InputInterface $input): PhpBenchConfigurationTransfer
     {
-        $phpBenchConfigurationTransfer = (new PhpBenchConfigurationTransfer())
+        return (new PhpBenchConfigurationTransfer())
             ->setTestDirectory($input->getOption('path'))
             ->setIterations((int)$input->getOption('iterations'))
             ->setReport($input->getOption('report'))
             ->setRevolutions((int)$input->getOption('revs'));
-
-        return $phpBenchConfigurationTransfer;
     }
 }
