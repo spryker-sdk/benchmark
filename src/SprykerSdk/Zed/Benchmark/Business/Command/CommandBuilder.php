@@ -142,7 +142,7 @@ class CommandBuilder implements CommandBuilderInterface
      *
      * @return string
      */
-    protected function getReport(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer)
+    protected function getReport(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): string
     {
         $report = $phpBenchConfigurationTransfer->getReport() ?: $this->benchmarkConfig->getDefaultReportConfig();
 
@@ -154,6 +154,6 @@ class CommandBuilder implements CommandBuilderInterface
      */
     protected function getTimeUnit(): string
     {
-        return sprintf(static::CLI_TIME_UNIT_CONFIG, 'milliseconds');
+        return sprintf(static::CLI_TIME_UNIT_CONFIG, $this->benchmarkConfig->getDefaultTimeUnit());
     }
 }

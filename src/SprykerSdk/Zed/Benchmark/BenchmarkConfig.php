@@ -15,6 +15,7 @@ class BenchmarkConfig extends AbstractBundleConfig
     protected const DEFAULT_REPORT_CONFIG = 'generator: "table", cols:["benchmark", "subject", "best", "mean", "worst", "stdev", "revs", "its"]';
     protected const DEFAULT_ITERATION_COUNT = 1;
     protected const DEFAULT_REVOLUTION_COUNT = 1;
+    protected const DEFAULT_TIME_UNIT = 'milliseconds';
 
     /**
      * Specification:
@@ -79,5 +80,18 @@ class BenchmarkConfig extends AbstractBundleConfig
     public function getDefaultRevolutionCount(): int
     {
         return static::DEFAULT_REVOLUTION_COUNT;
+    }
+
+    /**
+     * Specification:
+     * - Returns the default time output format.
+     *
+     * @api
+     *
+     * @return string
+     */
+    public function getDefaultTimeUnit(): string
+    {
+        return static::DEFAULT_TIME_UNIT;
     }
 }
