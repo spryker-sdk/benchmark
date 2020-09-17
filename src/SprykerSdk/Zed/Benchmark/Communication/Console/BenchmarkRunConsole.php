@@ -73,9 +73,61 @@ class BenchmarkRunConsole extends Console
     protected function createPhpBenchConfigurationTransfer(InputInterface $input): PhpBenchConfigurationTransfer
     {
         return (new PhpBenchConfigurationTransfer())
-            ->setTestDirectory($input->getOption('path'))
-            ->setIterations((int)$input->getOption('iterations'))
-            ->setReport($input->getOption('report'))
-            ->setRevolutions((int)$input->getOption('revs'));
+            ->setTestDirectory($this->getTestDirectoryOption($input))
+            ->setIterations($this->getIterationsOption($input))
+            ->setReport($this->getReportOption($input))
+            ->setRevolutions($this->getRevolutionsOption($input));
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return string
+     */
+    protected function getTestDirectoryOption(InputInterface $input): string
+    {
+        /** @var string $path */
+        $path = $input->getOption('path');
+
+        return (string)$path;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return int
+     */
+    protected function getIterationsOption(InputInterface $input): int
+    {
+        /** @var int $iterations */
+        $iterations = $input->getOption('iterations');
+
+        return (int)$iterations;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return string
+     */
+    protected function getReportOption(InputInterface $input): string
+    {
+        /** @var string $report */
+        $report = $input->getOption('report');
+
+        return (string)$report;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return int
+     */
+    protected function getRevolutionsOption(InputInterface $input): int
+    {
+        /** @var int $revs */
+        $revs = $input->getOption('revs');
+
+        return (int)$revs;
     }
 }

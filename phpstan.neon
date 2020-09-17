@@ -1,2 +1,5 @@
 parameters:
+    bootstrap: %rootDir%/../../../phpstan-bootstrap.php
+    checkMissingIterableValueType: false
     ignoreErrors:
+      - '#Call to an undefined method Generated\\#'

@@ -82,9 +82,9 @@ class CommandBuilder implements CommandBuilderInterface
     }
 
     /**
-     * @return string
+     * @return string|false
      */
-    protected function getFallbackBootstrapFolder(): string
+    protected function getFallbackBootstrapFolder()
     {
         $moduleRootFolder = dirname(__DIR__, 6);
 
