@@ -26,14 +26,30 @@ class BenchmarkRunConsole extends Console
      */
     protected function configure(): void
     {
-        parent::configure();
-
         $this
             ->setName(static::COMMAND_NAME)
             ->setDescription(static::COMMAND_DESCRIPTION)
-            ->addOption('iterations', null, InputOption::VALUE_OPTIONAL, 'Iterations represent the number of times we will perform the benchmark')
-            ->addOption('revs', null, InputOption::VALUE_OPTIONAL, 'The number of times the benchmark is executed consecutively within a single time measurement')
-            ->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Path to the directory that contains tests to be executed');
+            ->addOption(
+                'iterations',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Iterations represent the number of times we will perform the benchmark'
+            )->addOption(
+                'revs',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The number of times the benchmark is executed consecutively within a single time measurement'
+            )->addOption(
+                'path',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Path to the directory that contains tests to be executed'
+            )->addOption(
+                'report',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Configuration for customisation benchmark report'
+            );
     }
 
     /**
@@ -56,11 +72,62 @@ class BenchmarkRunConsole extends Console
      */
     protected function createPhpBenchConfigurationTransfer(InputInterface $input): PhpBenchConfigurationTransfer
     {
-        $phpBenchConfigurationTransfer = (new PhpBenchConfigurationTransfer())
-            ->setTestDirectory($input->getOption('path'))
-            ->setIterations((int)$input->getOption('iterations'))
-            ->setRevolutions((int)$input->getOption('revs'));
+        return (new PhpBenchConfigurationTransfer())
+            ->setTestDirectory($this->getTestDirectoryOption($input))
+            ->setIterations($this->getIterationsOption($input))
+            ->setReport($this->getReportOption($input))
+            ->setRevolutions($this->getRevolutionsOption($input));
+    }
 
-        return $phpBenchConfigurationTransfer;
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return string
+     */
+    protected function getTestDirectoryOption(InputInterface $input): string
+    {
+        /** @var string $path */
+        $path = $input->getOption('path');
+
+        return (string)$path;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return int
+     */
+    protected function getIterationsOption(InputInterface $input): int
+    {
+        /** @var int $iterations */
+        $iterations = $input->getOption('iterations');
+
+        return (int)$iterations;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return string
+     */
+    protected function getReportOption(InputInterface $input): string
+    {
+        /** @var string $report */
+        $report = $input->getOption('report');
+
+        return (string)$report;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return int
+     */
+    protected function getRevolutionsOption(InputInterface $input): int
+    {
+        /** @var int $revs */
+        $revs = $input->getOption('revs');
+
+        return (int)$revs;
     }
 }

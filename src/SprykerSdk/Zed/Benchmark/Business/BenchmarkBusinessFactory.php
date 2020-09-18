@@ -15,11 +15,13 @@ use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\FormCsrfTokenHelper;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelper;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface;
-use SprykerSdk\Shared\Benchmark\PhpBench\PhpBenchRunnerInterface;
 use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
 use SprykerSdk\Zed\Benchmark\BenchmarkDependencyProvider;
+use SprykerSdk\Zed\Benchmark\Business\Command\CommandBuilder;
+use SprykerSdk\Zed\Benchmark\Business\Command\CommandBuilderInterface;
 use SprykerSdk\Zed\Benchmark\Business\Helper\Login\LoginHelper;
 use SprykerSdk\Zed\Benchmark\Business\PhpBench\PhpBenchRunner;
+use SprykerSdk\Zed\Benchmark\Business\PhpBench\PhpBenchRunnerInterface;
 use SprykerSdk\Zed\Benchmark\Business\Request\RequestBuilder;
 use SprykerSdk\Zed\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceInterface;
 
@@ -29,11 +31,19 @@ use SprykerSdk\Zed\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceIn
 class BenchmarkBusinessFactory extends AbstractBusinessFactory
 {
     /**
-     * @return \SprykerSdk\Shared\Benchmark\PhpBench\PhpBenchRunnerInterface
+     * @return \SprykerSdk\Zed\Benchmark\Business\PhpBench\PhpBenchRunnerInterface
      */
     public function createPhpBenchRunner(): PhpBenchRunnerInterface
     {
-        return new PhpBenchRunner($this->getConfig());
+        return new PhpBenchRunner($this->createCommandBuilder());
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\Benchmark\Business\Command\CommandBuilderInterface
+     */
+    public function createCommandBuilder(): CommandBuilderInterface
+    {
+        return new CommandBuilder($this->getConfig());
     }
 
     /**

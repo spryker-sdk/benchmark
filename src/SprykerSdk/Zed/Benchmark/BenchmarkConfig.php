@@ -10,12 +10,17 @@ namespace SprykerSdk\Zed\Benchmark;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
 use SprykerSdk\Shared\Benchmark\BenchmarkConstants;
 
-/**
- * @method \SprykerSdk\Shared\Benchmark\BenchmarkConfig getSharedConfig()
- */
 class BenchmarkConfig extends AbstractBundleConfig
 {
+    protected const DEFAULT_REPORT_CONFIG = 'generator: "table", cols:["benchmark", "subject", "best", "mean", "worst", "stdev", "revs", "its"]';
+    protected const DEFAULT_ITERATION_COUNT = 1;
+    protected const DEFAULT_REVOLUTION_COUNT = 1;
+    protected const DEFAULT_TIME_UNIT = 'milliseconds';
+
     /**
+     * Specification:
+     * - Defines the base application url.
+     *
      * @api
      *
      * @return string
@@ -26,12 +31,67 @@ class BenchmarkConfig extends AbstractBundleConfig
     }
 
     /**
+     * Specification:
+     * - Returns the default tests directory.
+     *
      * @api
      *
      * @return string
      */
-    public function getTestsDirectory(): string
+    public function getDefaultTestsDirectory(): string
     {
-        return $this->getSharedConfig()->getTestsDirectory();
+        return APPLICATION_ROOT_DIR . '/tests/Benchmark/';
+    }
+
+    /**
+     * Specification:
+     * - Returns the configuration to build the Benchmark report.
+     *
+     * @api
+     *
+     * @return string
+     */
+    public function getDefaultReportConfig(): string
+    {
+        return static::DEFAULT_REPORT_CONFIG;
+    }
+
+    /**
+     * Specification:
+     * - Returns the default value for Benchmark iteration count.
+     *
+     * @api
+     *
+     * @return int
+     */
+    public function getDefaultIterationCount(): int
+    {
+        return static::DEFAULT_ITERATION_COUNT;
+    }
+
+    /**
+     * Specification:
+     * - Returns the default value for Benchmark revolutions count.
+     *
+     * @api
+     *
+     * @return int
+     */
+    public function getDefaultRevolutionCount(): int
+    {
+        return static::DEFAULT_REVOLUTION_COUNT;
+    }
+
+    /**
+     * Specification:
+     * - Returns the default time output format.
+     *
+     * @api
+     *
+     * @return string
+     */
+    public function getDefaultTimeUnit(): string
+    {
+        return static::DEFAULT_TIME_UNIT;
     }
 }

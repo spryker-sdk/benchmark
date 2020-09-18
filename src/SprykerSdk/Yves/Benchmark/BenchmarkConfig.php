@@ -21,14 +21,4 @@ class BenchmarkConfig extends AbstractBundleConfig
     {
         return $this->get(BenchmarkConstants::BASE_URL_YVES);
     }
-
-    /**
-     * @api
-     *
-     * @return string
-     */
-    public function getTestsDirectory(): string
-    {
-        return $this->getSharedConfig()->getTestsDirectory();
-    }
 }

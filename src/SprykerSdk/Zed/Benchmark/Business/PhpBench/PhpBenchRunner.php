@@ -7,37 +7,59 @@
 
 namespace SprykerSdk\Zed\Benchmark\Business\PhpBench;
 
-use SprykerSdk\Shared\Benchmark\PhpBench\AbstractPhpBenchRunner;
-use SprykerSdk\Zed\Benchmark\BenchmarkConfig;
+use Generated\Shared\Transfer\PhpBenchConfigurationTransfer;
+use SprykerSdk\Zed\Benchmark\Business\Command\CommandBuilderInterface;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
-class PhpBenchRunner extends AbstractPhpBenchRunner
+class PhpBenchRunner implements PhpBenchRunnerInterface
 {
-    /**
-     * @var \SprykerSdk\Zed\Benchmark\BenchmarkConfig
-     */
-    protected $config;
+    protected const EXIT_CODE_SUCCESS = 0;
 
     /**
-     * @param \SprykerSdk\Zed\Benchmark\BenchmarkConfig $config
+     * @var \SprykerSdk\Zed\Benchmark\Business\Command\CommandBuilderInterface
      */
-    public function __construct(BenchmarkConfig $config)
+    protected $commandBuilder;
+
+    /**
+     * @param \SprykerSdk\Zed\Benchmark\Business\Command\CommandBuilderInterface $commandBuilder
+     */
+    public function __construct(CommandBuilderInterface $commandBuilder)
     {
-        $this->config = $config;
+        $this->commandBuilder = $commandBuilder;
     }
 
     /**
-     * @return string
+     * @param \Generated\Shared\Transfer\PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer
+     *
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     *
+     * @return int
      */
-    protected function getApplication(): string
+    public function run(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): int
     {
-        return 'Zed';
+        $process = $this->createProcess(
+            $this->commandBuilder->buildCommand($phpBenchConfigurationTransfer)
+        );
+
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        echo $process->getOutput();
+
+        return (int)$process->getExitCode();
     }
 
     /**
-     * @return string
+     * @param array $command
+     *
+     * @return \Symfony\Component\Process\Process
      */
-    protected function getDefaultTestsDirectory(): string
+    protected function createProcess(array $command): Process
     {
-        return sprintf('%s/%s', $this->config->getTestsDirectory(), $this->getApplication());
+        return new Process($command, null, null, null, 0);
     }
 }

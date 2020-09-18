@@ -7,6 +7,7 @@
         <property name="testDirectory" type="string"/>
         <property name="iterations" type="int"/>
         <property name="revolutions" type="int"/>
+        <property name="report" type="string"/>
     </transfer>
 
     <transfer name="LoginHeader">

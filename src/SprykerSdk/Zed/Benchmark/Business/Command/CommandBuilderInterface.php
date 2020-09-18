@@ -5,16 +5,16 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Shared\Benchmark\PhpBench;
+namespace SprykerSdk\Zed\Benchmark\Business\Command;
 
 use Generated\Shared\Transfer\PhpBenchConfigurationTransfer;
 
-interface PhpBenchRunnerInterface
+interface CommandBuilderInterface
 {
     /**
      * @param \Generated\Shared\Transfer\PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer
      *
-     * @return int
+     * @return array
      */
-    public function run(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): int;
+    public function buildCommand(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): array;
 }
