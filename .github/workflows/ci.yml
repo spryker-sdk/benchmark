@@ -7,8 +7,8 @@ on:
   - cron: "0 0 * * *"
 
 env:
-  - APPLICATION_ENV=development
-  - APPLICATION_STORE=DE
+  - APPLICATION_ENV:development
+  - APPLICATION_STORE:DE
 
 jobs:
   validation:
