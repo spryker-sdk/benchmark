@@ -4,7 +4,7 @@
   "description": "Benchmark module",
   "license": "proprietary",
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.3",
     "phpbench/phpbench": "^0.17.0",
     "psr/http-message": "^1.0.0",
     "spryker/guzzle": "^2.1.0",
