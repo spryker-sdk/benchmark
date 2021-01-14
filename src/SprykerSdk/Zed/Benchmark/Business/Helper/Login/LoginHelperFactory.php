@@ -7,13 +7,14 @@
 
 namespace SprykerSdk\Zed\Benchmark\Business\Helper\Login;
 
-use SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface;
+use GuzzleHttp\Cookie\CookieJarInterface;
+
 use SprykerSdk\Zed\Benchmark\Business\FactoryResolver\FactoryResolver;
 
 class LoginHelperFactory
 {
     /**
-     * @return \SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface
+     * @return \SprykerSdk\Zed\Benchmark\Business\Helper\Login\LoginHelperInterface
      */
     public static function createLoginHelper(): LoginHelperInterface
     {
@@ -21,5 +22,16 @@ class LoginHelperFactory
         $factory = $factoryResolver->getFactory();
 
         return $factory->createLoginHelper();
+    }
+
+    /**
+     * @return \SprykerSdk\Zed\Benchmark\Business\Helper\Login\LoginHelperInterface
+     */
+    public static function createMerchantPortalLoginHelper(): LoginHelperInterface
+    {
+        $factoryResolver = new FactoryResolver();
+        $factory = $factoryResolver->getFactory();
+
+        return $factory->createMerchantPortalLoginHelper();
     }
 }

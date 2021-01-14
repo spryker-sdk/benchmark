@@ -10,9 +10,12 @@ namespace SprykerSdk\Shared\Benchmark\Helper\CsrfToken;
 use DOMDocument;
 use DOMElement;
 use Generated\Shared\Transfer\PhpBenchCsrfTokenConfigTransfer;
+use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Cookie\CookieJarInterface;
 use Psr\Http\Message\ResponseInterface;
 use SprykerSdk\Client\Benchmark\BenchmarkClientInterface;
 use SprykerSdk\Shared\Benchmark\Exception\NoCsrfTokenElementException;
+use SprykerSdk\Shared\Benchmark\Helper\Html\DomHelperInterface;
 use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
 
 class FormCsrfTokenHelper implements CsrfTokenHelperInterface
@@ -30,15 +33,31 @@ class FormCsrfTokenHelper implements CsrfTokenHelperInterface
     protected $performanceAuditClient;
 
     /**
+     * @var \GuzzleHttp\Cookie\CookieJarInterface
+     */
+    protected $cookieJar;
+
+    /**
+     * @var \SprykerSdk\Shared\Benchmark\Helper\Html\DomHelperInterface
+     */
+    protected $domHelper;
+
+    /**
      * @param \SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface $requestBuilder
      * @param \SprykerSdk\Client\Benchmark\BenchmarkClientInterface $performanceAuditClient
+     * @param \GuzzleHttp\Cookie\CookieJarInterface $cookieJar
+     * @param \SprykerSdk\Shared\Benchmark\Helper\Html\DomHelperInterface $domHelper
      */
     public function __construct(
         RequestBuilderInterface $requestBuilder,
-        BenchmarkClientInterface $performanceAuditClient
+        BenchmarkClientInterface $performanceAuditClient,
+        CookieJarInterface $cookieJar,
+        DomhelperInterface $domHelper
     ) {
         $this->requestBuilder = $requestBuilder;
         $this->performanceAuditClient = $performanceAuditClient;
+        $this->cookieJar = $cookieJar;
+        $this->domHelper = $domHelper;
     }
 
     /**
@@ -53,9 +72,10 @@ class FormCsrfTokenHelper implements CsrfTokenHelperInterface
             ->requireElementId();
 
         $response = $this->sendRequest($csrfTokenConfigTransfer->getUrl());
-        $domDocument = $this->buildDOMDocumentFromResponse($response);
+        $domDocument = $this->domHelper->buildDOMDocumentFromResponse($response);
 
-        return $this->getElementFromDomDocument($domDocument, $csrfTokenConfigTransfer->getElementId())
+        return $this->domHelper
+            ->getElementFromDomDocument($domDocument, $csrfTokenConfigTransfer->getElementId())
             ->getAttribute('value');
     }
 
@@ -67,41 +87,10 @@ class FormCsrfTokenHelper implements CsrfTokenHelperInterface
     protected function sendRequest(string $url): ResponseInterface
     {
         $request = $this->requestBuilder->buildRequest(RequestBuilderInterface::METHOD_GET, $url);
+        $options = [
+            'cookies' => $this->cookieJar,
+        ];
 
-        return $this->performanceAuditClient->sendRequest($request);
-    }
-
-    /**
-     * @param \Psr\Http\Message\ResponseInterface $response
-     *
-     * @return \DOMDocument
-     */
-    protected function buildDOMDocumentFromResponse(ResponseInterface $response): DOMDocument
-    {
-        $pageBody = new DOMDocument();
-        libxml_use_internal_errors(true);
-
-        $pageBody->loadHTML($response->getBody()->getContents());
-
-        return $pageBody;
-    }
-
-    /**
-     * @param \DOMDocument $DOMDocument
-     * @param string $elementId
-     *
-     * @throws \SprykerSdk\Shared\Benchmark\Exception\NoCsrfTokenElementException
-     *
-     * @return \DOMElement
-     */
-    protected function getElementFromDomDocument(DOMDocument $DOMDocument, string $elementId): DOMElement
-    {
-        $csrfTokenElement = $DOMDocument->getElementById($elementId);
-
-        if (!$csrfTokenElement) {
-            throw new NoCsrfTokenElementException(sprintf(static::ERROR_MESSAGE_NO_CSRF_TOKEN_ELEMENT_EXCEPTION, $elementId));
-        }
-
-        return $csrfTokenElement;
+        return $this->performanceAuditClient->sendRequest($request, $options);
     }
 }
