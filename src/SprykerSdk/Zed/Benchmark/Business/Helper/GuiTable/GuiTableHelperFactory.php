@@ -5,21 +5,20 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Zed\Benchmark\Business\Helper\Cookie;
+namespace SprykerSdk\Zed\Benchmark\Business\Helper\GuiTable;
 
-use GuzzleHttp\Cookie\CookieJarInterface;
 use SprykerSdk\Zed\Benchmark\Business\FactoryResolver\FactoryResolver;
 
-class CookieHelperFactory
+class GuiTableHelperFactory
 {
     /**
-     * @return \GuzzleHttp\Cookie\CookieJarInterface
+     * @return \SprykerSdk\Zed\Benchmark\Business\Helper\GuiTable\GuiTableHelperInterface
      */
-    public static function getCookieJar(): CookieJarInterface
+    public static function createGuiTableHelper(): GuiTableHelperInterface
     {
         $factoryResolver = new FactoryResolver();
         $factory = $factoryResolver->getFactory();
 
-        return $factory->getCookieJar();
+        return $factory->createGuiTableHelper();
     }
 }

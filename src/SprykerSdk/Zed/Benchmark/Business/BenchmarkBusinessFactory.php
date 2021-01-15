@@ -20,8 +20,8 @@ use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
 use SprykerSdk\Zed\Benchmark\BenchmarkDependencyProvider;
 use SprykerSdk\Zed\Benchmark\Business\Command\CommandBuilder;
 use SprykerSdk\Zed\Benchmark\Business\Command\CommandBuilderInterface;
-use SprykerSdk\Zed\Benchmark\Business\Helper\DataTable\DataTableHelper;
-use SprykerSdk\Zed\Benchmark\Business\Helper\DataTable\DataTableHelperInterface;
+use SprykerSdk\Zed\Benchmark\Business\Helper\GuiTable\GuiTableHelper;
+use SprykerSdk\Zed\Benchmark\Business\Helper\GuiTable\GuiTableHelperInterface;
 use SprykerSdk\Zed\Benchmark\Business\Helper\Login\LoginHelper;
 use SprykerSdk\Zed\Benchmark\Business\Helper\Login\LoginHelperInterface;
 use SprykerSdk\Zed\Benchmark\Business\Helper\Login\MerchantPortalLoginHelper;
@@ -68,7 +68,7 @@ class BenchmarkBusinessFactory extends AbstractBusinessFactory
             $this->getBenchmarkClient(),
             $this->createRequestBuilder(),
             $this->getCookieJar(),
-            $this->createCsrfTokenHelper()
+            $this->createCsrfTokenHelper(),
         );
     }
 
@@ -81,7 +81,7 @@ class BenchmarkBusinessFactory extends AbstractBusinessFactory
             $this->getBenchmarkClient(),
             $this->createRequestBuilder(),
             $this->getCookieJar(),
-            $this->createCsrfTokenHelper()
+            $this->createCsrfTokenHelper(),
         );
     }
 
@@ -115,11 +115,11 @@ class BenchmarkBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerSdk\Zed\Benchmark\Business\Helper\DataTable\DataTableHelperInterface
+     * @return \SprykerSdk\Zed\Benchmark\Business\Helper\GuiTable\GuiTableHelperInterface
      */
-    public function createDataTableHelper(): DataTableHelperInterface
+    public function createGuiTableHelper(): GuiTableHelperInterface
     {
-        return new DataTableHelper($this->createDomHelper());
+        return new GuiTableHelper($this->createDomHelper());
     }
 
     /**

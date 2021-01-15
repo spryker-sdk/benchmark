@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Zed\Benchmark\Business\Helper\DataTable;
+namespace SprykerSdk\Zed\Benchmark\Business\Helper\GuiTable;
 
 use Generated\Shared\Transfer\GuiTableConfigurationTransfer;
 use Psr\Http\Message\ResponseInterface;
 
-interface DataTableHelperInterface
+interface GuiTableHelperInterface
 {
     public const QUERY_PARAM_PAGE = 'page';
     public const QUERY_PARAM_FILTER = 'filter';
@@ -44,5 +44,5 @@ interface DataTableHelperInterface
      *
      * @return array
      */
-    public function getAllFiltersWithRandomValues(GuiTableConfigurationTransfer $tableConfigTransfer): array;
+    public function getAllEnabledFiltersWithFirstValue(GuiTableConfigurationTransfer $tableConfigTransfer): array;
 }

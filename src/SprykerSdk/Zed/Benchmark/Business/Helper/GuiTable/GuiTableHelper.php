@@ -5,8 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Zed\Benchmark\Business\Helper\DataTable;
+namespace SprykerSdk\Zed\Benchmark\Business\Helper\GuiTable;
 
+use DateTime;
 use Generated\Shared\Transfer\GuiTableConfigurationTransfer;
 use Generated\Shared\Transfer\GuiTableFilterTransfer;
 use Psr\Http\Message\ResponseInterface;
@@ -15,7 +16,7 @@ use SprykerSdk\Shared\Benchmark\Helper\Html\DomHelperInterface;
 use SprykerSdk\Zed\Benchmark\Business\Exception\InvalidGuiTableDataSourceTypeException;
 use SprykerSdk\Zed\Benchmark\Business\Exception\InvalidGuiTableFilterTypeException;
 
-class DataTableHelper implements DataTableHelperInterface
+class GuiTableHelper implements GuiTableHelperInterface
 {
     /**
      * @var \SprykerSdk\Shared\Benchmark\Helper\Html\DomHelperInterface
@@ -42,8 +43,8 @@ class DataTableHelper implements DataTableHelperInterface
     ): GuiTableConfigurationTransfer {
         $domDocument = $this->domHelper->buildDOMDocumentFromResponse($response);
 
-        $offerTableElement = $this->domHelper->getFirstElementByTag($domDocument, $tableTag);
-        $tableConfigJson = $offerTableElement->getAttribute('table-config');
+        $tableDomElement = $this->domHelper->getFirstElementByTag($domDocument, $tableTag);
+        $tableConfigJson = $tableDomElement->getAttribute('table-config');
 
         return $this->mapTableConfigDataToGuiTableConfigurationTransfer(
             json_decode($tableConfigJson, true),
@@ -99,11 +100,9 @@ class DataTableHelper implements DataTableHelperInterface
     /**
      * @param \Generated\Shared\Transfer\GuiTableConfigurationTransfer $tableConfigTransfer
      *
-     * @throws \SprykerSdk\Zed\Benchmark\Business\Exception\InvalidGuiTableFilterTypeException
-     *
      * @return array
      */
-    public function getAllFiltersWithRandomValues(GuiTableConfigurationTransfer $tableConfigTransfer): array
+    public function getAllEnabledFiltersWithFirstValue(GuiTableConfigurationTransfer $tableConfigTransfer): array
     {
         $filtersConfigTransfer = $tableConfigTransfer->getFilters();
         if (!$filtersConfigTransfer->getIsEnabled() === true) {
@@ -112,10 +111,7 @@ class DataTableHelper implements DataTableHelperInterface
 
         $filtersWithValues = [];
         foreach ($filtersConfigTransfer->getItems() as $filterTransfer) {
-            $randomValue = $this->createRandomValueForFilter($filterTransfer);
-            if ($randomValue !== null) {
-                $filtersWithValues[$filterTransfer->getId()] = $this->createRandomValueForFilter($filterTransfer);
-            }
+            $filtersWithValues[$filterTransfer->getId()] = $this->createValueForFilter($filterTransfer);
         }
 
         return $filtersWithValues;
@@ -128,43 +124,14 @@ class DataTableHelper implements DataTableHelperInterface
      *
      * @return array|string
      */
-    protected function createRandomValueForFilter(GuiTableFilterTransfer $filterTransfer)
+    protected function createValueForFilter(GuiTableFilterTransfer $filterTransfer)
     {
         switch ($filterTransfer->getType()) {
             case GuiTableConfigurationBuilderInterface::FILTER_TYPE_DATE_RANGE:
-                $dateTo = new \DateTime();
-                $dateFrom = (new \DateTime())->modify('-100days'); // @TODO ?
-
-                return [
-                    'from' => $dateFrom->format('Y-m-d\TH:i:s.v\Z'),
-                    'to' => $dateTo->format('Y-m-d\TH:i:s.v\Z'),
-                ];
+                return $this->createValueForDateRangeFilter($filterTransfer);
             case GuiTableConfigurationBuilderInterface::FILTER_TYPE_SELECT:
-                $isMultiselect = $filterTransfer->getTypeOptions()['multiselect'];
-                $values = $filterTransfer->getTypeOptions()['values'];
-
-                $randomValue = $values[array_rand($values)]['value'];
-                if ($isMultiselect === true) {
-                    $randomValue = [$randomValue];
-                }
-                return $randomValue;
             case GuiTableConfigurationBuilderInterface::FILTER_TYPE_TREE_SELECT:
-                $isMultiselect = $filterTransfer->getTypeOptions()['multiselect'];
-                $values = $filterTransfer->getTypeOptions()['values'];
-
-                $randomValue = $values[array_rand($values)]['value'];
-                if (is_array($randomValue)
-                    && array_key_exists('children', $randomValue)
-                    && rand(0, 100) > 50
-                ) {
-                    // get child value in 50% of cases; better do this recursive
-                    $values = $randomValue['children'];
-                    $randomValue = $values[array_rand($values)]['value'];
-                }
-                if ($isMultiselect === true) {
-                    $randomValue = [$randomValue];
-                }
-                return $randomValue;
+                return $this->createValueForSelectFilter($filterTransfer);
             default:
                 throw new InvalidGuiTableFilterTypeException(
                     sprintf('Invalid table config filter type "%s".', $filterTransfer->getType())
@@ -172,4 +139,37 @@ class DataTableHelper implements DataTableHelperInterface
         }
     }
 
+    /**
+     * @param \Generated\Shared\Transfer\GuiTableFilterTransfer $filterTransfer
+     *
+     * @return array
+     */
+    protected function createValueForDateRangeFilter(GuiTableFilterTransfer $filterTransfer): array
+    {
+        $dateTo = new DateTime();
+        $dateFrom = (new DateTime())->modify('-100days');
+
+        return [
+            'from' => $dateFrom->format('Y-m-d\TH:i:s.v\Z'),
+            'to' => $dateTo->format('Y-m-d\TH:i:s.v\Z'),
+        ];
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\GuiTableFilterTransfer $filterTransfer
+     *
+     * @return int|string|array
+     */
+    protected function createValueForSelectFilter(GuiTableFilterTransfer $filterTransfer)
+    {
+        $isMultiselect = $filterTransfer->getTypeOptions()['multiselect'];
+        $firstValue = reset($filterTransfer->getTypeOptions()['values']);
+        $value = $firstValue['value'];
+
+        if ($isMultiselect === true) {
+            return [$value];
+        }
+
+        return $value;
+    }
 }

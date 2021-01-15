@@ -9,12 +9,8 @@ namespace SprykerSdk\Shared\Benchmark\Helper\Html;
 
 use DOMDocument;
 use DOMElement;
-use Generated\Shared\Transfer\PhpBenchCsrfTokenConfigTransfer;
 use Psr\Http\Message\ResponseInterface;
-use SprykerSdk\Client\Benchmark\BenchmarkClientInterface;
-use SprykerSdk\Shared\Benchmark\Exception\NoCsrfTokenElementException;
 use SprykerSdk\Shared\Benchmark\Exception\NoDomElementException;
-use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
 
 class DomHelper implements DomHelperInterface
 {
@@ -65,7 +61,7 @@ class DomHelper implements DomHelperInterface
      *
      * @return \DOMElement
      */
-    public function getElementFromDomDocument(DOMDocument $domDocument, string $elementId): DOMElement
+    public function getElementById(DOMDocument $domDocument, string $elementId): DOMElement
     {
         $domElement = $domDocument->getElementById($elementId);
 

@@ -7,8 +7,6 @@
 
 namespace SprykerSdk\Zed\Benchmark\Business\Helper\Login;
 
-use GuzzleHttp\Cookie\CookieJarInterface;
-
 use SprykerSdk\Zed\Benchmark\Business\FactoryResolver\FactoryResolver;
 
 class LoginHelperFactory
