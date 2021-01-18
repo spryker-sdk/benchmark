@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerSdk\Zed\Benchmark\Business\Helper\GuiTable;
+namespace SprykerSdk\Shared\Benchmark\Helper\GuiTable;
 
 use DateTime;
 use Generated\Shared\Transfer\GuiTableConfigurationTransfer;

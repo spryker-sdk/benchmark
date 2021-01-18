@@ -32,7 +32,12 @@ class BenchmarkFactory extends AbstractFactory
      */
     public function createLoginHelper(): LoginHelperInterface
     {
-        return new LoginHelper($this->getClient(), $this->createRequestBuilder(), $this->getCookieJar(), $this->createCsrfTokenHelper());
+        return new LoginHelper(
+            $this->getClient(),
+            $this->createRequestBuilder(),
+            $this->getCookieJar(),
+            $this->createCsrfTokenHelper()
+        );
     }
 
     /**
@@ -48,7 +53,12 @@ class BenchmarkFactory extends AbstractFactory
      */
     public function createCsrfTokenHelper(): CsrfTokenHelperInterface
     {
-        return new FormCsrfTokenHelper($this->createRequestBuilder(), $this->getClient());
+        return new FormCsrfTokenHelper(
+            $this->createRequestBuilder(),
+            $this->getClient(),
+            $this->getCookieJar(),
+            $this->createDomHelper()
+        );
     }
 
     /**

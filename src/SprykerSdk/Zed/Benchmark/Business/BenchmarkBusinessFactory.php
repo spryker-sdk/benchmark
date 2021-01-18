@@ -12,6 +12,8 @@ use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerSdk\Client\Benchmark\BenchmarkClientInterface;
 use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\CsrfTokenHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\FormCsrfTokenHelper;
+use SprykerSdk\Shared\Benchmark\Helper\GuiTable\GuiTableHelper;
+use SprykerSdk\Shared\Benchmark\Helper\GuiTable\GuiTableHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\Html\DomHelper;
 use SprykerSdk\Shared\Benchmark\Helper\Html\DomHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelper;
@@ -20,8 +22,6 @@ use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
 use SprykerSdk\Zed\Benchmark\BenchmarkDependencyProvider;
 use SprykerSdk\Zed\Benchmark\Business\Command\CommandBuilder;
 use SprykerSdk\Zed\Benchmark\Business\Command\CommandBuilderInterface;
-use SprykerSdk\Zed\Benchmark\Business\Helper\GuiTable\GuiTableHelper;
-use SprykerSdk\Zed\Benchmark\Business\Helper\GuiTable\GuiTableHelperInterface;
 use SprykerSdk\Zed\Benchmark\Business\Helper\Login\LoginHelper;
 use SprykerSdk\Zed\Benchmark\Business\Helper\Login\LoginHelperInterface;
 use SprykerSdk\Zed\Benchmark\Business\Helper\Login\MerchantPortalLoginHelper;
@@ -115,7 +115,7 @@ class BenchmarkBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerSdk\Zed\Benchmark\Business\Helper\GuiTable\GuiTableHelperInterface
+     * @return \SprykerSdk\Shared\Benchmark\Helper\GuiTable\GuiTableHelperInterface
      */
     public function createGuiTableHelper(): GuiTableHelperInterface
     {
