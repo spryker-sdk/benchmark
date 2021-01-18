@@ -7,20 +7,23 @@
 
 namespace SprykerSdk\Zed\Benchmark\Business\Helper\Login;
 
-use Generated\Shared\Transfer\LoginHeaderTransfer;
 use Generated\Shared\Transfer\PhpBenchCsrfTokenConfigTransfer;
 use GuzzleHttp\Cookie\CookieJarInterface;
+use Psr\Http\Message\ResponseInterface;
 use SprykerSdk\Client\Benchmark\BenchmarkClientInterface;
 use SprykerSdk\Shared\Benchmark\Exception\LoginFailedException;
 use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\CsrfTokenHelperInterface;
-use SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface;
 use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
 
 class LoginHelper implements LoginHelperInterface
 {
-    protected const LOGIN_URL = '/auth/login';
-    protected const LOGIN_CSRF_FORM_ELEMENT_ID = 'auth__token';
+    protected const LOGIN_URL = '/security-gui/login';
+    protected const LOGIN_POST_URL = '/login_check';
+
     protected const LOGIN_FORM_NAME = 'auth';
+    protected const LOGIN_FORM_FIELD_USERNAME = 'username';
+    protected const LOGIN_FORM_FIELD_PASSWORD = 'password';
+    protected const LOGIN_FORM_FIELD_TOKEN = '_token';
 
     protected const COOKIE_DATA_INDEX = 0;
 
@@ -63,36 +66,57 @@ class LoginHelper implements LoginHelperInterface
     }
 
     /**
-     * @param string $email
+     * @param string $username
      * @param string $password
      *
-     * @return \Generated\Shared\Transfer\LoginHeaderTransfer
+     * @return void
      */
-    public function login(string $email, string $password): LoginHeaderTransfer
+    public function login(string $username, string $password): void
     {
-        $request = $this->requestBuilder->buildRequest(RequestBuilderInterface::METHOD_POST, static::LOGIN_URL);
-        $options = $this->buildLoginOptions($this->cookieJar, $email, $password);
+        $request = $this->requestBuilder->buildRequest(
+            RequestBuilderInterface::METHOD_POST,
+            static::LOGIN_POST_URL
+        );
+        $options = $this->buildLoginOptions($this->cookieJar, $username, $password);
 
-        $this->performanceAuditClient->sendRequest($request, $options);
+        $respsonse = $this->performanceAuditClient->sendRequest($request, $options);
+        $this->validateLoginSuccess($respsonse);
+    }
 
-        return $this->getLoginHeaderFromCookieJar($this->cookieJar);
+    /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
+     * @throws \SprykerSdk\Shared\Benchmark\Exception\LoginFailedException
+     *
+     * @return void
+     */
+    protected function validateLoginSuccess(ResponseInterface $response): void
+    {
+        $responseContent = $response->getBody()->getContents();
+        $searchPattern = sprintf('name="%s"', static::LOGIN_FORM_NAME);
+        if (stripos($responseContent, $searchPattern) !== false) {
+            throw new LoginFailedException('Failed to log in.');
+        }
     }
 
     /**
      * @param \GuzzleHttp\Cookie\CookieJarInterface $cookieJar
-     * @param string $email
+     * @param string $username
      * @param string $password
      *
      * @return array
      */
-    protected function buildLoginOptions(CookieJarInterface $cookieJar, string $email, string $password): array
+    protected function buildLoginOptions(CookieJarInterface $cookieJar, string $username, string $password): array
     {
+        $csrfToken = $this->csrfToken
+            ->getToken($this->createCsrfTokenConfigurationTransfer());
+
         return [
             'form_params' => [
                 static::LOGIN_FORM_NAME => [
-                    'email' => $email,
-                    'password' => $password,
-                    '_token' => $this->csrfToken->getToken($this->createCsrfTokenConfigurationTransfer()),
+                    static::LOGIN_FORM_FIELD_USERNAME => $username,
+                    static::LOGIN_FORM_FIELD_PASSWORD => $password,
+                    static::LOGIN_FORM_FIELD_TOKEN => $csrfToken,
                 ],
             ],
             'cookies' => $cookieJar,
@@ -100,34 +124,18 @@ class LoginHelper implements LoginHelperInterface
     }
 
     /**
-     * @param \GuzzleHttp\Cookie\CookieJarInterface $cookieJar
-     *
-     * @throws \SprykerSdk\Shared\Benchmark\Exception\LoginFailedException
-     *
-     * @return \Generated\Shared\Transfer\LoginHeaderTransfer
-     */
-    protected function getLoginHeaderFromCookieJar(CookieJarInterface $cookieJar): LoginHeaderTransfer
-    {
-        $data = $cookieJar->toArray();
-
-        $data = $data[static::COOKIE_DATA_INDEX] ?? null;
-
-        if (!$data) {
-            throw new LoginFailedException('Cookie with login data is missing in response. Please check provided credentials');
-        }
-
-        return (new LoginHeaderTransfer())
-            ->setName($data['Name'])
-            ->setValue($data['Value']);
-    }
-
-    /**
      * @return \Generated\Shared\Transfer\PhpBenchCsrfTokenConfigTransfer
      */
     protected function createCsrfTokenConfigurationTransfer(): PhpBenchCsrfTokenConfigTransfer
     {
+        $tokenElementId = sprintf(
+            '%s_%s',
+            static::LOGIN_FORM_NAME,
+            static::LOGIN_FORM_FIELD_TOKEN
+        );
+
         return (new PhpBenchCsrfTokenConfigTransfer())
             ->setUrl(static::LOGIN_URL)
-            ->setElementId(static::LOGIN_CSRF_FORM_ELEMENT_ID);
+            ->setElementId($tokenElementId);
     }
 }

@@ -11,6 +11,8 @@ use GuzzleHttp\Cookie\CookieJarInterface;
 use Spryker\Yves\Kernel\AbstractFactory;
 use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\CsrfTokenHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\FormCsrfTokenHelper;
+use SprykerSdk\Shared\Benchmark\Helper\Html\DomHelper;
+use SprykerSdk\Shared\Benchmark\Helper\Html\DomHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelper;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface;
@@ -30,7 +32,12 @@ class BenchmarkFactory extends AbstractFactory
      */
     public function createLoginHelper(): LoginHelperInterface
     {
-        return new LoginHelper($this->getClient(), $this->createRequestBuilder(), $this->getCookieJar(), $this->createCsrfTokenHelper());
+        return new LoginHelper(
+            $this->getClient(),
+            $this->createRequestBuilder(),
+            $this->getCookieJar(),
+            $this->createCsrfTokenHelper()
+        );
     }
 
     /**
@@ -46,7 +53,20 @@ class BenchmarkFactory extends AbstractFactory
      */
     public function createCsrfTokenHelper(): CsrfTokenHelperInterface
     {
-        return new FormCsrfTokenHelper($this->createRequestBuilder(), $this->getClient());
+        return new FormCsrfTokenHelper(
+            $this->createRequestBuilder(),
+            $this->getClient(),
+            $this->getCookieJar(),
+            $this->createDomHelper()
+        );
+    }
+
+    /**
+     * @return \SprykerSdk\Shared\Benchmark\Helper\Html\DomHelperInterface
+     */
+    public function createDomHelper(): DomHelperInterface
+    {
+        return new DomHelper();
     }
 
     /**

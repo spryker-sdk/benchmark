@@ -12,14 +12,19 @@ use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerSdk\Client\Benchmark\BenchmarkClientInterface;
 use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\CsrfTokenHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\CsrfToken\FormCsrfTokenHelper;
+use SprykerSdk\Shared\Benchmark\Helper\GuiTable\GuiTableHelper;
+use SprykerSdk\Shared\Benchmark\Helper\GuiTable\GuiTableHelperInterface;
+use SprykerSdk\Shared\Benchmark\Helper\Html\DomHelper;
+use SprykerSdk\Shared\Benchmark\Helper\Html\DomHelperInterface;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelper;
 use SprykerSdk\Shared\Benchmark\Helper\Http\HttpHelperInterface;
-use SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface;
 use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
 use SprykerSdk\Zed\Benchmark\BenchmarkDependencyProvider;
 use SprykerSdk\Zed\Benchmark\Business\Command\CommandBuilder;
 use SprykerSdk\Zed\Benchmark\Business\Command\CommandBuilderInterface;
 use SprykerSdk\Zed\Benchmark\Business\Helper\Login\LoginHelper;
+use SprykerSdk\Zed\Benchmark\Business\Helper\Login\LoginHelperInterface;
+use SprykerSdk\Zed\Benchmark\Business\Helper\Login\MerchantPortalLoginHelper;
 use SprykerSdk\Zed\Benchmark\Business\PhpBench\PhpBenchRunner;
 use SprykerSdk\Zed\Benchmark\Business\PhpBench\PhpBenchRunnerInterface;
 use SprykerSdk\Zed\Benchmark\Business\Request\RequestBuilder;
@@ -55,7 +60,7 @@ class BenchmarkBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface
+     * @return \SprykerSdk\Zed\Benchmark\Business\Helper\Login\LoginHelperInterface
      */
     public function createLoginHelper(): LoginHelperInterface
     {
@@ -63,7 +68,20 @@ class BenchmarkBusinessFactory extends AbstractBusinessFactory
             $this->getBenchmarkClient(),
             $this->createRequestBuilder(),
             $this->getCookieJar(),
-            $this->createCsrfTokenHelper()
+            $this->createCsrfTokenHelper(),
+        );
+    }
+
+    /**
+     * @return \SprykerSdk\Shared\Benchmark\Helper\Login\LoginHelperInterface
+     */
+    public function createMerchantPortalLoginHelper(): LoginHelperInterface
+    {
+        return new MerchantPortalLoginHelper(
+            $this->getBenchmarkClient(),
+            $this->createRequestBuilder(),
+            $this->getCookieJar(),
+            $this->createCsrfTokenHelper(),
         );
     }
 
@@ -80,7 +98,28 @@ class BenchmarkBusinessFactory extends AbstractBusinessFactory
      */
     public function createCsrfTokenHelper(): CsrfTokenHelperInterface
     {
-        return new FormCsrfTokenHelper($this->createRequestBuilder(), $this->getBenchmarkClient());
+        return new FormCsrfTokenHelper(
+            $this->createRequestBuilder(),
+            $this->getBenchmarkClient(),
+            $this->getCookieJar(),
+            $this->createDomHelper()
+        );
+    }
+
+    /**
+     * @return \SprykerSdk\Shared\Benchmark\Helper\Html\DomHelperInterface
+     */
+    public function createDomHelper(): DomHelperInterface
+    {
+        return new DomHelper();
+    }
+
+    /**
+     * @return \SprykerSdk\Shared\Benchmark\Helper\GuiTable\GuiTableHelperInterface
+     */
+    public function createGuiTableHelper(): GuiTableHelperInterface
+    {
+        return new GuiTableHelper($this->createDomHelper());
     }
 
     /**
