@@ -15,7 +15,7 @@ class BenchmarkConfig extends AbstractBundleConfig
     /**
      * @var string
      */
-    protected const DEFAULT_REPORT_CONFIG = 'generator: "table", cols:["benchmark", "subject", "best", "mean", "worst", "stdev", "revs", "its"]';
+    protected const DEFAULT_REPORT_CONFIG = 'generator:"expression", cols:["benchmark", "subject", "best", "mean", "worst", "stdev", "revs", "its"]';
     /**
      * @var int
      */
