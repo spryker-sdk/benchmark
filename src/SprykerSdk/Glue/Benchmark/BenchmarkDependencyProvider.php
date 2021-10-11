@@ -16,6 +16,9 @@ use SprykerSdk\Glue\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceB
  */
 class BenchmarkDependencyProvider extends AbstractBundleDependencyProvider
 {
+    /**
+     * @var string
+     */
     public const SERVICE_UTIL_ENCODING = 'SERVICE_UTIL_ENCODING';
 
     /**

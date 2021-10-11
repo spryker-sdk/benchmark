@@ -18,10 +18,22 @@ use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
 
 class LoginHelper implements LoginHelperInterface
 {
+    /**
+     * @var string
+     */
     protected const LOGIN_URL = '/auth/login';
+    /**
+     * @var string
+     */
     protected const LOGIN_CSRF_FORM_ELEMENT_ID = 'auth__token';
+    /**
+     * @var string
+     */
     protected const LOGIN_FORM_NAME = 'auth';
 
+    /**
+     * @var int
+     */
     protected const COOKIE_DATA_INDEX = 0;
 
     /**

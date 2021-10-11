@@ -18,7 +18,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class BenchmarkRunConsole extends Console
 {
+    /**
+     * @var string
+     */
     public const COMMAND_NAME = 'benchmark:run';
+    /**
+     * @var string
+     */
     public const COMMAND_DESCRIPTION = 'Will run test Zed tests using phpbench framework';
 
     /**

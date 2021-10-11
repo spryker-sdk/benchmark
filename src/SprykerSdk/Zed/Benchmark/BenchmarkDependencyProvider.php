@@ -17,8 +17,17 @@ use SprykerSdk\Zed\Benchmark\Dependency\Service\BenchmarkToUtilEncodingServiceBr
  */
 class BenchmarkDependencyProvider extends AbstractBundleDependencyProvider
 {
+    /**
+     * @var string
+     */
     public const SERVICE_UTIL_ENCODING = 'SERVICE_UTIL_ENCODING';
+    /**
+     * @var string
+     */
     public const CLIENT_BENCHMARK = 'CLIENT_BENCHMARK';
+    /**
+     * @var string
+     */
     public const COOKIE_JAR = 'COOKIE_JAR';
 
     /**

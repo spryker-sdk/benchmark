@@ -14,6 +14,9 @@ use Symfony\Component\Process\Process;
 
 class PhpBenchRunner implements PhpBenchRunnerInterface
 {
+    /**
+     * @var int
+     */
     protected const EXIT_CODE_SUCCESS = 0;
 
     /**

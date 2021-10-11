@@ -12,9 +12,21 @@ use SprykerSdk\Shared\Benchmark\BenchmarkConstants;
 
 class BenchmarkConfig extends AbstractBundleConfig
 {
+    /**
+     * @var string
+     */
     protected const DEFAULT_REPORT_CONFIG = 'generator: "table", cols:["benchmark", "subject", "best", "mean", "worst", "stdev", "revs", "its"]';
+    /**
+     * @var int
+     */
     protected const DEFAULT_ITERATION_COUNT = 1;
+    /**
+     * @var int
+     */
     protected const DEFAULT_REVOLUTION_COUNT = 1;
+    /**
+     * @var string
+     */
     protected const DEFAULT_TIME_UNIT = 'milliseconds';
 
     /**
