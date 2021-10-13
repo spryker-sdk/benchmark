@@ -12,16 +12,34 @@ use SprykerSdk\Zed\Benchmark\BenchmarkConfig;
 
 class CommandBuilder implements CommandBuilderInterface
 {
+    /**
+     * @var array
+     */
     protected const BASED_PHPBENCH_COMMAND = [
         'php',
         'vendor/bin/phpbench',
         'run',
     ];
 
+    /**
+     * @var string
+     */
     protected const CLI_BOOTSTRAP_CONFIG = '--bootstrap=%s';
+    /**
+     * @var string
+     */
     protected const CLI_ITERATIONS_CONFIG = '--iterations=%s';
+    /**
+     * @var string
+     */
     protected const CLI_REVOLUTIONS_CONFIG = '--revs=%s';
+    /**
+     * @var string
+     */
     protected const CLI_REPORT_CONFIG = '--report=%s';
+    /**
+     * @var string
+     */
     protected const CLI_TIME_UNIT_CONFIG = '--time-unit=%s';
 
     /**

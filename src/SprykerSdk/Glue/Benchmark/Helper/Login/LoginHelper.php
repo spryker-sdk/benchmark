@@ -17,6 +17,9 @@ use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
 
 class LoginHelper implements LoginHelperInterface
 {
+    /**
+     * @var string
+     */
     protected const LOGIN_ENDPOINT = '/access-tokens';
 
     /**

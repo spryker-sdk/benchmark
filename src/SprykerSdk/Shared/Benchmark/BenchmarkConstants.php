@@ -19,6 +19,7 @@ interface BenchmarkConstants
      * @api
      *
      * @uses \Spryker\Shared\GlueApplication::GLUE_APPLICATION_DOMAIN
+     * @var string
      */
     public const GLUE_APPLICATION_DOMAIN = 'GLUE_APPLICATION_DOMAIN';
 
@@ -29,6 +30,7 @@ interface BenchmarkConstants
      * @api
      *
      * @uses \Spryker\Shared\Application::BASE_URL_YVES
+     * @var string
      */
     public const BASE_URL_YVES = 'APPLICATION:BASE_URL_YVES';
 
@@ -39,6 +41,7 @@ interface BenchmarkConstants
      * @api
      *
      * @uses \Spryker\Shared\Application::BASE_URL_ZED
+     * @var string
      */
     public const BASE_URL_ZED = 'APPLICATION:BASE_URL_ZED';
 }

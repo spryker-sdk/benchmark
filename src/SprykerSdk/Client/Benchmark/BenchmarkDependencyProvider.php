@@ -14,6 +14,9 @@ use SprykerSdk\Client\Benchmark\Dependency\Guzzle\BenchmarkToGuzzleClientBridge;
 
 class BenchmarkDependencyProvider extends AbstractDependencyProvider
 {
+    /**
+     * @var string
+     */
     public const CLIENT_GUZZLE = 'CLIENT_GUZZLE';
 
     /**

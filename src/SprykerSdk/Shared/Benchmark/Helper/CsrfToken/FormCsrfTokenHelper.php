@@ -17,6 +17,9 @@ use SprykerSdk\Shared\Benchmark\Request\RequestBuilderInterface;
 
 class FormCsrfTokenHelper implements CsrfTokenHelperInterface
 {
+    /**
+     * @var string
+     */
     protected const ERROR_MESSAGE_NO_CSRF_TOKEN_ELEMENT_EXCEPTION = 'Csrf token element %s not found.';
 
     /**
