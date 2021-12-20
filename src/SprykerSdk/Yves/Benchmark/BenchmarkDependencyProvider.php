@@ -21,6 +21,7 @@ class BenchmarkDependencyProvider extends AbstractBundleDependencyProvider
      * @var string
      */
     public const COOKIE_JAR = 'COOKIE_JAR';
+
     /**
      * @var string
      */
@@ -62,7 +63,7 @@ class BenchmarkDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container->set(static::SERVICE_UTIL_ENCODING, function (Container $container) {
             return new BenchmarkToUtilEncodingServiceBridge(
-                $container->getLocator()->utilEncoding()->service()
+                $container->getLocator()->utilEncoding()->service(),
             );
         });
 

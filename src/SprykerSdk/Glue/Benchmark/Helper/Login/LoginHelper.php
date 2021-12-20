@@ -64,7 +64,7 @@ class LoginHelper implements LoginHelperInterface
             RequestBuilderInterface::METHOD_POST,
             static::LOGIN_ENDPOINT,
             [],
-            $this->buildLoginBody($email, $password)
+            $this->buildLoginBody($email, $password),
         );
 
         $response = $this->performanceAuditClient->sendRequest($request);

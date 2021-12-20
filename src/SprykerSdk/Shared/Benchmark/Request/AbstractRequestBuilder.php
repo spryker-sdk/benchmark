@@ -14,7 +14,7 @@ use SprykerSdk\Shared\Benchmark\Exception\HttpMethodNotAllowed;
 abstract class AbstractRequestBuilder implements RequestBuilderInterface
 {
     /**
-     * @var string[]
+     * @var array<string>
      */
     protected $headers = [
         'Connection' => 'keep-alive',
@@ -39,7 +39,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
             $method,
             $this->buildUri($uri),
             $this->buildHeaders($headers),
-            $this->buildBody($body)
+            $this->buildBody($body),
         );
     }
 
@@ -81,9 +81,9 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
     abstract protected function getRequestBaseUrl(): string;
 
     /**
-     * @param string[] $headers
+     * @param array<string> $headers
      *
-     * @return string[]
+     * @return array<string>
      */
     protected function buildHeaders(array $headers): array
     {

@@ -42,7 +42,7 @@ class PhpBenchRunner implements PhpBenchRunnerInterface
     public function run(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): int
     {
         $process = $this->createProcess(
-            $this->commandBuilder->buildCommand($phpBenchConfigurationTransfer)
+            $this->commandBuilder->buildCommand($phpBenchConfigurationTransfer),
         );
 
         $process->run();
