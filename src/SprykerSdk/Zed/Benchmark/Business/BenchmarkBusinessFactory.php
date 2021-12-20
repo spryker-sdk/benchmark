@@ -63,7 +63,7 @@ class BenchmarkBusinessFactory extends AbstractBusinessFactory
             $this->getBenchmarkClient(),
             $this->createRequestBuilder(),
             $this->getCookieJar(),
-            $this->createCsrfTokenHelper()
+            $this->createCsrfTokenHelper(),
         );
     }
 

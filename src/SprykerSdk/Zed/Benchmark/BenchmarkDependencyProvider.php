@@ -21,10 +21,12 @@ class BenchmarkDependencyProvider extends AbstractBundleDependencyProvider
      * @var string
      */
     public const SERVICE_UTIL_ENCODING = 'SERVICE_UTIL_ENCODING';
+
     /**
      * @var string
      */
     public const CLIENT_BENCHMARK = 'CLIENT_BENCHMARK';
+
     /**
      * @var string
      */
@@ -81,7 +83,7 @@ class BenchmarkDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container->set(static::SERVICE_UTIL_ENCODING, function (Container $container) {
             return new BenchmarkToUtilEncodingServiceBridge(
-                $container->getLocator()->utilEncoding()->service()
+                $container->getLocator()->utilEncoding()->service(),
             );
         });
 

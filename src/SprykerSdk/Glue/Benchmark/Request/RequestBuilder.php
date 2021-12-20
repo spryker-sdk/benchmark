@@ -14,7 +14,7 @@ use SprykerSdk\Shared\Benchmark\Request\AbstractRequestBuilder;
 class RequestBuilder extends AbstractRequestBuilder
 {
     /**
-     * @var string[]
+     * @var array<string>
      */
     protected $headers = [
         'Connection' => 'keep-alive',

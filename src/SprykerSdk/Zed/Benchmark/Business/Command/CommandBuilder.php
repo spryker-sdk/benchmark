@@ -25,18 +25,22 @@ class CommandBuilder implements CommandBuilderInterface
      * @var string
      */
     protected const CLI_BOOTSTRAP_CONFIG = '--bootstrap=%s';
+
     /**
      * @var string
      */
     protected const CLI_ITERATIONS_CONFIG = '--iterations=%s';
+
     /**
      * @var string
      */
     protected const CLI_REVOLUTIONS_CONFIG = '--revs=%s';
+
     /**
      * @var string
      */
     protected const CLI_REPORT_CONFIG = '--report=%s';
+
     /**
      * @var string
      */
@@ -58,7 +62,7 @@ class CommandBuilder implements CommandBuilderInterface
     /**
      * @param \Generated\Shared\Transfer\PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer
      *
-     * @return string[]
+     * @return array<string>
      */
     public function buildCommand(PhpBenchConfigurationTransfer $phpBenchConfigurationTransfer): array
     {
